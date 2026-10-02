@@ -384,16 +384,10 @@ select[data-sel] {
 .sel-lista li.segnaposto.attivo, .sel.scuro .sel-lista li.segnaposto.attivo { color: var(--testo); }
 .sel.scuro .sel-lista li.segnaposto.attivo { color: #f1efec; }
 
-/* ---------- Pillola del menu: vetro 3D che scivola da una voce all'altra ---------- */
+/* ---------- Pillola del menu: piatta come prima, scivola da una voce all'altra ---------- */
 .menu a[aria-current='page']::before {
   content: ''; position: absolute; inset: 0; z-index: -1; border-radius: var(--r-pill);
-  background: var(--pill-bg); border: 1px solid var(--pill-bord); box-shadow: var(--pill-sh);
-  -webkit-backdrop-filter: blur(6px) saturate(160%); backdrop-filter: blur(6px) saturate(160%);
-  view-transition-name: menu-pill;
-}
-.menu a[aria-current='page']::after { /* riflesso morbido in alto */
-  content: ''; position: absolute; left: 12%; right: 12%; top: 2px; height: 38%; z-index: -1; border-radius: var(--r-pill);
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.55), transparent); pointer-events: none;
+  background: rgb(245 134 42 / 0.16); view-transition-name: menu-pill;
 }
 
 /* ---------- Transizioni tra pagine (View Transitions, Chrome/Edge/Safari recenti; altrove nessuna animazione) ---------- */
@@ -401,13 +395,13 @@ select[data-sel] {
 .navbar { view-transition-name: navbar; }
 .blobs { view-transition-name: sfondo; }
 .barra-mobile { view-transition-name: barra; }
-::view-transition-group(menu-pill) { animation-duration: 0.55s; animation-timing-function: cubic-bezier(0.34, 1.4, 0.5, 1); }
+::view-transition-group(menu-pill) { animation-duration: 0.4s; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
 ::view-transition-old(menu-pill), ::view-transition-new(menu-pill) { height: 100%; animation: none; mix-blend-mode: normal; }
 ::view-transition-old(menu-pill) { opacity: 0; }
-::view-transition-old(root) { animation: 0.22s ease-in both vt-esce; }
-::view-transition-new(root) { animation: 0.5s var(--ease) 0.08s both vt-entra; }
-@keyframes vt-esce { to { opacity: 0; transform: translateY(-8px); } }
-@keyframes vt-entra { from { opacity: 0; transform: translateY(22px) scale(0.99); } }
+::view-transition-old(root) { animation: 0.18s ease-in both vt-esce; }
+::view-transition-new(root) { animation: 0.35s var(--ease) both vt-entra; }
+@keyframes vt-esce { to { opacity: 0; } }
+@keyframes vt-entra { from { opacity: 0; transform: translateY(10px); } }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
