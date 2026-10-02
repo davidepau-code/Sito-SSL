@@ -4,37 +4,42 @@ import { azienda } from '../data/azienda';
 const wa = azienda.cellulare.wa;
 ---
 <div class="pacchetto card forte" id="pacchetto">
-  <h2 class="h3">Scopri cosa ti serve</h2>
-  <p class="trova-sotto">Dicci che attività hai e quante persone lavorano con te: ti diciamo noi quali corsi e documenti ti servono, e ti prepariamo la richiesta.</p>
+  <div class="pk-sx">
+    <h2 class="h3">Scopri cosa ti serve</h2>
+    <p class="trova-sotto">Dicci che attività hai e quante persone lavorano con te: ti diciamo noi quali corsi e documenti ti servono, e ti prepariamo la richiesta.</p>
 
-  <label for="pk-settore" class="trova-label">Che attività hai?</label>
-  <select id="pk-settore" data-sel>
-    <option value="">Scegli il tuo settore</option>
-    {pacchetti.map((p) => <option value={p.id}>{p.etichetta}</option>)}
-  </select>
+    <label for="pk-settore" class="trova-label">Che attività hai?</label>
+    <select id="pk-settore" data-sel>
+      <option value="">Scegli il tuo settore</option>
+      {pacchetti.map((p) => <option value={p.id}>{p.etichetta}</option>)}
+    </select>
 
-  <label for="pk-dim" class="trova-label">Quante persone lavorano con te?</label>
-  <select id="pk-dim" data-sel>
-    <option value="">Scegli</option>
-    {dimensioni.map((d) => <option value={d}>{d}</option>)}
-  </select>
-
-  <div id="pk-risultato" aria-live="polite" hidden>
-    <p id="pk-desc" class="trova-sotto"></p>
-    <p id="pk-solo" class="pk-avviso" hidden>Se lavori da solo, senza dipendenti né collaboratori, gli obblighi sono diversi e spesso minori. Qui sotto trovi solo ciò che resta valido nel tuo caso: scrivici e ti confermiamo il quadro completo.</p>
-
-    <h3 class="pk-titolo">Per la tua attività ti servono</h3>
-    <ul id="pk-lista" class="pk-elenco"></ul>
+    <label for="pk-dim" class="trova-label">Quante persone lavorano con te?</label>
+    <select id="pk-dim" data-sel>
+      <option value="">Scegli</option>
+      {dimensioni.map((d) => <option value={d}>{d}</option>)}
+    </select>
 
     <div id="pk-domande-box" hidden>
       <h3 class="pk-titolo">Dipende dal tuo lavoro</h3>
       <div id="pk-domande"></div>
     </div>
+  </div>
 
-    <p class="pk-nota">Ti indichiamo ciò che serve per il tuo caso; la composizione esatta (livello di rischio, durate, scadenze) la definiamo insieme a te in base alla tua attività. Senza impegno.</p>
-    <div class="gruppo">
-      <a id="pk-wa" class="btn btn-primario" href="#" rel="noopener">Invia la richiesta su WhatsApp</a>
-      <button id="pk-modulo" type="button" class="btn btn-vetro">Preferisco compilare il modulo</button>
+  <div class="pk-dx" aria-live="polite">
+    <p id="pk-vuoto" class="pk-vuoto">Scegli settore e dimensione: qui compare l'elenco di ciò che ti serve.</p>
+    <div id="pk-risultato" hidden>
+      <p id="pk-desc" class="trova-sotto"></p>
+      <p id="pk-solo" class="pk-avviso" hidden>Se lavori da solo, senza dipendenti né collaboratori, gli obblighi sono diversi e spesso minori. Qui sotto trovi solo ciò che resta valido nel tuo caso: scrivici e ti confermiamo il quadro completo.</p>
+
+      <h3 class="pk-titolo">Per la tua attività ti servono</h3>
+      <ul id="pk-lista" class="pk-elenco"></ul>
+
+      <p class="pk-nota">Ti indichiamo ciò che serve per il tuo caso; la composizione esatta (livello di rischio, durate, scadenze) la definiamo insieme a te in base alla tua attività. Senza impegno.</p>
+      <div class="gruppo">
+        <a id="pk-wa" class="btn btn-primario" href="#" rel="noopener">Invia la richiesta su WhatsApp</a>
+        <button id="pk-modulo" type="button" class="btn btn-vetro">Preferisco compilare il modulo</button>
+      </div>
     </div>
   </div>
 
@@ -61,9 +66,10 @@ const wa = azienda.cellulare.wa;
         if (!l.length) { var li0 = document.createElement('li'); li0.className = 'pk-voce'; li0.textContent = 'Nel tuo caso conviene parlarne: scrivici e ti diciamo cosa serve davvero.'; ul.appendChild(li0); }
         l.forEach(function (v) {
           var li = document.createElement('li'); li.className = 'pk-voce';
-          var s = document.createElement('span'); s.textContent = v.nome; li.appendChild(s);
+          // Etichette a SINISTRA del testo, poi il nome.
           if (v.tipo === 'documento') { var e = document.createElement('em'); e.textContent = 'documento'; li.appendChild(e); }
           if (v.slug) { var a = document.createElement('a'); a.href = '/formazione/corsi/' + v.slug + '/'; a.textContent = 'scheda'; a.className = 'pk-link'; li.appendChild(a); }
+          var s = document.createElement('span'); s.textContent = v.nome; li.appendChild(s);
           ul.appendChild(li);
         });
         $('pk-solo').hidden = selD.value !== 'Solo io';
@@ -78,7 +84,8 @@ const wa = azienda.cellulare.wa;
       function aggiornaLink() { if (corrente) $('pk-wa').href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(messaggio()); }
       function domande() {
         var c = $('pk-domande'); c.innerHTML = '';
-        $('pk-domande-box').hidden = !corrente.domande.length;
+        $('pk-domande-box').hidden = !corrente || !corrente.domande.length;
+        if (!corrente) return;
         corrente.domande.forEach(function (d) {
           var r = document.createElement('div'); r.className = 'pk-dom';
           var t = document.createElement('span'); t.textContent = d.testo; r.appendChild(t);
@@ -98,9 +105,11 @@ const wa = azienda.cellulare.wa;
       }
       function mostra() {
         corrente = pacchetti.find(function (x) { return x.id === selS.value; }) || null;
-        box.hidden = !corrente; if (!corrente) return;
-        sino = {}; $('pk-desc').textContent = corrente.descrizione;
-        domande(); disegna();
+        box.hidden = !corrente; $('pk-vuoto').hidden = !!corrente;
+        sino = {}; domande();
+        if (!corrente) return;
+        $('pk-desc').textContent = corrente.descrizione;
+        disegna();
       }
       selS.addEventListener('change', mostra);
       selD.addEventListener('change', function () { if (corrente) disegna(); });
