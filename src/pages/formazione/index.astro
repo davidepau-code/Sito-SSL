@@ -1,31 +1,33 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-
-const corsi = await getCollection('corsi');
-const categorie = [
-  ['sicurezza', 'Sicurezza sul lavoro', 'Lavoratori, Preposti, Dirigenti, Datore di lavoro, RLS, Antincendio, Primo soccorso'],
-  ['attrezzature', 'Attrezzature', 'Carrelli elevatori, PLE, Gru, MMT, Trattori, Manutenzione del verde'],
-  ['rischi-specifici', 'Rischi specifici', 'Spazi confinati, ATEX'],
-  ['alimentare', 'Alimentare', 'HACCP / OSA'],
-] as const;
+import Icon from '../../components/Icon.astro';
+import TrovaCorso from '../../components/TrovaCorso.astro';
+import { aree } from '../../data/catalogo';
 ---
-<Base title="Formazione – Servizi Sicurezza Lavoro" description="Corsi obbligatori D.Lgs. 81/08: sicurezza sul lavoro, attrezzature, rischi specifici e HACCP. Aule a Siniscola o in azienda.">
-  <section class="sezione testata colonna">
-    <h1>Formazione</h1>
-    <p class="lead">Corsi obbligatori D.Lgs. 81/08, attrezzature, rischi specifici e HACCP. Aule a Siniscola o presso la tua azienda.</p>
+<Base title="Formazione – Servizi Sicurezza Lavoro" description="Corsi obbligatori D.Lgs. 81/08: sicurezza sul lavoro, macchine e attrezzature, rischi specifici, HACCP. Aule a Siniscola o in azienda.">
+  <section class="sezione testata due-col alto">
+    <div class="colonna">
+      <h1>Formazione</h1>
+      <p class="lead">Quattro aree, per chi ha lavoratori, chi usa macchine, chi lavora con gli alimenti e chi opera in ambienti particolari. Aule a Siniscola o presso la tua azienda.</p>
+    </div>
+    <TrovaCorso />
   </section>
-  <section class="sezione stretta griglia" data-reveal>
-    {categorie.map(([cat, titolo, testo]) => (
-      <div class="card">
-        <span class="titolo">{titolo}</span>
-        <span class="corpo">{testo}</span>
-        <div class="colonna" style="gap:6px">
-          {corsi.filter((c) => c.data.categoria === cat && c.data.paginaPropria).map((c) => (
-            <a class="cta-link" href={`/formazione/corsi/${c.id}/`}>{c.data.titolo}</a>
-          ))}
+
+  <section class="sezione stretta">
+    <div class="area-grid">
+      {aree.map((a) => (
+        <div class="card area" id={a.id} data-reveal>
+          <header>
+            <span class="icona"><Icon d={a.icona} size={24} width={1.8} /></span>
+            <h3>{a.nome}</h3>
+          </header>
+          <p class="per">{a.per}</p>
+          <ul>
+            {a.corsi.map((c) => <li>{c.slug ? <a href={`/formazione/corsi/${c.slug}/`}>{c.nome}</a> : <span>{c.nome}</span>}</li>)}
+          </ul>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
+    <p style="margin-top:24px;color:var(--testo-3);font-size:15px">Le schede dei singoli corsi sono in arrivo: i corsi senza link sono già in catalogo, chiedici informazioni.</p>
   </section>
 </Base>
