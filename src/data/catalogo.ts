@@ -34,7 +34,35 @@ export const aree: Area[] = [
   },
 ];
 
-// "Qual è il tuo caso?" – guida alla scelta. Ogni voce porta a pagine o sezioni esistenti.
+// PACCHETTI PER SETTORE. Solo NOMI dei corsi: durate, livelli di rischio e aggiornamenti NON sono qui (li definisce la scheda corso / l'RSPP
+// in base al codice ATECO). La composizione di ogni pacchetto va VALIDATA da un RSPP del team prima del lancio.
+// base = corsi che quasi sempre servono a quel settore · extra = da aggiungere se ricorre il caso.
+export type Voce = { nome: string; slug?: string; nota?: string };
+export type Pacchetto = { id: string; etichetta: string; descrizione: string; base: Voce[]; extra: Voce[] };
+
+const lavoratori: Voce = { nome: 'Formazione lavoratori (generale e specifica)', slug: 'lavoratori' };
+const dvr: Voce = { nome: 'Documento di valutazione dei rischi (DVR)', nota: 'documento' };
+const antincendio: Voce = { nome: 'Addetti antincendio' };
+const soccorso: Voce = { nome: 'Addetti primo soccorso' };
+
+export const pacchetti: Pacchetto[] = [
+  { id: 'edilizia', etichetta: 'Edilizia e cantieri', descrizione: 'Imprese edili, impiantisti, artigiani che lavorano in cantiere.',
+    base: [lavoratori, { nome: 'Formazione preposti' }, antincendio, soccorso, dvr, { nome: 'Piano operativo di sicurezza (POS)', nota: 'documento' }],
+    extra: [{ nome: 'Piattaforme di lavoro elevabili (PLE)' }, { nome: 'Gru' }, { nome: 'Macchine movimento terra' }, { nome: 'Autopompe per calcestruzzo' }, { nome: 'Spazi confinati' }, { nome: 'Datore di lavoro che fa da RSPP' }] },
+  { id: 'ristorazione', etichetta: 'Ristorazione e bar', descrizione: 'Ristoranti, bar, pizzerie, laboratori, strutture ricettive.',
+    base: [lavoratori, { nome: 'HACCP: addetti alla manipolazione degli alimenti' }, antincendio, soccorso, dvr, { nome: 'Manuale di autocontrollo HACCP', nota: 'documento' }],
+    extra: [{ nome: 'Operatore del settore alimentare (OSA)' }, { nome: 'Formazione preposti' }, { nome: 'Datore di lavoro che fa da RSPP' }] },
+  { id: 'uffici', etichetta: 'Uffici e studi professionali', descrizione: 'Uffici, studi, agenzie, attività commerciali di servizio.',
+    base: [lavoratori, antincendio, soccorso, dvr],
+    extra: [{ nome: 'Rappresentante dei lavoratori (RLS)' }, { nome: 'Formazione preposti' }, { nome: 'Datore di lavoro che fa da RSPP' }] },
+  { id: 'altro', etichetta: 'Altra attività / non so', descrizione: 'Ti diciamo noi cosa serve nel tuo caso.',
+    base: [lavoratori, dvr],
+    extra: [antincendio, soccorso, { nome: 'Formazione preposti' }, { nome: 'Patentini per macchine e attrezzature' }] },
+];
+
+export const dimensioni = ['Solo io', '1–5 dipendenti', '6–15 dipendenti', '16–50 dipendenti', 'Più di 50 dipendenti'];
+
+// (Obsoleto, sostituito dai pacchetti: non più usato dal sito.)
 export const percorsi = [
   { id: 'datore', etichetta: 'Sono il titolare / datore di lavoro', risultati: [
     { nome: 'Formazione dei tuoi lavoratori', href: '/formazione/corsi/lavoratori/' },

@@ -1,0 +1,77 @@
+---
+import { pacchetti, dimensioni } from '../data/catalogo';
+import { azienda } from '../data/azienda';
+const wa = azienda.cellulare.wa;
+---
+<div class="pacchetto card forte" id="pacchetto">
+  <h2 class="h3">Componi il tuo pacchetto</h2>
+  <p class="trova-sotto">Dicci che attività hai: ti proponiamo i corsi di base e quelli da aggiungere se ti servono. Poi ci scrivi con la richiesta già pronta.</p>
+
+  <label for="pk-settore" class="trova-label">Che attività hai?</label>
+  <select id="pk-settore" data-sel>
+    <option value="">Scegli il tuo settore</option>
+    {pacchetti.map((p) => <option value={p.id}>{p.etichetta}</option>)}
+  </select>
+
+  <label for="pk-dim" class="trova-label">Quante persone lavorano con te?</label>
+  <select id="pk-dim" data-sel>
+    <option value="">Scegli</option>
+    {dimensioni.map((d) => <option value={d}>{d}</option>)}
+  </select>
+
+  <div id="pk-risultato" aria-live="polite" hidden>
+    <p id="pk-desc" class="trova-sotto"></p>
+    <h3 class="pk-titolo">In genere ti servono</h3>
+    <div id="pk-base" class="pk-lista"></div>
+    <h3 class="pk-titolo">Da aggiungere se ti riguarda</h3>
+    <div id="pk-extra" class="pk-lista"></div>
+    <p class="pk-nota">È una proposta indicativa: la composizione esatta dipende dalla tua attività (codice ATECO, numero di persone, mansioni). Te la confermiamo noi, senza impegno.</p>
+    <div class="gruppo">
+      <a id="pk-wa" class="btn btn-primario" href="#" rel="noopener">Invia la richiesta su WhatsApp</a>
+      <button id="pk-modulo" type="button" class="btn btn-vetro">Preferisco compilare il modulo</button>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ pacchetti, wa }}>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var selS = $('pk-settore'), selD = $('pk-dim'), box = $('pk-risultato');
+      function voce(v, spuntata, k) {
+        var l = document.createElement('label'); l.className = 'pk-voce';
+        var c = document.createElement('input'); c.type = 'checkbox'; c.checked = spuntata; c.dataset.nome = v.nome; c.addEventListener('change', aggiorna);
+        var s = document.createElement('span'); s.textContent = v.nome;
+        l.appendChild(c); l.appendChild(s);
+        if (v.nota) { var n = document.createElement('em'); n.textContent = v.nota; l.appendChild(n); }
+        if (v.slug) { var a = document.createElement('a'); a.href = '/formazione/corsi/' + v.slug + '/'; a.textContent = 'scheda'; a.className = 'pk-link'; l.appendChild(a); }
+        return l;
+      }
+      function scelte() { return Array.prototype.map.call(box.querySelectorAll('input:checked'), function (i) { return i.dataset.nome; }); }
+      function messaggio() {
+        var p = pacchetti.find(function (x) { return x.id === selS.value; });
+        var m = 'Buongiorno, ho un\'attività nel settore "' + p.etichetta + '"' + (selD.value ? ' (' + selD.value.toLowerCase() + ')' : '') + '.';
+        var s = scelte();
+        m += s.length ? ' Vorrei un preventivo per:\n- ' + s.join('\n- ') : ' Vorrei capire cosa mi serve.';
+        return m + '\nGrazie.';
+      }
+      function aggiorna() { if (!selS.value) return; $('pk-wa').href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(messaggio()); }
+      function mostra() {
+        var p = pacchetti.find(function (x) { return x.id === selS.value; });
+        box.hidden = !p; if (!p) return;
+        $('pk-desc').textContent = p.descrizione;
+        var b = $('pk-base'), e = $('pk-extra'); b.innerHTML = ''; e.innerHTML = '';
+        p.base.forEach(function (v) { b.appendChild(voce(v, true)); });
+        p.extra.forEach(function (v) { e.appendChild(voce(v, false)); });
+        aggiorna();
+      }
+      selS.addEventListener('change', mostra);
+      selD.addEventListener('change', aggiorna);
+      $('pk-modulo').addEventListener('click', function () {
+        var f = $('modulo-contatto'); if (!f) return;
+        f.elements['messaggio'].value = messaggio();
+        var sv = f.elements['servizio']; sv.value = 'Formazione'; sv.dispatchEvent(new Event('change', { bubbles: true }));
+        var t = $('contatti'); scrollTo({ top: t.getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' });
+        f.elements['nome'].focus({ preventScroll: true });
+      });
+    })();
+  </script>
+</div>

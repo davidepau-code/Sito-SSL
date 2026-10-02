@@ -289,3 +289,16 @@ select[data-sel] {
 .trova-risultato:hover { background: rgb(245 134 42 / 0.28); }
 .hero-chip { display: flex; flex-wrap: wrap; gap: 8px; }
 .hero-chip span { font-size: 14px; font-weight: 700; padding: 7px 14px; border-radius: var(--r-pill); background: rgb(255 255 255 / 0.65); border: 1px solid rgb(255 255 255 / 0.8); }
+
+/* ---------- Pacchetto per settore ---------- */
+.pacchetto { gap: 12px; }
+.trova-sotto { font-size: 16px; color: var(--testo-2); }
+.pk-titolo { font-size: 15px; font-weight: 800; letter-spacing: 0; color: var(--testo-3); text-transform: uppercase; margin-top: 14px; }
+.pk-lista { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.pk-voce { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--r-input); background: rgb(255 255 255 / 0.7); border: 1px solid rgb(255 255 255 / 0.9); cursor: pointer; font-weight: 600; font-size: 16px; transition: background 0.25s; }
+.pk-voce:hover { background: #fff; }
+.pk-voce input { appearance: none; -webkit-appearance: none; flex: none; width: 22px; height: 22px; border-radius: 7px; border: 2px solid rgb(36 40 44 / 0.35); background: #fff center / 14px no-repeat; transition: all 0.2s; cursor: pointer; }
+.pk-voce input:checked { background-color: var(--arancio); border-color: var(--arancio); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e2124' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+.pk-voce em { font-style: normal; font-size: 12px; font-weight: 700; color: var(--arancio-scuro); background: rgb(245 134 42 / 0.18); padding: 3px 9px; border-radius: var(--r-pill); }
+.pk-link { margin-left: auto; font-size: 14px; font-weight: 700; }
+.pk-nota { font-size: 14px; color: var(--testo-3); margin: 14px 0; }
