@@ -1,0 +1,56 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const corsi = await getCollection('corsi', (c) => c.data.paginaPropria);
+  return corsi.map((c) => ({ params: { slug: c.id }, props: { corso: c } }));
+}
+const { corso } = Astro.props;
+const { Content } = await render(corso);
+const d = corso.data;
+const sintesi = [
+  ['Durata', d.durata],
+  ['Aggiornamento', d.aggiornamento],
+  ['Modalità', d.modalita.join(' · ')],
+  ['Attestato', d.attestato],
+];
+const verifica = d.ultimaVerificaNormativa.toLocaleDateString('it-IT');
+---
+<Base title={`${d.titolo} – Servizi Sicurezza Lavoro`} description={d.sottotitolo}>
+  <section class="wrap">
+    <p><a href="/formazione/">Formazione</a> › {d.titolo}</p>
+    <h1>{d.titolo}</h1>
+    <p style="font-size:1.2rem;max-width:60ch">{d.sottotitolo}</p>
+
+    <dl class="vetro sintesi">
+      {sintesi.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+    </dl>
+
+    <div class="testo"><Content /></div>
+
+    <p style="color:var(--grigio-testo);font-size:.9rem">
+      Riferimento: {d.riferimentoNormativo}. Dati verificati il {verifica}.
+    </p>
+
+    {d.faq && (
+      <>
+        <h2>Domande frequenti</h2>
+        {d.faq.map((f) => (
+          <details class="vetro faq"><summary>{f.domanda}</summary><p>{f.risposta}</p></details>
+        ))}
+      </>
+    )}
+
+    <p style="margin-top:2rem"><a class="btn btn-primario" href="/contatti/">Richiedi info</a></p>
+  </section>
+</Base>
+
+<style>
+  .sintesi { display: grid; grid-template-columns: max-content 1fr; gap: 0.6rem 1.5rem; padding: 1.5rem 1.75rem; margin-block: 2rem; }
+  dt { font-weight: 700; }
+  dd { margin: 0; }
+  .testo { max-width: 65ch; }
+  .faq { padding: 1rem 1.5rem; margin-bottom: 0.75rem; border-radius: var(--r-input); }
+  .faq summary { cursor: pointer; font-weight: 650; }
+</style>

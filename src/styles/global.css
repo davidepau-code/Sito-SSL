@@ -1,0 +1,95 @@
+/* Design tokens SSL — i codici colore sono PROVVISORI finché Davide non fornisce quelli esatti del brand. */
+:root {
+  --arancio: #f37021;
+  --arancio-scuro: #c9560f;
+  --ambra: #ffb454;
+  --antracite: #2b2d31;
+  --antracite-2: #3a3d42;
+  --bianco: #ffffff;
+  --grigio-caldo: #f4f1ee;
+  --grigio-testo: #5a5650;
+  --verde-ceas: #3f8f5b;
+
+  --r-pill: 999px;
+  --r-card: 28px;
+  --r-img: 24px;
+  --r-input: 16px;
+
+  --vetro: rgb(255 255 255 / 0.68);
+  --vetro-bordo: rgb(255 255 255 / 0.55);
+  --ombra: 0 20px 60px rgb(43 45 49 / 0.14);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --font: 'Inter', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font: 400 1.0625rem/1.6 var(--font);
+  color: var(--antracite);
+  background: var(--grigio-caldo);
+  min-height: 100vh;
+}
+
+/* Sfondo con blob sfumati lentissimi, dietro al vetro */
+.sfondo { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--grigio-caldo); }
+.sfondo i {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.55;
+  animation: fluttua 40s ease-in-out infinite alternate;
+}
+.sfondo i:nth-child(1) { width: 46vw; height: 46vw; left: -10vw; top: -12vw; background: var(--arancio); }
+.sfondo i:nth-child(2) { width: 38vw; height: 38vw; right: -8vw; top: 20vh; background: var(--ambra); animation-duration: 55s; }
+.sfondo i:nth-child(3) { width: 34vw; height: 34vw; left: 25vw; bottom: -15vw; background: var(--antracite-2); opacity: 0.25; animation-duration: 65s; }
+@keyframes fluttua { to { transform: translate(6vw, 5vh) scale(1.12); } }
+
+h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 750; }
+a { color: inherit; }
+.wrap { width: min(1120px, 100% - 2rem); margin-inline: auto; }
+section { padding-block: clamp(2.5rem, 6vw, 5rem); }
+
+/* Vetro */
+.vetro {
+  background: var(--vetro);
+  border: 1px solid var(--vetro-bordo);
+  border-radius: var(--r-card);
+  box-shadow: var(--ombra), inset 0 1px 0 rgb(255 255 255 / 0.8);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .vetro { background: rgb(255 255 255 / 0.95); }
+}
+@media (max-width: 700px) {
+  .vetro { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+}
+
+/* Pulsanti a pillola */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5em;
+  padding: 0.85em 1.6em; border-radius: var(--r-pill);
+  font-weight: 650; text-decoration: none; border: 1px solid transparent;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), filter 0.3s var(--ease);
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.btn:active { transform: scale(0.97); }
+.btn-primario { background: var(--arancio); color: #fff; box-shadow: 0 10px 30px rgb(243 112 33 / 0.35); }
+.btn-vetro { background: var(--vetro); border-color: var(--vetro-bordo); }
+
+/* Card con sollevamento */
+.card { padding: 1.75rem; transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+.card:hover { transform: translateY(-6px); box-shadow: 0 30px 80px rgb(43 45 49 / 0.2), inset 0 1px 0 #fff; }
+.griglia { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+/* Reveal delicato: il contenuto è SEMPRE visibile senza JS (la classe si aggiunge via JS). */
+.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.js .reveal.visto { opacity: 1; transform: none; }
+
+:focus-visible { outline: 3px solid var(--arancio-scuro); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .js .reveal { opacity: 1; transform: none; }
+}

@@ -1,0 +1,94 @@
+﻿---
+import '../styles/global.css';
+
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const menu = [
+  ['Formazione', '/formazione/'],
+  ['F-Gas', '/f-gas/'],
+  ['Consulenza', '/consulenza/'],
+  ['CEAS', '/ceas/'],
+  ['Chi siamo', '/chi-siamo/'],
+  ['Contatti', '/contatti/'],
+];
+---
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Staging: nessuna indicizzazione finché il dominio non è collegato. Rimuovere al lancio. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <div class="sfondo" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <header class="nav vetro">
+      <a class="logo" href="/">SSL<span> Servizi Sicurezza Lavoro</span></a>
+      <nav aria-label="Principale">
+        {menu.map(([etichetta, href]) => <a href={href}>{etichetta}</a>)}
+      </nav>
+      <a class="btn btn-primario" href="/contatti/">Richiedi preventivo</a>
+    </header>
+
+    <main><slot /></main>
+
+    <footer class="wrap piede">
+      <p><strong>Servizi Sicurezza Lavoro snc</strong> · Sede legale: Loc. Salapattu snc – 08029 Siniscola (NU) · P.IVA 01313770917</p>
+      <p>Tel <a href="tel:+3907841949743">+39 0784 1949743</a> · <a href="mailto:info@servizisicurezzalavoro.it">info@servizisicurezzalavoro.it</a> · Lun–Ven 9–13 / 15–19</p>
+      <p><a href="/privacy/">Privacy</a> · <a href="/cookie/">Cookie</a></p>
+    </footer>
+
+    <div class="barra-mobile vetro">
+      <a class="btn btn-primario" href="tel:+3907841949743">Chiama</a>
+      <!-- WhatsApp: numero da chiedere a Davide -->
+      <a class="btn btn-vetro" href="/contatti/">Scrivici</a>
+    </div>
+
+    <script is:inline>
+      const nav = document.querySelector('.nav');
+      addEventListener('scroll', () => nav.classList.toggle('compatta', scrollY > 30), { passive: true });
+      const io = new IntersectionObserver((voci) => voci.forEach((v) => {
+        if (v.isIntersecting) { v.target.classList.add('visto'); io.unobserve(v.target); }
+      }), { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .nav {
+    position: sticky; top: 0.75rem; z-index: 10;
+    width: min(1120px, 100% - 1.5rem); margin: 0.75rem auto 0;
+    display: flex; align-items: center; gap: 1rem; justify-content: space-between;
+    padding: 0.6rem 0.75rem 0.6rem 1.4rem; border-radius: var(--r-pill);
+    transition: padding 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .nav.compatta { padding-block: 0.3rem; }
+  .nav nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  .nav nav a { text-decoration: none; font-weight: 550; }
+  .nav nav a:hover { color: var(--arancio-scuro); }
+  .logo { font-weight: 850; text-decoration: none; letter-spacing: -0.03em; font-size: 1.3rem; color: var(--arancio-scuro); }
+  .logo span { font-weight: 500; font-size: 0.85rem; color: var(--antracite); margin-left: 0.4rem; }
+  .piede { padding-block: 3rem 6rem; color: var(--grigio-testo); font-size: 0.95rem; }
+  .barra-mobile { display: none; }
+  @media (max-width: 900px) {
+    .nav nav { display: none; } /* TODO: menu mobile a scomparsa */
+    .logo span { display: none; }
+    .barra-mobile {
+      display: flex; gap: 0.5rem; position: fixed; z-index: 10;
+      inset: auto 0.75rem 0.75rem; padding: 0.5rem; border-radius: var(--r-pill);
+    }
+    .barra-mobile .btn { flex: 1; justify-content: center; }
+  }
+</style>

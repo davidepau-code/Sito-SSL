@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+
+const servizi = [
+  { t: 'Formazione', d: 'Corsi obbligatori D.Lgs. 81/08 per lavoratori, preposti, dirigenti e datori di lavoro. Attrezzature, antincendio, primo soccorso, HACCP.', href: '/formazione/', cta: 'Vedi i corsi' },
+  { t: 'Certificazione F-Gas', d: 'Corso di preparazione ed esame con IMQ nella nostra sede. Un solo interlocutore, dal corso al certificato.', href: '/f-gas/', cta: 'Scopri come funziona' },
+  { t: 'Consulenza', d: 'DVR, DUVRI, POS, manuale HACCP. Redigiamo i documenti e li teniamo aggiornati.', href: '/consulenza/', cta: 'Scopri i servizi' },
+  { t: 'CEAS', d: 'Gestiamo due Centri di Educazione Ambientale, aperti tutto l\'anno a scuole, enti e visitatori.', href: '/ceas/', cta: 'Visita i CEAS' },
+];
+const perche = [
+  ['Chiarezza', 'Ti spieghiamo cosa prevede la legge per la tua attività, senza giri di parole.'],
+  ['Tutto in un posto', 'Formazione, documenti e scadenze gestiti da un unico referente.'],
+  ['Sempre aggiornati', 'Corsi conformi all\'Accordo Stato-Regioni del 17 aprile 2025.'],
+  ['Vicini a te', 'Aule a Siniscola, corsi in azienda e in videoconferenza dove previsto.'],
+];
+---
+<Base title="Servizi Sicurezza Lavoro – Formazione, consulenza e F-Gas in Sardegna" description="Formazione D.Lgs. 81/08, consulenza DVR e HACCP, certificazione F-Gas con IMQ e due CEAS. A Siniscola da quasi 20 anni.">
+  <section class="wrap hero">
+    <h1>Sicurezza sul lavoro, senza complicazioni.</h1>
+    <p class="sotto">Formazione, consulenza e certificazione F-Gas per le aziende della Sardegna. Ti diciamo cosa serve, lo facciamo noi, ti mettiamo in regola.</p>
+    <p class="cta">
+      <a class="btn btn-primario" href="/contatti/">Richiedi un preventivo</a>
+      <a class="btn btn-vetro" href="tel:+390784194973">Chiama 0784 1949743</a>
+    </p>
+    <p class="fiducia">Da quasi 20 anni al fianco delle imprese · Sede a Siniscola (NU)</p>
+  </section>
+
+  <section class="wrap">
+    <h2 class="reveal">Cosa facciamo</h2>
+    <div class="griglia">
+      {servizi.map((s) => (
+        <a class="card vetro reveal" href={s.href} style="text-decoration:none">
+          <h3>{s.t}</h3>
+          <p>{s.d}</p>
+          <strong style="color:var(--arancio-scuro)">{s.cta} →</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2 class="reveal">Perché sceglierci</h2>
+    <div class="griglia">
+      {perche.map(([t, d]) => (
+        <div class="card vetro reveal"><h3>{t}</h3><p>{d}</p></div>
+      ))}
+    </div>
+    <!-- Numeri (anni, lavoratori formati, aziende, certificati F-Gas): solo dati reali, da chiedere a Davide -->
+  </section>
+
+  <section class="wrap">
+    <div class="vetro reveal" style="padding:clamp(1.5rem,4vw,3rem);">
+      <h2>Non sai da dove iniziare? Te lo diciamo noi.</h2>
+      <p>Raccontaci la tua attività: in 24 ore ti diciamo quali corsi e documenti ti servono.</p>
+      <a class="btn btn-primario" href="/contatti/">Richiedi una consulenza gratuita</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-top: clamp(3rem, 9vw, 7rem); }
+  .hero h1 { max-width: 16ch; }
+  .sotto { font-size: 1.25rem; max-width: 52ch; color: var(--antracite-2); }
+  .cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block: 1.75rem; }
+  .fiducia { color: var(--grigio-testo); }
+</style>
