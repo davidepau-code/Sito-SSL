@@ -32,13 +32,3 @@ import { azienda } from '../data/azienda';
     </form>
   </div>
 </section>
-
-<script is:inline>
-  document.getElementById('modulo-contatto').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var f = e.target, esito = document.getElementById('esito-modulo');
-    esito.hidden = false;
-    if (!f.reportValidity()) { esito.textContent = 'Controlla i campi obbligatori.'; return; }
-    esito.textContent = 'Il modulo online non è ancora attivo: scrivici su WhatsApp o chiama il 320 407 0573, oppure scrivi a info@servizisicurezzalavoro.it.';
-  });
-</script>

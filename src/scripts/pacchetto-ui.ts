@@ -6,8 +6,6 @@ import { settori } from '../data/normativa.ts';
 import { azienda } from '../data/azienda.ts';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
-const selS = $<HTMLSelectElement>('pk-settore');
-const selD = $<HTMLSelectElement>('pk-dim');
 const ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const EASE = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
 
@@ -127,7 +125,11 @@ function mostraBlocco(n: HTMLElement, mostra: boolean) {
   }
 }
 
-if (selS && selD) {
+function inizia() {
+  const selS = $<HTMLSelectElement>('pk-settore');
+  const selD = $<HTMLSelectElement>('pk-dim');
+  if (!selS || !selD || selS.dataset.pkOk) return;
+  selS.dataset.pkOk = '1';
   let risposte: Record<string, boolean> = {};
   let avvisiChiave = '';
 
@@ -200,3 +202,6 @@ if (selS && selD) {
     (f.elements.namedItem('nome') as HTMLInputElement).focus({ preventScroll: true });
   });
 }
+
+inizia();
+document.addEventListener('astro:page-load', inizia);

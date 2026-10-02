@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import marchio from '../assets/ssl-mark.png';
 import Contatto from '../components/Contatto.astro';
 import Schema from '../components/Schema.astro';
+import { ClientRouter } from 'astro:transitions';
 import { azienda } from '../data/azienda';
 
 interface Props { title: string; description: string; senzaContatto?: boolean; crumbs?: { nome: string; url: string }[] }
@@ -22,7 +23,7 @@ const menu = [
 const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 <!doctype html>
-<html lang="it">
+<html lang="it" transition:animate="none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -43,20 +44,22 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
     {/* Indicizzazione: attiva solo con PUBLIC_INDEXABLE=true (variabile di build, da impostare al lancio). */}
     {import.meta.env.PUBLIC_INDEXABLE !== 'true' && <meta name="robots" content="noindex, nofollow" />}
     <Schema crumbs={crumbs} />
+    <ClientRouter />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
   </head>
   <body>
-    <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="blobs" aria-hidden="true" transition:persist="blobs"><i></i><i></i><i></i></div>
 
-    <header class="navbar" id="navbar">
+    <header class="navbar" id="navbar" transition:persist="navbar">
       <nav aria-label="Principale">
         <a class="marchio" href="/" aria-label="Servizi Sicurezza Lavoro – home">
           <Image src={marchio} alt="" width={44} height={44} loading="eager" />
           <span><b>Servizi Sicurezza Lavoro</b><small>Siniscola · Sardegna</small></span>
         </a>
         <div class="menu">
+          <span class="menu-ind" aria-hidden="true"></span>
           <span class="pillola" aria-hidden="true"></span>
           {menu.map(([etichetta, href]) => <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
         </div>
@@ -87,80 +90,11 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
       <div class="legali"><a href="/privacy/">Privacy</a><a href="/cookie/">Cookie</a></div>
     </footer>
 
-    <div class="barra-mobile">
+    <div class="barra-mobile" transition:persist="barra">
       <a class="chiama" href={`tel:${azienda.cellulare.tel}`}>Chiama</a>
       <a class="scrivi" href={azienda.whatsappLink()} rel="noopener">WhatsApp</a>
     </div>
 
-    <script>import '../scripts/selezione';</script>
-    <script is:inline>
-      (function () {
-        var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var nav = document.getElementById('navbar');
-        var onScroll = function () { nav.classList.toggle('scroll', scrollY > 40); };
-        addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
-        // Tema: segue il sistema; il pulsante lo forza e lo ricorda (solo preferenza, nessun dato personale).
-        document.getElementById('tema').addEventListener('click', function () {
-          var r = document.documentElement, scuroOra = r.dataset.tema ? r.dataset.tema === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-          var nuovo = scuroOra ? 'light' : 'dark';
-          if (!reduced) { r.classList.add('tema-anim'); setTimeout(function () { r.classList.remove('tema-anim'); }, 600); }
-          r.dataset.tema = nuovo;
-          try { localStorage.setItem('tema', nuovo); } catch (e) {}
-        });
-
-        // Pillola: ricorda dove stava nella pagina precedente e scorre fino alla voce attiva.
-        var menu = document.querySelector('.menu'), pill = menu && menu.querySelector('.pillola'), cur = menu && menu.querySelector('a[aria-current="page"]');
-        function posiziona(anima) {
-          if (!pill || !cur || !menu.offsetWidth) return;
-          var a = { l: cur.offsetLeft, w: cur.offsetWidth }, prima = null;
-          try { prima = JSON.parse(sessionStorage.getItem('pillola')); sessionStorage.setItem('pillola', JSON.stringify(a)); } catch (e) {}
-          pill.style.left = a.l + 'px'; pill.style.width = a.w + 'px'; pill.style.opacity = 1;
-          if (anima && !reduced && prima && prima.l !== a.l && pill.animate) {
-            pill.animate([{ left: prima.l + 'px', width: prima.w + 'px' }, { left: a.l + 'px', width: a.w + 'px' }], { duration: 450, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-          }
-        }
-        posiziona(true);
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { posiziona(false); });
-        addEventListener('resize', function () { posiziona(false); });
-
-        var burger = document.getElementById('hamburger'), drop = document.getElementById('tendina'), icona = document.getElementById('hamburger-icona');
-        drop.addEventListener('click', function (e) {
-          if (e.target.closest('a')) { drop.classList.remove('aperta'); burger.setAttribute('aria-expanded', 'false'); icona.setAttribute('d', 'M4 7h16M4 12h16M4 17h16'); }
-        });
-        burger.addEventListener('click', function () {
-          var aperto = drop.classList.toggle('aperta');
-          burger.setAttribute('aria-expanded', aperto);
-          icona.setAttribute('d', aperto ? 'M6 6l12 12M18 6 6 18' : 'M4 7h16M4 12h16M4 17h16');
-        });
-
-        // Highlight del vetro che segue il cursore
-        document.querySelectorAll('.glow').forEach(function (el) {
-          el.addEventListener('mousemove', function (e) {
-            var r = el.getBoundingClientRect();
-            el.style.setProperty('--mx', e.clientX - r.left + 'px'); el.style.setProperty('--my', e.clientY - r.top + 'px');
-          });
-        });
-
-        // Comparsa allo scroll: solo per elementi fuori schermo; il contenuto resta comunque visibile.
-        if (!reduced && 'IntersectionObserver' in window) {
-          var io = new IntersectionObserver(function (voci) {
-            voci.forEach(function (v) { if (v.isIntersecting) { v.target.classList.add('rivela-in'); io.unobserve(v.target); } });
-          }, { threshold: 0.12 });
-          document.querySelectorAll('[data-reveal]').forEach(function (el) {
-            if (el.getBoundingClientRect().top > innerHeight) io.observe(el);
-          });
-        }
-
-        // "Richiedi preventivo": scorre al modulo, con offset per la navbar
-        document.querySelectorAll('[data-contatti]').forEach(function (a) {
-          a.addEventListener('click', function (e) {
-            var t = document.getElementById('contatti'); if (!t) return;
-            e.preventDefault();
-            scrollTo({ top: t.getBoundingClientRect().top + scrollY - 90, behavior: reduced ? 'auto' : 'smooth' });
-          });
-        });
-      })();
-    </script>
+    <script>import '../scripts/sito';</script>
   </body>
 </html>

@@ -73,4 +73,4 @@ function migliora(select: HTMLSelectElement) {
   aggiorna();
 }
 
-document.querySelectorAll<HTMLSelectElement>('select[data-sel]').forEach(migliora);
+export function iniziaSelezioni() { document.querySelectorAll<HTMLSelectElement>('select[data-sel]').forEach(migliora); }

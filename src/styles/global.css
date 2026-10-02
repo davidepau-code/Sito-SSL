@@ -386,13 +386,16 @@ select[data-sel] {
 
 /* ---------- Pillola del menu: elemento vero, posizionato via script, che scorre di lato tra le voci ---------- */
 .menu { position: relative; }
-.menu .pillola { position: absolute; top: 0; left: 0; width: 0; height: 100%; padding: 0; margin: 0; box-sizing: border-box; display: block; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.16); pointer-events: none; opacity: 0; }
+.menu .menu-ind { position: absolute; top: 0; left: 0; width: 0; height: 100%; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.16); pointer-events: none; opacity: 0; transition: opacity 0.3s; }
 
 /* ---------- Transizioni tra pagine (View Transitions, Chrome/Edge/Safari recenti; altrove nessuna animazione) ---------- */
-@view-transition { navigation: auto; }
 .navbar { view-transition-name: navbar; }
 .blobs { view-transition-name: sfondo; }
 .barra-mobile { view-transition-name: barra; }
+/* header, sfondo e barra mobile restano fermi: niente doppione della vecchia versione */
+::view-transition-old(navbar), ::view-transition-old(sfondo), ::view-transition-old(barra) { display: none; }
+::view-transition-group(navbar), ::view-transition-group(sfondo), ::view-transition-group(barra),
+::view-transition-new(navbar), ::view-transition-new(sfondo), ::view-transition-new(barra) { animation: none; }
 ::view-transition-old(root) { animation: 0.18s ease-in both vt-esce; }
 ::view-transition-new(root) { animation: 0.35s var(--ease) both vt-entra; }
 @keyframes vt-esce { to { opacity: 0; } }
