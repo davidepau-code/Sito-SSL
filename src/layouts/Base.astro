@@ -11,6 +11,7 @@ const { title, description, senzaContatto = false, crumbs } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const path = Astro.url.pathname;
 const menu = [
+  ['Home', '/'],
   ['Formazione', '/formazione/'],
   ['F-Gas', '/f-gas/'],
   ['Consulenza', '/consulenza/'],
@@ -18,13 +19,16 @@ const menu = [
   ['Chi siamo', '/chi-siamo/'],
   ['Contatti', '/contatti/'],
 ];
-const attivo = (href: string) => path.startsWith(href);
+const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 <!doctype html>
 <html lang="it">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Il sito gestisce da sé tema chiaro e scuro: dichiararlo impedisce ai browser di forzare una "modalità scura automatica" che romperebbe lo stile. -->
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.dataset.tema=t;}catch(e){}</script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -58,6 +62,10 @@ const attivo = (href: string) => path.startsWith(href);
         <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="tendina">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path id="hamburger-icona" d="M4 7h16M4 12h16M4 17h16"></path></svg>
         </button>
+        <button class="tema" id="tema" type="button" aria-label="Cambia tema chiaro/scuro" title="Tema chiaro/scuro">
+          <svg class="sole" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="luna" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
         <a class="btn btn-primario btn-piccolo" href="#contatti" data-contatti>Richiedi preventivo</a>
       </nav>
       <div class="tendina" id="tendina">
@@ -89,6 +97,13 @@ const attivo = (href: string) => path.startsWith(href);
         var nav = document.getElementById('navbar');
         var onScroll = function () { nav.classList.toggle('scroll', scrollY > 40); };
         addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+        // Tema: segue il sistema; il pulsante lo forza e lo ricorda (solo preferenza, nessun dato personale).
+        document.getElementById('tema').addEventListener('click', function () {
+          var r = document.documentElement, scuroOra = r.dataset.tema ? r.dataset.tema === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+          var nuovo = scuroOra ? 'light' : 'dark'; r.dataset.tema = nuovo;
+          try { localStorage.setItem('tema', nuovo); } catch (e) {}
+        });
 
         var burger = document.getElementById('hamburger'), drop = document.getElementById('tendina'), icona = document.getElementById('hamburger-icona');
         burger.addEventListener('click', function () {
