@@ -5,6 +5,7 @@ import Faq from '../components/Faq.astro';
 import Steps from '../components/Steps.astro';
 import { azienda } from '../data/azienda';
 
+const GIU = 'M12 5v14M5 12l7 7 7-7';
 const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
 
 // "Qual è il tuo caso?": scritto con le parole del cliente, non con i nomi dei corsi.
@@ -45,6 +46,7 @@ const faq = [
       <div class="gruppo">
         <a class="btn btn-primario" href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp <Icon d={FRECCIA} size={18} /></a>
         <a class="btn btn-vetro" href={`tel:${azienda.cellulare.tel}`}>Chiama {azienda.cellulare.visibile}</a>
+        <a class="btn btn-vetro btn-giu" href="#servizi" aria-label="Vai a tutti i nostri servizi" title="Tutti i nostri servizi"><span class="giu-testo">Tutti i servizi</span><Icon d={GIU} size={18} /></a>
       </div>
       <p style="font-size:15px;font-weight:600;color:var(--testo-3)">Siniscola · Baronia · Olbia · Nuoro, in aula o in azienda.</p>
     </div>
@@ -95,7 +97,7 @@ const faq = [
     </div>
   </section>
 
-  <section class="sezione" data-reveal>
+  <section class="sezione" data-reveal id="servizi">
     <div class="sezione-titolo">
       <h2>Tutti i nostri servizi</h2>
       <p>Se sai già cosa cerchi, vai direttamente alla pagina.</p>
