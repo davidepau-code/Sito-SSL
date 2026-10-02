@@ -1,20 +1,18 @@
 ---
-import { pacchetti, dimensioni } from '../data/pacchetti';
-import { azienda } from '../data/azienda';
-const wa = azienda.cellulare.wa;
+import { settori, dimensioni, attestati, DATA_VERIFICA } from '../data/normativa';
 ---
 <div class="pacchetto card forte" id="pacchetto">
   <div class="pk-sx">
     <h2 class="h3">Scopri cosa ti serve</h2>
-    <p class="trova-sotto">Dicci che attività hai e quante persone lavorano con te: ti diciamo noi quali corsi e documenti ti servono, e ti prepariamo la richiesta.</p>
+    <p class="trova-sotto">Dicci che attività hai e quante persone lavorano con te: ti diciamo noi quali corsi e documenti prevede la legge nel tuo caso, e ti prepariamo la richiesta.</p>
 
     <label for="pk-settore" class="trova-label">Che attività hai?</label>
     <select id="pk-settore" data-sel>
       <option value="">Scegli il tuo settore</option>
-      {pacchetti.map((p) => <option value={p.id}>{p.etichetta}</option>)}
+      {settori.map((s) => <option value={s.id}>{s.etichetta}</option>)}
     </select>
 
-    <label for="pk-dim" class="trova-label">Quante persone lavorano con te?</label>
+    <label for="pk-dim" class="trova-label">Quante persone lavorano con te? <span class="pk-hint">(dipendenti, soci che lavorano, collaboratori, tirocinanti)</span></label>
     <select id="pk-dim" data-sel>
       <option value="">Scegli</option>
       {dimensioni.map((d) => <option value={d}>{d}</option>)}
@@ -24,102 +22,39 @@ const wa = azienda.cellulare.wa;
       <h3 class="pk-titolo">Dipende dal tuo lavoro</h3>
       <div id="pk-domande"></div>
     </div>
+
+    <details id="pk-attestati-box" class="pk-attestati" hidden>
+      <summary>Ho già alcuni attestati</summary>
+      <p class="pk-hint">Spunta quelli che hai: li mettiamo da parte e ti ricordiamo l'aggiornamento. Non conosciamo le date, quindi le controlliamo noi con te.</p>
+      <div class="pk-spunte">
+        {attestati.map((a) => (
+          <label class="pk-spunta"><input type="checkbox" value={a.id} /><span>{a.etichetta}</span></label>
+        ))}
+      </div>
+    </details>
   </div>
 
   <div class="pk-dx" aria-live="polite">
     <p id="pk-vuoto" class="pk-vuoto">Scegli settore e dimensione: qui compare l'elenco di ciò che ti serve.</p>
     <div id="pk-risultato" hidden>
       <p id="pk-desc" class="trova-sotto"></p>
-      <p id="pk-solo" class="pk-avviso" hidden>Se lavori da solo, senza dipendenti né collaboratori, gli obblighi sono diversi e spesso minori. Qui sotto trovi solo ciò che resta valido nel tuo caso: scrivici e ti confermiamo il quadro completo.</p>
+      <div id="pk-avvisi"></div>
 
       <h3 class="pk-titolo">Per la tua attività ti servono</h3>
       <ul id="pk-lista" class="pk-elenco"></ul>
 
-      <p class="pk-nota">Ti indichiamo ciò che serve per il tuo caso; la composizione esatta (livello di rischio, durate, scadenze) la definiamo insieme a te in base alla tua attività. Senza impegno.</p>
+      <div id="pk-gia-box" hidden>
+        <h3 class="pk-titolo">Già in regola (da tenere d'occhio)</h3>
+        <ul id="pk-gia" class="pk-elenco pk-elenco-gia"></ul>
+      </div>
+
+      <p class="pk-nota">Quadro indicativo basato su D.Lgs. 81/2008 e Accordo Stato-Regioni del 17 aprile 2025, aggiornato al {DATA_VERIFICA}. La composizione esatta (livello di rischio, durate, scadenze) la confermiamo insieme a te, senza impegno. Ti ricordiamo noi le scadenze.</p>
       <div class="gruppo">
         <a id="pk-wa" class="btn btn-primario" href="#" rel="noopener">Invia la richiesta su WhatsApp</a>
         <button id="pk-modulo" type="button" class="btn btn-vetro">Preferisco compilare il modulo</button>
       </div>
     </div>
   </div>
-
-  <script is:inline define:vars={{ pacchetti, wa }}>
-    (function () {
-      var $ = function (id) { return document.getElementById(id); };
-      var selS = $('pk-settore'), selD = $('pk-dim'), box = $('pk-risultato');
-      var sino = {}; // id domanda -> true/false
-      var corrente = null;
-
-      function voci() {
-        var solo = selD.value === 'Solo io';
-        var tutte = corrente.fisso.slice();
-        corrente.domande.forEach(function (d) { if (sino[d.id]) tutte = tutte.concat(d.aggiunge); });
-        var viste = {};
-        return tutte.filter(function (v) {
-          if (solo && v.perDipendenti) return false;
-          if (viste[v.nome]) return false; viste[v.nome] = 1; return true;
-        });
-      }
-      function disegna() {
-        var ul = $('pk-lista'); ul.innerHTML = '';
-        var l = voci();
-        if (!l.length) { var li0 = document.createElement('li'); li0.className = 'pk-voce'; li0.textContent = 'Nel tuo caso conviene parlarne: scrivici e ti diciamo cosa serve davvero.'; ul.appendChild(li0); }
-        l.forEach(function (v) {
-          var li = document.createElement('li'); li.className = 'pk-voce';
-          // Etichette a SINISTRA del testo, poi il nome.
-          if (v.tipo === 'documento') { var e = document.createElement('em'); e.textContent = 'documento'; li.appendChild(e); }
-          if (v.slug) { var a = document.createElement('a'); a.href = '/formazione/corsi/' + v.slug + '/'; a.textContent = 'scheda'; a.className = 'pk-link'; li.appendChild(a); }
-          var s = document.createElement('span'); s.textContent = v.nome; li.appendChild(s);
-          ul.appendChild(li);
-        });
-        $('pk-solo').hidden = selD.value !== 'Solo io';
-        aggiornaLink();
-      }
-      function messaggio() {
-        var m = 'Buongiorno, ho un\'attività nel settore "' + corrente.etichetta + '"' + (selD.value ? ' (' + selD.value.toLowerCase() + ')' : '') + '.';
-        var l = voci();
-        m += l.length ? ' Mi avete indicato che mi servono:\n- ' + l.map(function (v) { return v.nome; }).join('\n- ') + '\nVorrei un preventivo.' : ' Vorrei capire cosa mi serve.';
-        return m + ' Grazie.';
-      }
-      function aggiornaLink() { if (corrente) $('pk-wa').href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(messaggio()); }
-      function domande() {
-        var c = $('pk-domande'); c.innerHTML = '';
-        $('pk-domande-box').hidden = !corrente || !corrente.domande.length;
-        if (!corrente) return;
-        corrente.domande.forEach(function (d) {
-          var r = document.createElement('div'); r.className = 'pk-dom';
-          var t = document.createElement('span'); t.textContent = d.testo; r.appendChild(t);
-          var g = document.createElement('div'); g.className = 'pk-sino'; g.setAttribute('role', 'group'); g.setAttribute('aria-label', d.testo);
-          [['Sì', true], ['No', false]].forEach(function (o) {
-            var b = document.createElement('button'); b.type = 'button'; b.textContent = o[0];
-            b.setAttribute('aria-pressed', String(sino[d.id] === o[1]));
-            b.addEventListener('click', function () {
-              sino[d.id] = o[1];
-              Array.prototype.forEach.call(g.children, function (x, i) { x.setAttribute('aria-pressed', String(i === (o[1] ? 0 : 1))); });
-              disegna();
-            });
-            g.appendChild(b);
-          });
-          r.appendChild(g); c.appendChild(r);
-        });
-      }
-      function mostra() {
-        corrente = pacchetti.find(function (x) { return x.id === selS.value; }) || null;
-        box.hidden = !corrente; $('pk-vuoto').hidden = !!corrente;
-        sino = {}; domande();
-        if (!corrente) return;
-        $('pk-desc').textContent = corrente.descrizione;
-        disegna();
-      }
-      selS.addEventListener('change', mostra);
-      selD.addEventListener('change', function () { if (corrente) disegna(); });
-      $('pk-modulo').addEventListener('click', function () {
-        var f = $('modulo-contatto'); if (!f || !corrente) return;
-        f.elements['messaggio'].value = messaggio();
-        var sv = f.elements['servizio']; sv.value = 'Formazione'; sv.dispatchEvent(new Event('change', { bubbles: true }));
-        var t = $('contatti'); scrollTo({ top: t.getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' });
-        f.elements['nome'].focus({ preventScroll: true });
-      });
-    })();
-  </script>
 </div>
+
+<script>import '../scripts/pacchetto-ui';</script>
