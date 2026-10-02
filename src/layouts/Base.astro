@@ -57,6 +57,7 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
           <span><b>Servizi Sicurezza Lavoro</b><small>Siniscola · Sardegna</small></span>
         </a>
         <div class="menu">
+          <span class="pillola" aria-hidden="true"></span>
           {menu.map(([etichetta, href]) => <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
         </div>
         <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="tendina">
@@ -107,6 +108,21 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
           r.dataset.tema = nuovo;
           try { localStorage.setItem('tema', nuovo); } catch (e) {}
         });
+
+        // Pillola: ricorda dove stava nella pagina precedente e scorre fino alla voce attiva.
+        var menu = document.querySelector('.menu'), pill = menu && menu.querySelector('.pillola'), cur = menu && menu.querySelector('a[aria-current="page"]');
+        function posiziona(anima) {
+          if (!pill || !cur || !menu.offsetWidth) return;
+          var a = { l: cur.offsetLeft, w: cur.offsetWidth }, prima = null;
+          try { prima = JSON.parse(sessionStorage.getItem('pillola')); sessionStorage.setItem('pillola', JSON.stringify(a)); } catch (e) {}
+          pill.style.left = a.l + 'px'; pill.style.width = a.w + 'px'; pill.style.opacity = 1;
+          if (anima && !reduced && prima && prima.l !== a.l && pill.animate) {
+            pill.animate([{ left: prima.l + 'px', width: prima.w + 'px' }, { left: a.l + 'px', width: a.w + 'px' }], { duration: 450, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+          }
+        }
+        posiziona(true);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { posiziona(false); });
+        addEventListener('resize', function () { posiziona(false); });
 
         var burger = document.getElementById('hamburger'), drop = document.getElementById('tendina'), icona = document.getElementById('hamburger-icona');
         drop.addEventListener('click', function (e) {

@@ -384,20 +384,15 @@ select[data-sel] {
 .sel-lista li.segnaposto.attivo, .sel.scuro .sel-lista li.segnaposto.attivo { color: var(--testo); }
 .sel.scuro .sel-lista li.segnaposto.attivo { color: #f1efec; }
 
-/* ---------- Pillola del menu: piatta come prima, scivola da una voce all'altra ---------- */
-.menu a[aria-current='page']::before {
-  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: var(--r-pill);
-  background: rgb(245 134 42 / 0.16); view-transition-name: menu-pill;
-}
+/* ---------- Pillola del menu: elemento vero, posizionato via script, che scorre di lato tra le voci ---------- */
+.menu { position: relative; }
+.menu .pillola { position: absolute; top: 0; bottom: 0; left: 0; width: 0; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.16); pointer-events: none; opacity: 0; }
 
 /* ---------- Transizioni tra pagine (View Transitions, Chrome/Edge/Safari recenti; altrove nessuna animazione) ---------- */
 @view-transition { navigation: auto; }
 .navbar { view-transition-name: navbar; }
 .blobs { view-transition-name: sfondo; }
 .barra-mobile { view-transition-name: barra; }
-::view-transition-group(menu-pill) { animation-duration: 0.4s; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
-::view-transition-old(menu-pill), ::view-transition-new(menu-pill) { height: 100%; animation: none; mix-blend-mode: normal; }
-::view-transition-old(menu-pill) { opacity: 0; }
 ::view-transition-old(root) { animation: 0.18s ease-in both vt-esce; }
 ::view-transition-new(root) { animation: 0.35s var(--ease) both vt-entra; }
 @keyframes vt-esce { to { opacity: 0; } }
