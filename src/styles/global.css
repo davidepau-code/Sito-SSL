@@ -386,7 +386,7 @@ select[data-sel] {
 
 /* ---------- Pillola del menu: elemento vero, posizionato via script, che scorre di lato tra le voci ---------- */
 .menu { position: relative; }
-.menu .pillola { position: absolute; top: 0; bottom: 0; left: 0; width: 0; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.16); pointer-events: none; opacity: 0; }
+.menu .pillola { position: absolute; top: 0; left: 0; width: 0; height: 100%; padding: 0; margin: 0; box-sizing: border-box; display: block; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.16); pointer-events: none; opacity: 0; }
 
 /* ---------- Transizioni tra pagine (View Transitions, Chrome/Edge/Safari recenti; altrove nessuna animazione) ---------- */
 @view-transition { navigation: auto; }
