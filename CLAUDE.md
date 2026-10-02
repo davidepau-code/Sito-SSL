@@ -36,3 +36,5 @@ Checklist prima del merge: `npm run build` ok, nessun link rotto, immagini ottim
 ## Documentazione
 
 Mappa del sito, decisioni e redirect: `docs/HANDOFF-sito-ssl.md`. Guida per i colleghi: `docs/guida-colleghi.md`. Astro: https://docs.astro.build
+
+Repository: https://github.com/davidepau-code/Sito-SSL (privato). Anteprima/produzione provvisoria: https://sito-ssl.davidepau99.workers.dev
