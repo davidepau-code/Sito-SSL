@@ -12,7 +12,7 @@ Sito statico Astro di Servizi Sicurezza Lavoro snc (Siniscola, NU): formazione D
 
 ## Dove sono i contenuti
 
-- Corsi: `src/content/corsi/*.md` (schema in `src/content.config.ts`). Con `paginaPropria: true` il corso ha una pagina in `/formazione/corsi/<nome-file>/`; altrimenti è una sezione della pagina di categoria.
+- Corsi: catalogo in `src/data/catalogo-corsi.ts` (fonte: Notion "Elenco Corsi"), pagina `/formazione/catalogo/`. Nessuna pagina per singolo corso: le varianti stanno dentro la scheda.
 - Per aggiungere un corso: copia `lavoratori.md`, cambia nome file e campi. Per una FAQ: aggiungi una voce a `faq`.
 - Collezioni previste e non ancora create: `consulenze`, `fgas`, `ceas`, `faq` (sessioni d'esame F-Gas qui).
 

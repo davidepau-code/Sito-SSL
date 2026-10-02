@@ -471,7 +471,9 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .cat-info { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
 .cat-info h4 { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; }
 .cat-info p { color: var(--testo-2); font-size: 16px; }
-.cat-chiedi { margin-top: auto; font-weight: 700; font-size: 15px; color: var(--arancio-testo); }
+/* "Chiedi informazioni": pillola sempre visibile ma spenta; al passaggio del mouse si accende */
+.cat-chiedi { margin-top: auto; display: inline-flex; align-items: center; padding: 10px 20px; border-radius: var(--r-pill); font-weight: 700; font-size: 15px; color: var(--arancio-testo); background: rgb(245 134 42 / 0.1); border: 1px solid rgb(245 134 42 / 0.32); box-shadow: 0 0 0 0 rgb(245 134 42 / 0), 0 0 0 0 rgb(245 134 42 / 0); transition: background-color 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.45s var(--ease), transform 0.3s var(--ease); }
+.cat-chiedi:hover, .cat-chiedi:focus-visible { color: var(--su-arancio); background: var(--arancio); border-color: transparent; box-shadow: 0 0 0 5px rgb(245 134 42 / 0.2), 0 12px 30px -6px rgb(245 134 42 / 0.75); transform: translateY(-2px); }
 .cat-righe { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
 .cat-riga { display: grid; grid-template-columns: minmax(150px, 3fr) minmax(120px, 1.5fr) minmax(170px, 2.6fr) minmax(120px, 1.8fr); gap: 8px 16px; align-items: center; padding: 12px 0; border-top: 1px solid var(--ctl-bord); font-size: 15px; }
 .cat-riga:first-child { border-top: 0; }

@@ -23,7 +23,7 @@ export type Obbligo = {
   /** Norma di riferimento (testo breve). */
   fonte: string;
   url?: string;
-  slug?: string; // scheda corso sul sito, se esiste
+  catalogo?: string; // id della scheda nel catalogo corsi (/formazione/catalogo/#id)
   /** Ha senso solo se ci sono lavoratori/equiparati (il titolare da solo ha obblighi diversi: art. 21). */
   perDipendenti?: boolean;
   /** Punti non verificati su fonte primaria (uso interno, mai mostrato). */
@@ -49,7 +49,7 @@ export const obblighi: Record<string, Obbligo> = {
     fonte: 'D.Lgs. 81/08 artt. 17, 31, 34 e Allegato II', url: N + '34',
   },
   dl16: {
-    id: 'dl16', tipo: 'corso', perDipendenti: true,
+    id: 'dl16', catalogo: 'datore-di-lavoro', tipo: 'corso', perDipendenti: true,
     nome: 'Corso per il datore di lavoro',
     perche: 'L\'Accordo Stato-Regioni del 2025 ha introdotto un corso obbligatorio per ogni datore di lavoro, da completare entro circa maggio 2027.',
     durata: '16 ore', aggiornamento: '6 ore ogni 5 anni',
@@ -57,7 +57,7 @@ export const obblighi: Record<string, Obbligo> = {
     daVerificare: 'Scadenza 24/05/2027 (testo) vs 19/05/2027 (FAQ ministero): in UI si dice "circa maggio 2027".',
   },
   lavoratori: {
-    id: 'lavoratori', tipo: 'corso', perDipendenti: true, slug: 'lavoratori',
+    id: 'lavoratori', catalogo: 'lavoratori', tipo: 'corso', perDipendenti: true,
     nome: 'Formazione dei lavoratori (generale e specifica)',
     perche: 'Ogni lavoratore (anche soci che lavorano, tirocinanti, collaboratori) va formato sui rischi del proprio lavoro. La parte generale vale per sempre; quella specifica dipende dal rischio del settore.',
     // durata calcolata dal motore in base al rischio
@@ -65,7 +65,7 @@ export const obblighi: Record<string, Obbligo> = {
     fonte: 'D.Lgs. 81/08 art. 37; ASR 17/04/2025 Parte II 2.1 e Allegato IV', url: ASR,
   },
   antincendio: {
-    id: 'antincendio', tipo: 'corso', perDipendenti: true,
+    id: 'antincendio', catalogo: 'antincendio', tipo: 'corso', perDipendenti: true,
     nome: 'Addetti antincendio',
     perche: 'Vanno designati lavoratori formati per prevenire gli incendi e gestire l\'evacuazione. Il livello (1, 2 o 3) dipende dai rischi dell\'attività: lo stabiliamo insieme a te.',
     durata: 'Livello 1: 4 ore · livello 2: 8 ore · livello 3: 16 ore',
@@ -73,7 +73,7 @@ export const obblighi: Record<string, Obbligo> = {
     fonte: 'D.M. 2/9/2021; D.Lgs. 81/08 artt. 18, 43, 46',
   },
   soccorso: {
-    id: 'soccorso', tipo: 'corso', perDipendenti: true,
+    id: 'soccorso', catalogo: 'primo-soccorso', tipo: 'corso', perDipendenti: true,
     nome: 'Addetti al primo soccorso',
     perche: 'Vanno designati lavoratori formati. Con 3 o più lavoratori l\'azienda è nel gruppo B, con meno di 3 nel gruppo C: la durata del corso è la stessa.',
     durata: '12 ore (gruppi B e C)',
@@ -82,7 +82,7 @@ export const obblighi: Record<string, Obbligo> = {
     daVerificare: 'Ore dell\'aggiornamento triennale (4 h gruppi B/C?) non trovate su fonte primaria: non mostrate.',
   },
   rls: {
-    id: 'rls', tipo: 'corso', perDipendenti: true,
+    id: 'rls', catalogo: 'rls', tipo: 'corso', perDipendenti: true,
     nome: 'Rappresentante dei lavoratori per la sicurezza (RLS)',
     perche: 'In ogni azienda va eletto o designato un RLS. Nelle piccole aziende può essere un RLS territoriale; se invece è un vostro lavoratore, deve fare il corso.',
     durata: '32 ore', aggiornamento: 'Ogni anno: 4 ore (15–50 lavoratori) o 8 ore (oltre 50)',
@@ -92,7 +92,7 @@ export const obblighi: Record<string, Obbligo> = {
 
   // ---------- Dipendono dal ruolo ----------
   preposti: {
-    id: 'preposti', tipo: 'corso', perDipendenti: true,
+    id: 'preposti', catalogo: 'preposto', tipo: 'corso', perDipendenti: true,
     nome: 'Formazione preposti',
     perche: 'Chi coordina e controlla il lavoro degli altri è un preposto, anche di fatto. Deve essere formato e aggiornato ogni 2 anni, solo in presenza o in videoconferenza, non con corsi online registrati.',
     durata: '12 ore', aggiornamento: '6 ore ogni 2 anni',
@@ -106,7 +106,7 @@ export const obblighi: Record<string, Obbligo> = {
     fonte: 'D.Lgs. 81/08 art. 37; ASR 17/04/2025 Parte II 2.3', url: ASR,
   },
   rspp_dl: {
-    id: 'rspp_dl', tipo: 'corso', perDipendenti: true,
+    id: 'rspp_dl', catalogo: 'datore-rspp', tipo: 'corso', perDipendenti: true,
     nome: 'Corso per il datore di lavoro che fa da RSPP',
     perche: 'Per svolgere tu stesso il ruolo di responsabile della sicurezza serve il modulo dedicato, dopo il corso base da 16 ore. È ammesso solo entro certi limiti di dimensione dell\'azienda.',
     durata: '8 ore (modulo comune)', aggiornamento: '8 ore ogni 5 anni',
@@ -134,14 +134,14 @@ export const obblighi: Record<string, Obbligo> = {
     fonte: 'D.Lgs. 81/08 art. 27', url: N + '27',
   },
   cantieri6: {
-    id: 'cantieri6', tipo: 'corso', perDipendenti: true,
+    id: 'cantieri6', catalogo: 'datore-di-lavoro', tipo: 'corso', perDipendenti: true,
     nome: 'Modulo "Cantieri" per l\'impresa affidataria',
     perche: 'Se la tua impresa affida lavori in subappalto, datore di lavoro, dirigenti e preposti devono avere una formazione aggiuntiva dedicata ai cantieri.',
     durata: '6 ore (in aggiunta)',
     fonte: 'D.Lgs. 81/08 art. 97 c.3-ter; ASR 17/04/2025 Parte II', url: N + '97',
   },
   ponteggi: {
-    id: 'ponteggi', tipo: 'corso', perDipendenti: true,
+    id: 'ponteggi', catalogo: 'ponteggi', tipo: 'corso', perDipendenti: true,
     nome: 'Montaggio e smontaggio ponteggi',
     perche: 'Chi monta, smonta o trasforma ponteggi deve avere una formazione teorico-pratica specifica e lavorare sotto un preposto, con il piano di montaggio (PiMUS).',
     durata: '28 ore (4 + 10 + 14 pratiche)', aggiornamento: '4 ore ogni 4 anni',
@@ -149,14 +149,14 @@ export const obblighi: Record<string, Obbligo> = {
     daVerificare: 'Allegato XXI letto su sito non istituzionale; l\'ASR 2025 non lo modifica.',
   },
   dpi3: {
-    id: 'dpi3', tipo: 'corso', perDipendenti: true,
+    id: 'dpi3', catalogo: 'lavori-in-quota', tipo: 'corso', perDipendenti: true,
     nome: 'Addestramento per imbracature e DPI anticaduta',
     perche: 'Per i dispositivi di protezione di terza categoria, come le imbracature anticaduta, l\'addestramento è sempre obbligatorio.',
     fonte: 'D.Lgs. 81/08 art. 77 c.5', url: N + '77',
     daVerificare: 'Le ore non sono fissate dalla norma: nessuna durata mostrata.',
   },
   confinati: {
-    id: 'confinati', tipo: 'corso', perDipendenti: true,
+    id: 'confinati', catalogo: 'confinati', tipo: 'corso', perDipendenti: true,
     nome: 'Lavori in spazi confinati',
     perche: 'Per lavorare in pozzetti, cisterne, fognature e ambienti simili, tutto il personale deve avere formazione e addestramento specifici.',
     durata: '12 ore (4 + 8 pratiche)', aggiornamento: '4 ore di pratica ogni 5 anni',
@@ -164,31 +164,31 @@ export const obblighi: Record<string, Obbligo> = {
   },
 
   // ---------- Macchine e attrezzature (ASR 17/04/2025, Parte II p.8): aggiornamento 4 ore di pratica ogni 5 anni ----------
-  carrelli: { id: 'carrelli', tipo: 'corso', perDipendenti: false, nome: 'Carrelli elevatori (muletto)',
+  carrelli: { id: 'carrelli', catalogo: 'carrelli', tipo: 'corso', perDipendenti: false, nome: 'Carrelli elevatori (muletto)',
     perche: 'Chi guida carrelli elevatori deve avere l\'abilitazione: un modulo teorico e uno pratico per il tipo di carrello.',
     durata: '8 ore di teoria + 4–8 ore di pratica, secondo il tipo', aggiornamento: '4 ore di pratica ogni 5 anni', fonte: 'D.Lgs. 81/08 art. 73 c.5; ASR 17/04/2025 Parte II 8.3.4', url: ASR },
-  ple: { id: 'ple', tipo: 'corso', perDipendenti: false, nome: 'Piattaforme di lavoro elevabili (PLE)',
+  ple: { id: 'ple', catalogo: 'ple', tipo: 'corso', perDipendenti: false, nome: 'Piattaforme di lavoro elevabili (PLE)',
     perche: 'Chi usa cestelli e piattaforme elevabili deve essere abilitato, con modulo teorico e pratico.',
     durata: '4 ore di teoria + 4–6 ore di pratica, secondo il tipo', aggiornamento: '4 ore di pratica ogni 5 anni', fonte: 'D.Lgs. 81/08 art. 73 c.5; ASR 17/04/2025 Parte II 8.3.1', url: ASR },
-  gru: { id: 'gru', tipo: 'corso', perDipendenti: false, nome: 'Gru (su autocarro, a torre, mobili)',
+  gru: { id: 'gru', catalogo: 'attrezzature', tipo: 'corso', perDipendenti: false, nome: 'Gru (su autocarro, a torre, mobili)',
     perche: 'Per ogni tipo di gru serve l\'abilitazione dell\'operatore, con modulo teorico e pratico.',
     durata: 'Da 12 a 14 ore in totale, secondo il tipo di gru', aggiornamento: '4 ore di pratica ogni 5 anni', fonte: 'D.Lgs. 81/08 art. 73 c.5; ASR 17/04/2025 Parte II 8.3.2, 8.3.3, 8.3.5', url: ASR },
-  mmt: { id: 'mmt', tipo: 'corso', perDipendenti: false, nome: 'Macchine movimento terra (escavatori, pale, terne)',
+  mmt: { id: 'mmt', catalogo: 'mmt', tipo: 'corso', perDipendenti: false, nome: 'Macchine movimento terra (escavatori, pale, terne)',
     perche: 'Chi usa escavatori, pale caricatrici, terne e autoribaltabili a cingoli deve essere abilitato.',
     durata: '4 ore di teoria + 6–12 ore di pratica, secondo le macchine', aggiornamento: '4 ore di pratica ogni 5 anni', fonte: 'D.Lgs. 81/08 art. 73 c.5; ASR 17/04/2025 Parte II 8.3.7', url: ASR },
-  pompe: { id: 'pompe', tipo: 'corso', perDipendenti: false, nome: 'Pompe per calcestruzzo',
+  pompe: { id: 'pompe', catalogo: 'pompe-cls', tipo: 'corso', perDipendenti: false, nome: 'Pompe per calcestruzzo',
     perche: 'Chi conduce autopompe per calcestruzzo deve essere abilitato.',
     durata: '7 ore di teoria + 7 ore di pratica', aggiornamento: '4 ore di pratica ogni 5 anni', fonte: 'D.Lgs. 81/08 art. 73 c.5; ASR 17/04/2025 Parte II 8.3.8', url: ASR },
-  trattori: { id: 'trattori', tipo: 'corso', perDipendenti: false, nome: 'Trattori agricoli o forestali',
+  trattori: { id: 'trattori', catalogo: 'trattori', tipo: 'corso', perDipendenti: false, nome: 'Trattori agricoli o forestali',
     perche: 'Chi usa trattori a ruote o a cingoli per lavoro deve essere abilitato.',
     durata: '3 ore di teoria + 5 ore di pratica', aggiornamento: '4 ore di pratica ogni 5 anni', fonte: 'D.Lgs. 81/08 art. 73 c.5; ASR 17/04/2025 Parte II 8.3.6', url: ASR },
-  carriponte: { id: 'carriponte', tipo: 'corso', perDipendenti: false, nome: 'Carroponte e gru a ponte',
+  carriponte: { id: 'carriponte', catalogo: 'carriponte', tipo: 'corso', perDipendenti: false, nome: 'Carroponte e gru a ponte',
     perche: 'Con l\'Accordo 2025 anche chi usa carriponte, gru a ponte e a cavalletto deve essere abilitato.',
     durata: '4 ore di teoria + 6–7 ore di pratica, secondo il comando', aggiornamento: '4 ore di pratica ogni 5 anni', fonte: 'ASR 17/04/2025 Parte II 8.3.11', url: ASR },
 
   // ---------- Alimentare ----------
   haccp_addetti: {
-    id: 'haccp_addetti', tipo: 'corso', perDipendenti: false,
+    id: 'haccp_addetti', catalogo: 'haccp-addetto', tipo: 'corso', perDipendenti: false,
     nome: 'Formazione HACCP per chi manipola alimenti',
     perche: 'Chi lavora con gli alimenti deve essere formato in modo adeguato all\'attività. In Sardegna non c\'è un atto regionale che fissi ore e rinnovo: ti indichiamo noi il percorso corretto.',
     fonte: 'Reg. CE 852/2004, Allegato II cap. XII',
@@ -202,7 +202,7 @@ export const obblighi: Record<string, Obbligo> = {
     daVerificare: 'Art. 5 letto solo da fonti secondarie (EUR-Lex non raggiungibile).',
   },
   haccp_resp: {
-    id: 'haccp_resp', tipo: 'corso', perDipendenti: false,
+    id: 'haccp_resp', catalogo: 'haccp-responsabile', tipo: 'corso', perDipendenti: false,
     nome: 'Formazione per il responsabile HACCP (OSA)',
     perche: 'Chi è responsabile delle procedure HACCP dell\'attività deve avere una formazione adeguata ai principi del sistema.',
     fonte: 'Reg. CE 852/2004, Allegato II cap. XII',

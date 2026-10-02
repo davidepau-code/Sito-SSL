@@ -53,9 +53,9 @@ function riempiVoce(li: HTMLElement, v: Voce, gia: boolean) {
   const testa = el('div', 'pk-testa');
   testa.appendChild(el('em', 'pk-tipo ' + v.tipo, v.tipo)); // etichetta a sinistra del nome
   testa.appendChild(el('strong', undefined, v.nome));
-  if (v.slug) {
-    const a = el('a', 'pk-link', 'scheda') as HTMLAnchorElement;
-    a.href = `/formazione/corsi/${v.slug}/`;
+  if (v.catalogo) {
+    const a = el('a', 'pk-link', 'nel catalogo') as HTMLAnchorElement;
+    a.href = `/formazione/catalogo/#${v.catalogo}`;
     testa.appendChild(a);
   }
   corpo.appendChild(testa);

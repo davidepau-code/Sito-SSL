@@ -1,6 +1,5 @@
 // Catalogo formazione per AREA. Solo nomi e struttura: durate, aggiornamenti e norme stanno nelle schede (collezione `corsi`) e vanno verificati.
-// `slug` presente = esiste una pagina dedicata in /formazione/corsi/<slug>/.
-export type Corso = { nome: string; slug?: string };
+export type Corso = { nome: string };
 export type Area = { id: string; nome: string; per: string; icona: string; corsi: Corso[] };
 
 export const aree: Area[] = [
@@ -8,7 +7,7 @@ export const aree: Area[] = [
     id: 'sicurezza', nome: 'Sicurezza sul lavoro', per: 'Gli obblighi di legge per chi ha lavoratori in azienda.',
     icona: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
     corsi: [
-      { nome: 'Lavoratori (generale e specifica)', slug: 'lavoratori' }, { nome: 'Preposti' }, { nome: 'Dirigenti' },
+      { nome: 'Lavoratori (generale e specifica)' }, { nome: 'Preposti' }, { nome: 'Dirigenti' },
       { nome: 'Datore di lavoro (RSPP)' }, { nome: 'RSPP e ASPP' }, { nome: 'Rappresentante dei lavoratori (RLS)' },
       { nome: 'Addetti antincendio' }, { nome: 'Addetti primo soccorso' },
     ],
@@ -39,17 +38,17 @@ export const aree: Area[] = [
 // (Obsoleto, sostituito dai pacchetti: non più usato dal sito.)
 export const percorsi = [
   { id: 'datore', etichetta: 'Sono il titolare / datore di lavoro', risultati: [
-    { nome: 'Formazione dei tuoi lavoratori', href: '/formazione/corsi/lavoratori/' },
+    { nome: 'Formazione dei tuoi lavoratori', href: '/formazione/catalogo/#lavoratori' },
     { nome: 'Preposti, dirigenti e datore di lavoro', href: '/formazione/#sicurezza' },
     { nome: 'Documento di valutazione dei rischi (DVR)', href: '/consulenza/sicurezza-sul-lavoro/' },
   ] },
   { id: 'lavoratore', etichetta: 'Sono un lavoratore (o sto per iniziare)', risultati: [
-    { nome: 'Formazione lavoratori (generale e specifica)', href: '/formazione/corsi/lavoratori/' },
+    { nome: 'Formazione lavoratori (generale e specifica)', href: '/formazione/catalogo/#lavoratori' },
     { nome: 'Antincendio e primo soccorso, se designato', href: '/formazione/#sicurezza' },
   ] },
   { id: 'preposto', etichetta: 'Coordino una squadra (preposto)', risultati: [
     { nome: 'Formazione per preposti', href: '/formazione/#sicurezza' },
-    { nome: 'Formazione lavoratori', href: '/formazione/corsi/lavoratori/' },
+    { nome: 'Formazione lavoratori', href: '/formazione/catalogo/#lavoratori' },
   ] },
   { id: 'macchine', etichetta: 'Guido muletti, gru, piattaforme o altri mezzi', risultati: [
     { nome: 'Patentini per macchine e attrezzature', href: '/formazione/#attrezzature' },
