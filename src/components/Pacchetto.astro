@@ -1,11 +1,11 @@
 ---
-import { pacchetti, dimensioni } from '../data/catalogo';
+import { pacchetti, dimensioni } from '../data/pacchetti';
 import { azienda } from '../data/azienda';
 const wa = azienda.cellulare.wa;
 ---
 <div class="pacchetto card forte" id="pacchetto">
-  <h2 class="h3">Componi il tuo pacchetto</h2>
-  <p class="trova-sotto">Dicci che attività hai: ti proponiamo i corsi di base e quelli da aggiungere se ti servono. Poi ci scrivi con la richiesta già pronta.</p>
+  <h2 class="h3">Scopri cosa ti serve</h2>
+  <p class="trova-sotto">Dicci che attività hai e quante persone lavorano con te: ti diciamo noi quali corsi e documenti ti servono, e ti prepariamo la richiesta.</p>
 
   <label for="pk-settore" class="trova-label">Che attività hai?</label>
   <select id="pk-settore" data-sel>
@@ -21,11 +21,17 @@ const wa = azienda.cellulare.wa;
 
   <div id="pk-risultato" aria-live="polite" hidden>
     <p id="pk-desc" class="trova-sotto"></p>
-    <h3 class="pk-titolo">In genere ti servono</h3>
-    <div id="pk-base" class="pk-lista"></div>
-    <h3 class="pk-titolo">Da aggiungere se ti riguarda</h3>
-    <div id="pk-extra" class="pk-lista"></div>
-    <p class="pk-nota">È una proposta indicativa: la composizione esatta dipende dalla tua attività (codice ATECO, numero di persone, mansioni). Te la confermiamo noi, senza impegno.</p>
+    <p id="pk-solo" class="pk-avviso" hidden>Se lavori da solo, senza dipendenti né collaboratori, gli obblighi sono diversi e spesso minori. Qui sotto trovi solo ciò che resta valido nel tuo caso: scrivici e ti confermiamo il quadro completo.</p>
+
+    <h3 class="pk-titolo">Per la tua attività ti servono</h3>
+    <ul id="pk-lista" class="pk-elenco"></ul>
+
+    <div id="pk-domande-box" hidden>
+      <h3 class="pk-titolo">Dipende dal tuo lavoro</h3>
+      <div id="pk-domande"></div>
+    </div>
+
+    <p class="pk-nota">Ti indichiamo ciò che serve per il tuo caso; la composizione esatta (livello di rischio, durate, scadenze) la definiamo insieme a te in base alla tua attività. Senza impegno.</p>
     <div class="gruppo">
       <a id="pk-wa" class="btn btn-primario" href="#" rel="noopener">Invia la richiesta su WhatsApp</a>
       <button id="pk-modulo" type="button" class="btn btn-vetro">Preferisco compilare il modulo</button>
@@ -36,37 +42,70 @@ const wa = azienda.cellulare.wa;
     (function () {
       var $ = function (id) { return document.getElementById(id); };
       var selS = $('pk-settore'), selD = $('pk-dim'), box = $('pk-risultato');
-      function voce(v, spuntata, k) {
-        var l = document.createElement('label'); l.className = 'pk-voce';
-        var c = document.createElement('input'); c.type = 'checkbox'; c.checked = spuntata; c.dataset.nome = v.nome; c.addEventListener('change', aggiorna);
-        var s = document.createElement('span'); s.textContent = v.nome;
-        l.appendChild(c); l.appendChild(s);
-        if (v.nota) { var n = document.createElement('em'); n.textContent = v.nota; l.appendChild(n); }
-        if (v.slug) { var a = document.createElement('a'); a.href = '/formazione/corsi/' + v.slug + '/'; a.textContent = 'scheda'; a.className = 'pk-link'; l.appendChild(a); }
-        return l;
+      var sino = {}; // id domanda -> true/false
+      var corrente = null;
+
+      function voci() {
+        var solo = selD.value === 'Solo io';
+        var tutte = corrente.fisso.slice();
+        corrente.domande.forEach(function (d) { if (sino[d.id]) tutte = tutte.concat(d.aggiunge); });
+        var viste = {};
+        return tutte.filter(function (v) {
+          if (solo && v.perDipendenti) return false;
+          if (viste[v.nome]) return false; viste[v.nome] = 1; return true;
+        });
       }
-      function scelte() { return Array.prototype.map.call(box.querySelectorAll('input:checked'), function (i) { return i.dataset.nome; }); }
+      function disegna() {
+        var ul = $('pk-lista'); ul.innerHTML = '';
+        var l = voci();
+        if (!l.length) { var li0 = document.createElement('li'); li0.className = 'pk-voce'; li0.textContent = 'Nel tuo caso conviene parlarne: scrivici e ti diciamo cosa serve davvero.'; ul.appendChild(li0); }
+        l.forEach(function (v) {
+          var li = document.createElement('li'); li.className = 'pk-voce';
+          var s = document.createElement('span'); s.textContent = v.nome; li.appendChild(s);
+          if (v.tipo === 'documento') { var e = document.createElement('em'); e.textContent = 'documento'; li.appendChild(e); }
+          if (v.slug) { var a = document.createElement('a'); a.href = '/formazione/corsi/' + v.slug + '/'; a.textContent = 'scheda'; a.className = 'pk-link'; li.appendChild(a); }
+          ul.appendChild(li);
+        });
+        $('pk-solo').hidden = selD.value !== 'Solo io';
+        aggiornaLink();
+      }
       function messaggio() {
-        var p = pacchetti.find(function (x) { return x.id === selS.value; });
-        var m = 'Buongiorno, ho un\'attività nel settore "' + p.etichetta + '"' + (selD.value ? ' (' + selD.value.toLowerCase() + ')' : '') + '.';
-        var s = scelte();
-        m += s.length ? ' Vorrei un preventivo per:\n- ' + s.join('\n- ') : ' Vorrei capire cosa mi serve.';
-        return m + '\nGrazie.';
+        var m = 'Buongiorno, ho un\'attività nel settore "' + corrente.etichetta + '"' + (selD.value ? ' (' + selD.value.toLowerCase() + ')' : '') + '.';
+        var l = voci();
+        m += l.length ? ' Mi avete indicato che mi servono:\n- ' + l.map(function (v) { return v.nome; }).join('\n- ') + '\nVorrei un preventivo.' : ' Vorrei capire cosa mi serve.';
+        return m + ' Grazie.';
       }
-      function aggiorna() { if (!selS.value) return; $('pk-wa').href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(messaggio()); }
+      function aggiornaLink() { if (corrente) $('pk-wa').href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(messaggio()); }
+      function domande() {
+        var c = $('pk-domande'); c.innerHTML = '';
+        $('pk-domande-box').hidden = !corrente.domande.length;
+        corrente.domande.forEach(function (d) {
+          var r = document.createElement('div'); r.className = 'pk-dom';
+          var t = document.createElement('span'); t.textContent = d.testo; r.appendChild(t);
+          var g = document.createElement('div'); g.className = 'pk-sino'; g.setAttribute('role', 'group'); g.setAttribute('aria-label', d.testo);
+          [['Sì', true], ['No', false]].forEach(function (o) {
+            var b = document.createElement('button'); b.type = 'button'; b.textContent = o[0];
+            b.setAttribute('aria-pressed', String(sino[d.id] === o[1]));
+            b.addEventListener('click', function () {
+              sino[d.id] = o[1];
+              Array.prototype.forEach.call(g.children, function (x, i) { x.setAttribute('aria-pressed', String(i === (o[1] ? 0 : 1))); });
+              disegna();
+            });
+            g.appendChild(b);
+          });
+          r.appendChild(g); c.appendChild(r);
+        });
+      }
       function mostra() {
-        var p = pacchetti.find(function (x) { return x.id === selS.value; });
-        box.hidden = !p; if (!p) return;
-        $('pk-desc').textContent = p.descrizione;
-        var b = $('pk-base'), e = $('pk-extra'); b.innerHTML = ''; e.innerHTML = '';
-        p.base.forEach(function (v) { b.appendChild(voce(v, true)); });
-        p.extra.forEach(function (v) { e.appendChild(voce(v, false)); });
-        aggiorna();
+        corrente = pacchetti.find(function (x) { return x.id === selS.value; }) || null;
+        box.hidden = !corrente; if (!corrente) return;
+        sino = {}; $('pk-desc').textContent = corrente.descrizione;
+        domande(); disegna();
       }
       selS.addEventListener('change', mostra);
-      selD.addEventListener('change', aggiorna);
+      selD.addEventListener('change', function () { if (corrente) disegna(); });
       $('pk-modulo').addEventListener('click', function () {
-        var f = $('modulo-contatto'); if (!f) return;
+        var f = $('modulo-contatto'); if (!f || !corrente) return;
         f.elements['messaggio'].value = messaggio();
         var sv = f.elements['servizio']; sv.value = 'Formazione'; sv.dispatchEvent(new Event('change', { bubbles: true }));
         var t = $('contatti'); scrollTo({ top: t.getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' });
