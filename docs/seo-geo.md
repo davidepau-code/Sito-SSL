@@ -144,3 +144,11 @@ Cosa **non** fare: testo scritto per i bot, FAQ gonfiate, schema non corrisponde
 5. Chi firma/revisiona i contenuti normativi (nome, titolo) per i segnali di competenza.
 6. Politica sui crawler AI: **consentirli tutti** (proposta) o solo alcuni.
 7. Se vogliamo una sezione **Guide/Blog** (poche guide ben fatte su scadenze e obblighi) oppure solo pagine di servizio.
+
+---
+
+## Aggiornamento 2 ottobre 2026
+
+- Decisione: **tutti i crawler AI consentiti** (già nel robots.txt generato).
+- Il vecchio sito non era collegato a Search Console: nessun dato storico da preservare; la baseline si crea dal lancio.
+- Scheda Google Business esistente (4,6 su 15 recensioni): v. roadmap.md. Telefono, orari e categoria sulla scheda non coincidono col sito e vanno allineati; descrizione già orientata a Baronia/Olbia/Orosei/Nuoro.
