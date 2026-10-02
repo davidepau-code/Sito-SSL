@@ -47,11 +47,20 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
 
 ---
 
+> **Aggiornamento 2 ottobre 2026 (stato reale del sito, prevale su quanto scritto sotto dove diverso).**
+> - **Corsi**: niente content collection né pagina per singolo corso. Il catalogo sta in `src/data/catalogo-corsi.ts` (fonte: database Notion "Elenco Corsi"), pubblicato su `/formazione/catalogo/` (4 aree: Sicurezza sul lavoro, Macchine e attrezzature, Rischi specifici, Alimentare e HACCP). Le varianti (es. rischio basso/medio/alto, tipi di carrello) sono righe dentro la scheda.
+> - **Catalogo senza prezzi**: ogni corso ha ore, modalità, aggiornamento e spiegazione breve; il prezzo si dà solo su richiesta.
+> - **Strumento "Scopri cosa ti serve"** su `/formazione/` (dati in `src/data/normativa.ts`, motore in `src/scripts/motore.ts`), con link precompilati dalla home (`?caso=assunto|macchine|haccp`). Dettagli e punti da far validare a un RSPP: `docs/schema-normativo.md`.
+> - **Navigazione**: Astro ClientRouter (header persistente, pillola del menu che scorre); script comuni in `src/scripts/sito.ts`.
+> - **Pagine presenti**: Home, Formazione, Catalogo corsi, F-Gas, Consulenza (+ sicurezza sul lavoro), CEAS, Chi siamo, Contatti, Pubbliche amministrazioni (placeholder), Privacy, Cookie, 404. Pagine HACCP/ATEX/rischi-specifici separate e `consulenza/sicurezza-alimentare` NON esistono (ATEX tolta dal catalogo).
+> - **Contatti e dati azienda**: sempre da `src/data/azienda.ts`. Numeri in homepage (dal 2008, +10.000 corsisti, +500 aziende) forniti dalla direzione.
+> - Sezioni §3-§4 qui sotto: l'esempio di schema `corsi` e la mappa del sito sono quelli iniziali di progetto.
+
 ## 3. Stack tecnico proposto
 
 - **Astro** (ultima versione stabile), output statico.
 - CSS: CSS moderno con custom properties (design tokens) – evitare framework pesanti; Tailwind accettabile se preferito.
-- **Content collections** in Markdown/MDX con schema (zod) per: `corsi`, `consulenze`, `fgas`, `ceas`, `faq`.
+- **Content collections** in Markdown/MDX con schema (zod) per: `consulenze`, `fgas`, `ceas`, `faq` (i corsi NON usano più una collection: vedi nota di aggiornamento).
 - Immagini: `astro:assets` (WebP/AVIF, dimensioni responsive). Nessuna immagine > 200 KB.
 - Moduli (contatto/preventivo/iscrizione): funzione Cloudflare (Worker) che invia email, oppure Formspree come fallback. Anti-spam: Cloudflare Turnstile. Consenso privacy obbligatorio.
 - SEO: `@astrojs/sitemap`, meta title/description per pagina, Open Graph, canonical, JSON-LD (`LocalBusiness`/`EducationalOrganization`, `Course` per le schede corso, `FAQPage`, `BreadcrumbList`).
@@ -59,7 +68,7 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
 - Analytics: Cloudflare Web Analytics (cookieless) → niente banner cookie per l'analytics. Se si usa Google Maps embed serve consenso: preferire immagine statica + link a Maps.
 - Performance target: Lighthouse ≥ 95 su mobile, pagina < 500 KB.
 
-### Esempio schema `corsi`
+### Esempio schema `corsi` (storico, non più in uso)
 ```ts
 {
   titolo: string,
@@ -98,7 +107,7 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
 /privacy/  /cookie/
 ```
 
-Pagine dedicate (alta ricerca Google): Lavoratori, Preposti, Antincendio, Primo soccorso, Carrelli elevatori (muletto), HACCP, F-Gas. Gli altri corsi come sezioni dentro la pagina di categoria.
+Scelta attuale: nessuna pagina dedicata per i singoli corsi (tranne F-Gas). Tutti i corsi stanno nel catalogo `/formazione/catalogo/`, con ancora per ogni scheda (`#lavoratori`, `#carrelli`, …).
 
 ---
 
@@ -186,7 +195,7 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 
 Deve contenere almeno:
 - Cosa è il sito, a chi parla, tono di voce (chiaro, concreto, professionale, "tu" o "voi" – [decidere]).
-- Dove stanno i contenuti (`src/content/corsi/…`) e come aggiungere/modificare un corso, una FAQ, una data d'esame F-Gas.
+- Dove stanno i contenuti (`src/data/catalogo-corsi.ts` per i corsi) e come aggiungere/modificare un corso, una FAQ, una data d'esame F-Gas.
 - **Regola normativa**: non modificare durate, periodicità o riferimenti di legge senza fonte; aggiornare `ultimaVerificaNormativa`.
 - Regole di stile (token colori/radius, componenti esistenti da riusare, non introdurre nuovi colori).
 - Flusso: lavorare su branch → anteprima Cloudflare → approvazione di [Davide / referente] → merge su `main` = pubblicazione.

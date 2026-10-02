@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { azienda } from '../data/azienda';
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const crumbs = [
+  { nome: 'Home', url: '/' },
+  { nome: 'Pubbliche amministrazioni', url: '/pubblica-amministrazione/' },
+];
+---
+<Base title="Servizi per le pubbliche amministrazioni – Servizi Sicurezza Lavoro" description="DVR, DUVRI e formazione sulla sicurezza sul lavoro per comuni, enti pubblici e altre pubbliche amministrazioni." crumbs={crumbs}>
+  <section class="sezione testata colonna">
+    <p class="briciole"><a href="/">Home</a> / <span aria-current="page">Pubbliche amministrazioni</span></p>
+    <span class="chip piatto" style="align-self:flex-start">Pagina in preparazione</span>
+    <h1>Servizi per le pubbliche amministrazioni</h1>
+    <p class="lead" style="max-width:720px">DVR, DUVRI e formazione per comuni, enti e altre amministrazioni pubbliche. Le norme sulla sicurezza sul lavoro valgono anche per chi lavora nel pubblico: noi ci occupiamo di documenti e corsi.</p>
+    <div class="gruppo">
+      <a class="btn btn-primario" href={azienda.whatsappLink('Buongiorno, siamo una pubblica amministrazione e vorremmo informazioni sui vostri servizi (DVR, DUVRI, formazione).')} rel="noopener">Scrivici su WhatsApp <Icon d={FRECCIA} size={18} /></a>
+      <a class="btn btn-vetro" href="#contatti" data-contatti>Richiedi un preventivo</a>
+    </div>
+  </section>
+
+  <section class="sezione stretta griglia larga" data-reveal>
+    <div class="card">
+      <span class="titolo">DVR – Documento di valutazione dei rischi</span>
+      <span class="corpo">Il documento che ogni datore di lavoro deve avere, anche nel pubblico: individua i rischi di sedi, uffici e servizi e le misure per prevenirli. [Testo da completare]</span>
+    </div>
+    <div class="card">
+      <span class="titolo">DUVRI – Rischi da interferenze</span>
+      <span class="corpo">Quando l'amministrazione affida lavori o servizi a imprese esterne, il DUVRI valuta i rischi che nascono dalla presenza contemporanea di più soggetti negli stessi spazi. [Testo da completare]</span>
+    </div>
+    <div class="card">
+      <span class="titolo">Formazione</span>
+      <span class="corpo">Dipendenti, preposti, dirigenti, addetti antincendio e primo soccorso, RLS. Corsi in aula, online o presso l'ente. [Testo da completare]</span>
+      <a class="cta-link" href="/formazione/catalogo/">Vedi il catalogo <Icon d={FRECCIA} /></a>
+    </div>
+  </section>
+
+  <section class="sezione stretta" data-reveal>
+    <div class="card scura cat-chiusura" style="margin-top:0">
+      <div>
+        <h2>Per chi è</h2>
+        <p>Comuni, unioni di comuni, enti pubblici, scuole, società partecipate e altre amministrazioni. [Elenco da confermare]</p>
+      </div>
+    </div>
+    <p style="margin-top:16px;color:var(--testo-3);font-size:14px">Fonte: D.Lgs. 81/2008, art. 3 (campo di applicazione: tutti i settori di attività, privati e pubblici). Pagina in costruzione: i contenuti sono provvisori.</p>
+  </section>
+</Base>
