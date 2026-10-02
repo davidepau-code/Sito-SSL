@@ -16,6 +16,7 @@ export interface Riga {
 export interface Corso {
   id: string;
   nome: string;
+  breve: string; // nome corto per le tile
   per: string; // a chi serve / che cosa è, in una frase
   righe: Riga[];
 }
@@ -38,6 +39,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'datore-di-lavoro',
+            breve: 'Datore di lavoro',
             nome: 'Datore di lavoro',
             per: 'Il corso base per ogni datore di lavoro: ruoli, obblighi e responsabilità in materia di sicurezza. Per le imprese che operano in cantiere c\'è il modulo aggiuntivo.',
             righe: [
@@ -48,12 +50,14 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'datore-rspp',
+            breve: 'Datore di lavoro e RSPP',
             nome: 'Datore di lavoro che svolge il ruolo di RSPP',
             per: 'Per chi vuole ricoprire direttamente il ruolo di Responsabile del Servizio di Prevenzione e Protezione nella propria azienda, nei limiti previsti dalla legge.',
             righe: [{ nome: 'Corso completo', ore: '24', mod: VP, agg: '8 ore ogni 5 anni' }],
           },
           {
             id: 'rspp',
+            breve: 'RSPP',
             nome: 'RSPP – Responsabile del Servizio di Prevenzione e Protezione',
             per: 'Per chi fa dell\'RSPP il proprio incarico, in azienda o come professionista esterno. Si parte dal modulo comune e si aggiunge il modulo specialistico del settore di attività (ATECO).',
             righe: [
@@ -72,6 +76,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'lavoratori',
+            breve: 'Lavoratori (generale e specifica)',
             nome: 'Formazione dei lavoratori',
             per: 'Obbligatoria per chi lavora alle dipendenze, a ogni assunzione. Una parte generale uguale per tutti e una parte specifica che dipende dal livello di rischio dell\'attività.',
             righe: [
@@ -86,6 +91,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'primo-soccorso',
+            breve: 'Primo soccorso',
             nome: 'Primo soccorso',
             per: 'Per gli addetti al primo soccorso aziendale. Il gruppo (A, B o C) dipende dal tipo di attività e dal numero di lavoratori.',
             righe: [
@@ -95,6 +101,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'antincendio',
+            breve: 'Antincendio',
             nome: 'Antincendio',
             per: 'Per gli addetti alla gestione delle emergenze e alla prevenzione incendi. Il livello (1, 2 o 3) dipende dal rischio incendio dell\'azienda.',
             righe: [
@@ -105,6 +112,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'rls',
+            breve: 'RLS',
             nome: 'RLS – Rappresentante dei lavoratori per la sicurezza',
             per: 'Per il lavoratore eletto o designato a rappresentare i colleghi sui temi della sicurezza. L\'aggiornamento è annuale.',
             righe: [
@@ -120,18 +128,21 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'preposto',
+            breve: 'Preposto',
             nome: 'Preposto',
             per: 'Per chi coordina e sorveglia il lavoro degli altri (capisquadra, capi reparto, responsabili di turno). Un ruolo con obblighi e responsabilità precisi.',
             righe: [{ nome: 'Formazione specifica', ore: '12', mod: VP, agg: '6 ore ogni 2 anni' }],
           },
           {
             id: 'coordinatori',
+            breve: 'Coordinatore per la sicurezza (CSP / CSE)',
             nome: 'Coordinatore per la sicurezza nei cantieri (CSP / CSE)',
             per: 'Per i professionisti che coordinano la sicurezza in fase di progettazione (CSP) e di esecuzione dei lavori (CSE) nei cantieri temporanei o mobili.',
             righe: [{ nome: 'Corso di formazione', ore: '120', mod: VP, agg: '40 ore ogni 5 anni' }],
           },
           {
             id: 'movieri',
+            breve: 'Movieri',
             nome: 'Movieri – segnaletica stradale in presenza di traffico',
             per: 'Per chi pianifica, controlla e apposita la segnaletica nei cantieri stradali, con traffico veicolare.',
             righe: [
@@ -152,6 +163,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'carrelli',
+            breve: 'Carrelli elevatori',
             nome: 'Carrelli elevatori',
             per: 'Per chi guida carrelli in magazzino, in produzione o in cantiere.',
             righe: [
@@ -163,6 +175,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'ple',
+            breve: 'Piattaforme elevabili (PLE)',
             nome: 'Piattaforme di lavoro elevabili (PLE)',
             per: 'Per chi lavora in quota con cestelli e piattaforme elevabili.',
             righe: [
@@ -173,6 +186,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'mmt',
+            breve: 'Macchine movimento terra',
             nome: 'Macchine movimento terra',
             per: 'Per chi conduce macchine da scavo e movimentazione in cantiere e cava.',
             righe: [
@@ -186,6 +200,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'gru-torre',
+            breve: 'Gru a torre',
             nome: 'Gru a torre',
             per: 'Per gli operatori delle gru a torre dei cantieri edili.',
             righe: [
@@ -196,6 +211,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'autogru',
+            breve: 'Autogru',
             nome: 'Autogru',
             per: 'Per chi conduce autogru, con falcone fisso o telescopico.',
             righe: [
@@ -205,12 +221,14 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'camion-gru',
+            breve: 'Camion gru',
             nome: 'Gru per autocarro (camion gru)',
             per: 'Per chi opera con la gru montata sull\'autocarro.',
             righe: [{ nome: 'Camion gru', ore: '12', dett: '4 teoria · 8 pratica', mod: P, agg: '8 ore ogni 5 anni' }],
           },
           {
             id: 'carriponte',
+            breve: 'Carriponte e gru a cavalletto',
             nome: 'Carriponte e gru a cavalletto',
             per: 'Per chi lavora con carriponte in stabilimento e magazzino. La scelta dipende da come si comanda la macchina.',
             righe: [
@@ -221,6 +239,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'trattori',
+            breve: 'Trattori agricoli e forestali',
             nome: 'Trattori agricoli e forestali',
             per: 'Per chi conduce trattori in agricoltura e nelle attività forestali.',
             righe: [
@@ -231,6 +250,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'pompe-cls',
+            breve: 'Pompe per calcestruzzo',
             nome: 'Pompe per calcestruzzo',
             per: 'Per gli operatori di pompe e autopompe per il calcestruzzo.',
             righe: [{ nome: 'Pompe per calcestruzzo', ore: SR, mod: P }],
@@ -249,6 +269,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'confinati',
+            breve: 'Spazi confinati',
             nome: 'Lavori in ambienti sospetti di inquinamento o confinati',
             per: 'Per chi lavora in ambienti con accesso difficile e aria che può essere pericolosa: cisterne, pozzi, vasche, fosse e simili. Per lavoratori, datori di lavoro e lavoratori autonomi; comprende teoria e addestramento pratico.',
             righe: [{ nome: 'Formazione e addestramento', ore: '12', dett: '4 teoria · 8 pratica', mod: P, agg: '4 ore ogni 5 anni' }],
@@ -260,12 +281,14 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'lavori-in-quota',
+            breve: 'Lavori in quota',
             nome: 'Lavori in quota',
             per: 'Per chi lavora a più di due metri di altezza con dispositivi anticaduta e sistemi di protezione.',
             righe: [{ nome: 'Operatori lavori in quota', ore: '8', dett: '4 teoria · 4 pratica', mod: VP, agg: '4 ore ogni 5 anni' }],
           },
           {
             id: 'ponteggi',
+            breve: 'Ponteggi',
             nome: 'Ponteggi',
             per: 'Per gli addetti al montaggio, allo smontaggio e alla trasformazione dei ponteggi.',
             righe: [{ nome: 'Montaggio, smontaggio e trasformazione', ore: '28', dett: '14 teoria · 14 pratica', mod: VP, agg: '4 ore ogni 4 anni' }],
@@ -277,12 +300,14 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'pes-pav-pei',
+            breve: 'Lavori elettrici (PES, PAV, PEI)',
             nome: 'Lavori elettrici (PES, PAV, PEI)',
             per: 'Per chi esegue lavori su impianti elettrici o in prossimità di parti in tensione, secondo la norma CEI 11-27.',
             righe: [{ nome: 'Formazione per lavori elettrici', ore: '16', dett: '14 teoria · 2 pratica', mod: VP, agg: '8 ore ogni 5 anni' }],
           },
           {
             id: 'fer',
+            breve: 'Impianti rinnovabili (FER)',
             nome: 'Impianti da fonti rinnovabili (FER)',
             per: 'Per chi installa e manutiene impianti energetici alimentati da fonti rinnovabili, come il fotovoltaico.',
             righe: [{ nome: 'Installatore e manutentore straordinario', ore: '80', dett: '20 modulo comune · 60 moduli specifici', mod: VP, agg: '16 ore ogni 3 anni' }],
@@ -294,6 +319,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'adr',
+            breve: 'ADR – merci pericolose',
             nome: 'ADR – trasporto di merci pericolose',
             per: 'Per chi gestisce e movimenta sostanze pericolose in azienda.',
             righe: [{ nome: 'Gestione e movimentazione di sostanze pericolose', ore: '4', mod: 'concordare', agg: 'ogni 5 anni' }],
@@ -311,6 +337,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'haccp',
+            breve: 'HACCP (addetti e responsabili)',
             nome: 'HACCP',
             per: 'Per chi lavora con gli alimenti: un corso per gli addetti e uno per chi è responsabile del piano di autocontrollo.',
             righe: [

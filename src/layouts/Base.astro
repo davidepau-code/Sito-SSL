@@ -37,7 +37,9 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="it_IT" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:image" content={new URL('/ssl-mark.png', Astro.site)} />
     <meta property="og:site_name" content="Servizi Sicurezza Lavoro" />
     <meta name="twitter:card" content="summary" />

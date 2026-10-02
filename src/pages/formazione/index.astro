@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import Pacchetto from '../../components/Pacchetto.astro';
 import { aree } from '../../data/catalogo';
+import { sezioni } from '../../data/catalogo-corsi';
+const corsiArea = (id: string) => (sezioni.find((s) => s.id === id)?.gruppi ?? []).flatMap((g) => g.corsi);
 ---
 <Base title="Formazione – Servizi Sicurezza Lavoro" description="Corsi obbligatori D.Lgs. 81/08: sicurezza sul lavoro, macchine e attrezzature, rischi specifici, HACCP. In aula, online o in azienda.">
   <section class="sezione testata colonna" style="padding-bottom:24px">
@@ -33,7 +35,7 @@ import { aree } from '../../data/catalogo';
           </header>
           <p class="per">{a.per}</p>
           <ul>
-            {a.corsi.map((c) => <li>{c.slug ? <a href={`/formazione/corsi/${c.slug}/`}>{c.nome}</a> : <span>{c.nome}</span>}</li>)}
+            {corsiArea(a.id).map((c) => <li><a href={`/formazione/catalogo/#${c.id}`}>{c.breve}</a></li>)}
           </ul>
           <a class="btn btn-primario btn-piccolo" href={`/formazione/catalogo/#${a.id}`} style="margin-top:auto;align-self:flex-start">Vedi i corsi dell'area</a>
         </div>
