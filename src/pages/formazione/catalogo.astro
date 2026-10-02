@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import { sezioni, MODALITA } from '../../data/catalogo-corsi';
+import { azienda } from '../../data/azienda';
+
+const mod = (m: 'E' | 'V' | 'P') => MODALITA[m];
+const crumbs = [
+  { nome: 'Home', url: '/' },
+  { nome: 'Formazione', url: '/formazione/' },
+  { nome: 'Catalogo corsi', url: '/formazione/catalogo/' },
+];
+const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.corsi.length, 0), 0);
+---
+<Base title="Catalogo corsi – Servizi Sicurezza Lavoro" description="Tutti i corsi di formazione di Servizi Sicurezza Lavoro: sicurezza sul lavoro, macchine e attrezzature, rischi specifici, HACCP. Ore, modalità e aggiornamenti per ogni corso." crumbs={crumbs}>
+  <section class="sezione testata colonna" style="padding-bottom:16px">
+    <p class="briciole"><a href="/formazione/">Formazione</a> / <span aria-current="page">Catalogo corsi</span></p>
+    <h1>Catalogo corsi</h1>
+    <p class="lead">Tutti i corsi, divisi per area. Per ognuno trovi a chi serve, quante ore dura, come si svolge e ogni quanto si aggiorna. Il corso singolo o un pacchetto completo su misura: dicci cosa ti serve.</p>
+  </section>
+
+  <section class="sezione stretta" style="padding-top:0">
+    <nav class="cat-aree" aria-label="Aree">
+      {sezioni.map((s) => <a href={`#${s.id}`}>{s.titolo}</a>)}
+    </nav>
+    <div class="cat-barra" id="cat-barra">
+      <label class="cat-cerca">
+        <span class="sr-only">Cerca un corso</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="cat-q" placeholder="Cerca un corso (es. carrelli, antincendio, preposto)" autocomplete="off" />
+      </label>
+      <div class="cat-filtri" role="group" aria-label="Filtra per modalità">
+        <button type="button" data-mod="" aria-pressed="true">Tutte le modalità</button>
+        <button type="button" data-mod="E" aria-pressed="false">E-learning</button>
+        <button type="button" data-mod="V" aria-pressed="false">Videoconferenza</button>
+        <button type="button" data-mod="P" aria-pressed="false">In presenza</button>
+      </div>
+    </div>
+    <p class="cat-nota">{totale} corsi in catalogo. Le ore indicate sono quelle del corso; la modalità è quella ammessa per ciascun percorso.</p>
+
+    {sezioni.map((s) => (
+      <section class="cat-sezione" id={s.id} data-sezione>
+        <header class="cat-testa">
+          <h2>{s.titolo}</h2>
+          <p>{s.intro}</p>
+        </header>
+        {s.gruppi.map((g) => (
+          <div class="cat-gruppo" data-gruppo>
+            {g.titolo && <h3>{g.titolo}</h3>}
+            {g.corsi.map((c) => (
+              <article class="card cat-corso" data-corso data-testo={(c.nome + ' ' + c.per).toLowerCase()} id={c.id}>
+                <div class="cat-info">
+                  <h4>{c.nome}</h4>
+                  <p>{c.per}</p>
+                  <a class="cat-chiedi" href={azienda.whatsappLink(`Buongiorno, vorrei informazioni sul corso: ${c.nome}`)} rel="noopener">Chiedi informazioni</a>
+                </div>
+                <ul class="cat-righe">
+                  {c.righe.map((r) => (
+                    <li class="cat-riga" data-riga data-nome={r.nome.toLowerCase()} data-mod={Array.isArray(r.mod) ? r.mod.join(' ') : 'C'}>
+                      <div class="cat-r-nome">{r.nome}</div>
+                      <div class="cat-r-ore"><b>{r.ore === 'su richiesta' ? 'Ore su richiesta' : `${r.ore} ore`}</b>{r.dett && <small>{r.dett}</small>}</div>
+                      <div class="cat-r-mod">
+                        {Array.isArray(r.mod) ? r.mod.map((m) => <span class="cat-tag">{mod(m)}</span>) : <span class="cat-tag neutro">Modalità da concordare</span>}
+                      </div>
+                      <div class="cat-r-agg">{r.agg ? <><small>Aggiornamento</small>{r.agg}</> : <small>&nbsp;</small>}</div>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        ))}
+      </section>
+    ))}
+
+    <p class="cat-vuoto" id="cat-vuoto" hidden>Nessun corso corrisponde alla ricerca. Scrivici cosa ti serve e ti indichiamo noi il corso giusto.</p>
+
+    <div class="card scura cat-chiusura">
+      <div>
+        <h2>Non sai quali corsi ti servono?</h2>
+        <p>Rispondi a poche domande e ti diciamo cosa richiede la legge per la tua azienda. Oppure scrivici: componiamo un pacchetto completo su misura.</p>
+      </div>
+      <div class="gruppo">
+        <a class="btn btn-primario" href="/formazione/">Scopri cosa ti serve</a>
+        <a class="btn" href={azienda.whatsappLink('Buongiorno, vorrei un pacchetto di formazione su misura per la mia azienda.')} rel="noopener">Scrivici su WhatsApp</a>
+      </div>
+    </div>
+  </section>
+  <script>import '../../scripts/catalogo';</script>
+</Base>
