@@ -60,7 +60,6 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
         </a>
         <div class="menu">
           <span class="menu-ind" aria-hidden="true"></span>
-          <span class="pillola" aria-hidden="true"></span>
           {menu.map(([etichetta, href]) => <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
         </div>
         <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="tendina">
