@@ -45,11 +45,14 @@ function aggiornaMenu(anima: boolean) {
   if (!cur) { pillola.style.opacity = '0'; return; }
   const nuova = { l: cur.offsetLeft, w: cur.offsetWidth };
   const prima = pos;
-  pillola.style.left = nuova.l + 'px'; pillola.style.width = nuova.w + 'px'; pillola.style.opacity = '1';
+  // solo transform (compositor): niente ricalcolo del layout a ogni fotogramma
+  pillola.style.width = nuova.w + 'px';
+  pillola.style.transform = `translateX(${nuova.l}px)`;
+  pillola.style.opacity = '1';
   if (anima && prima && !ridotto && (prima.l !== nuova.l || prima.w !== nuova.w)) {
     pillola.animate(
-      [{ left: prima.l + 'px', width: prima.w + 'px' }, { left: nuova.l + 'px', width: nuova.w + 'px' }],
-      { duration: 480, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+      [{ transform: `translateX(${prima.l}px) scaleX(${prima.w / nuova.w})` }, { transform: `translateX(${nuova.l}px) scaleX(1)` }],
+      { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
     );
   }
   pos = nuova;

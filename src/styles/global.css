@@ -386,7 +386,7 @@ select[data-sel] {
 
 /* ---------- Pillola del menu: elemento vero, posizionato via script, che scorre di lato tra le voci ---------- */
 .menu { position: relative; }
-.menu .menu-ind { position: absolute; top: 0; left: 0; width: 0; height: 100%; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.16); pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+.menu .menu-ind { position: absolute; top: 0; left: 0; width: 0; transform-origin: 0 50%; will-change: transform; height: 100%; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.16); pointer-events: none; opacity: 0; transition: opacity 0.3s; }
 
 /* ---------- Transizioni tra pagine (View Transitions, Chrome/Edge/Safari recenti; altrove nessuna animazione) ---------- */
 .navbar { view-transition-name: navbar; }
@@ -396,10 +396,10 @@ select[data-sel] {
 ::view-transition-old(navbar), ::view-transition-old(sfondo), ::view-transition-old(barra) { display: none; }
 ::view-transition-group(navbar), ::view-transition-group(sfondo), ::view-transition-group(barra),
 ::view-transition-new(navbar), ::view-transition-new(sfondo), ::view-transition-new(barra) { animation: none; }
-::view-transition-old(root) { animation: 0.18s ease-in both vt-esce; }
-::view-transition-new(root) { animation: 0.35s var(--ease) both vt-entra; }
+::view-transition-old(root) { animation: none; display: none; }
+::view-transition-new(root) { animation: 0.28s ease-out both vt-entra; }
 @keyframes vt-esce { to { opacity: 0; } }
-@keyframes vt-entra { from { opacity: 0; transform: translateY(10px); } }
+@keyframes vt-entra { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
