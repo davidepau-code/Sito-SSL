@@ -25,7 +25,11 @@ const passi = [
   { titolo: "Ricevi gli attestati e il promemoria per l'aggiornamento" },
 ];
 ---
-<Base title={`${d.titolo} – Servizi Sicurezza Lavoro`} description={d.sottotitolo}>
+<Base
+  title={`${d.titolo} – Servizi Sicurezza Lavoro`}
+  description={d.sottotitolo}
+  crumbs={[{ nome: 'Home', url: '/' }, { nome: 'Formazione', url: '/formazione/' }, { nome: d.titolo, url: `/formazione/corsi/${corso.id}/` }]}
+>
   <section class="sezione testata due-col alto">
     <div class="colonna">
       <div class="briciole"><a href="/formazione/">Formazione</a><span>›</span><span>{categorie[d.categoria]}</span><span>›</span><span aria-current="page">{d.titolo}</span></div>

@@ -1,10 +1,20 @@
 ---
 interface Props { titolo?: string; voci: { domanda: string; risposta: string }[] }
 const { titolo = 'Domande frequenti', voci } = Astro.props;
+// FAQPage solo se tutte le risposte sono vere (nessun segnaposto tra [parentesi quadre]).
+const pronte = voci.length > 0 && voci.every((v) => !v.risposta.trim().startsWith('['));
+const json = pronte
+  ? JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: voci.map((v) => ({ '@type': 'Question', name: v.domanda, acceptedAnswer: { '@type': 'Answer', text: v.risposta } })),
+    })
+  : null;
 ---
 <section class="sezione piccola" data-reveal>
   <h2 style="margin-bottom:28px">{titolo}</h2>
   <div class="faq">
     {voci.map((v) => <details><summary>{v.domanda}</summary><p>{v.risposta}</p></details>)}
   </div>
+  {json && <script type="application/ld+json" set:html={json} />}
 </section>

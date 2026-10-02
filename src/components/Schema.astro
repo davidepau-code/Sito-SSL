@@ -1,0 +1,35 @@
+---
+// Dati strutturati: SOLO ciò che è scritto nel sito. Nessun segnaposto, nessuna recensione, nessun prezzo non pubblicato.
+interface Props { crumbs?: { nome: string; url: string }[] }
+const { crumbs } = Astro.props;
+const site = Astro.site!.origin;
+
+const organization = {
+  '@type': ['Organization', 'EducationalOrganization'],
+  '@id': `${site}/#organizzazione`,
+  name: 'Servizi Sicurezza Lavoro snc',
+  alternateName: 'SSL',
+  url: `${site}/`,
+  logo: `${site}/ssl-mark.png`,
+  telephone: '+39 0784 1949743',
+  email: 'info@servizisicurezzalavoro.it',
+  vatID: 'IT01313770917',
+  address: { '@type': 'PostalAddress', streetAddress: 'Loc. Salapattu snc', postalCode: '08029', addressLocality: 'Siniscola', addressRegion: 'NU', addressCountry: 'IT' },
+  areaServed: { '@type': 'AdministrativeArea', name: 'Sardegna' },
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '13:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '15:00', closes: '19:00' },
+  ],
+  // TODO sameAs: aggiungere Facebook, Instagram, Google Business Profile, scheda IMQ quando Davide fornisce i link esatti.
+};
+const website = { '@type': 'WebSite', '@id': `${site}/#sito`, url: `${site}/`, name: 'Servizi Sicurezza Lavoro', inLanguage: 'it-IT', publisher: { '@id': organization['@id'] } };
+const graph: object[] = [organization, website];
+if (crumbs?.length) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.nome, item: new URL(c.url, site).href })),
+  });
+}
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+<script type="application/ld+json" set:html={json} />

@@ -5,7 +5,11 @@ import Icon from '../../components/Icon.astro';
 const cosaFacciamo = ['Sopralluogo in azienda', 'Valutazione di tutti i rischi', 'Redazione del documento', 'Programma delle misure', 'Aggiornamento quando cambia qualcosa'];
 const collegati = ['DUVRI', 'POS', 'Piano di emergenza', 'Valutazione rumore e vibrazioni', 'Valutazione stress lavoro-correlato'];
 ---
-<Base title="Documento di Valutazione dei Rischi (DVR) – Servizi Sicurezza Lavoro" description="Redigiamo e aggiorniamo il DVR della tua azienda, sopralluogo compreso. DUVRI, POS e piani di emergenza.">
+<Base
+  title="Documento di Valutazione dei Rischi (DVR) – Servizi Sicurezza Lavoro"
+  description="Redigiamo e aggiorniamo il DVR della tua azienda, sopralluogo compreso. DUVRI, POS e piani di emergenza."
+  crumbs={[{ nome: 'Home', url: '/' }, { nome: 'Consulenza', url: '/consulenza/' }, { nome: 'Sicurezza sul lavoro', url: '/consulenza/sicurezza-sul-lavoro/' }]}
+>
   <section class="sezione testata due-col">
     <div class="colonna">
       <div class="briciole"><a href="/consulenza/">Consulenza</a><span>›</span><span>Sicurezza sul lavoro</span><span>›</span><span aria-current="page">DVR</span></div>
