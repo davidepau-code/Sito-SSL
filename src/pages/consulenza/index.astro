@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+---
+<Base title="Consulenza – Servizi Sicurezza Lavoro" description="Consulenza per la sicurezza sul lavoro (DVR, DUVRI, POS) e per la sicurezza alimentare (manuale HACCP, autocontrollo, audit).">
+  <section class="sezione testata colonna">
+    <h1>Consulenza</h1>
+    <p class="lead">Redigiamo i documenti che la legge richiede e li teniamo aggiornati.</p>
+  </section>
+  <section class="sezione stretta griglia larga" data-reveal>
+    <a class="card link glow" href="/consulenza/sicurezza-sul-lavoro/">
+      <span class="titolo">Sicurezza sul lavoro</span>
+      <span class="corpo">DVR, DUVRI, POS, valutazioni dei rischi, piani di emergenza.</span>
+      <span class="cta-link">Scopri i servizi <Icon d={FRECCIA} /></span>
+    </a>
+    <div class="card">
+      <span class="titolo">Sicurezza alimentare</span>
+      <span class="corpo">Manuale HACCP, autocontrollo, audit. [Pagina dedicata in preparazione]</span>
+      <a class="cta-link" href="#contatti" data-contatti>Chiedi informazioni <Icon d={FRECCIA} /></a>
+    </div>
+  </section>
+</Base>

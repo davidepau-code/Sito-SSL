@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const corsi = await getCollection('corsi');
+const categorie = [
+  ['sicurezza', 'Sicurezza sul lavoro', 'Lavoratori, Preposti, Dirigenti, Datore di lavoro, RLS, Antincendio, Primo soccorso'],
+  ['attrezzature', 'Attrezzature', 'Carrelli elevatori, PLE, Gru, MMT, Trattori, Manutenzione del verde'],
+  ['rischi-specifici', 'Rischi specifici', 'Spazi confinati, ATEX'],
+  ['alimentare', 'Alimentare', 'HACCP / OSA'],
+] as const;
+---
+<Base title="Formazione – Servizi Sicurezza Lavoro" description="Corsi obbligatori D.Lgs. 81/08: sicurezza sul lavoro, attrezzature, rischi specifici e HACCP. Aule a Siniscola o in azienda.">
+  <section class="sezione testata colonna">
+    <h1>Formazione</h1>
+    <p class="lead">Corsi obbligatori D.Lgs. 81/08, attrezzature, rischi specifici e HACCP. Aule a Siniscola o presso la tua azienda.</p>
+  </section>
+  <section class="sezione stretta griglia" data-reveal>
+    {categorie.map(([cat, titolo, testo]) => (
+      <div class="card">
+        <span class="titolo">{titolo}</span>
+        <span class="corpo">{testo}</span>
+        <div class="colonna" style="gap:6px">
+          {corsi.filter((c) => c.data.categoria === cat && c.data.paginaPropria).map((c) => (
+            <a class="cta-link" href={`/formazione/corsi/${c.id}/`}>{c.data.titolo}</a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+</Base>

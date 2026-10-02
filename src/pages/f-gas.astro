@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+
+const passi = [
+  { titolo: 'Corso di preparazione', testo: '[durata] ore di teoria e pratica su impianti reali' },
+  { titolo: 'Esame IMQ', testo: 'Prova teorica e pratica nella nostra sede, con esaminatore IMQ' },
+  { titolo: 'Certificato', testo: 'Rilasciato da IMQ, organismo di certificazione accreditato' },
+];
+const faq = [
+  'Quanto dura il certificato?',
+  "Che differenza c'è tra certificato persona e impresa?",
+  'Posso installare un climatizzatore senza patentino?',
+  'Cosa succede se il mio certificato scade?',
+].map((domanda) => ({ domanda, risposta: '[Risposta da redigere e verificare su fonte ufficiale]' }));
+// Date d'esame: lista vuota finché non ci sono sessioni reali confermate.
+const sessioni: string[] = [];
+---
+<Base title="Certificazione F-Gas: corso ed esame IMQ – Servizi Sicurezza Lavoro" description="Corso di preparazione ed esame di certificazione F-Gas con IMQ nella nostra sede di Siniscola, per frigoristi, termoidraulici e installatori.">
+  <section class="sezione testata due-col">
+    <div class="colonna">
+      <span class="pillola">F-Gas · Regolamento UE 2024/573</span>
+      <h1>Certificazione F-Gas: corso ed esame IMQ in un'unica sede</h1>
+      <p class="lead">Per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore. Ti prepariamo, sostieni l'esame con IMQ da noi, ricevi il certificato.</p>
+      <div class="gruppo">
+        <a class="btn btn-primario" href="#contatti" data-contatti>Prenota corso ed esame</a>
+        <a class="btn btn-vetro" href="tel:+3907841949743">Chiama</a>
+        <!-- WhatsApp: aggiungere quando c'è il numero -->
+      </div>
+    </div>
+    <div class="foto" style="min-height:420px;background:repeating-linear-gradient(135deg,#d3d7da 0 14px,#dce0e2 14px 28px)"><span>Foto: tecnico al lavoro su un impianto di refrigerazione</span></div>
+  </section>
+
+  <section class="sezione stretta griglia larga" data-reveal>
+    <div class="card"><h3>Chi deve certificarsi</h3><p class="testo-corpo">Chi installa, manutiene, ripara o smantella apparecchiature di refrigerazione, condizionamento e pompe di calore contenenti gas fluorurati. [Indicare categorie]</p></div>
+    <div class="card scura">
+      <h3>Prossime sessioni d'esame</h3>
+      {sessioni.length > 0
+        ? <div class="gruppo" style="gap:8px">{sessioni.map((s) => <span class="chip" style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s}</span>)}</div>
+        : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte la prossima sessione.</p>}
+      <a class="btn btn-primario" style="align-self:flex-start;font-size:16px;padding:13px 22px" href="#contatti" data-contatti>Prenota il posto</a>
+    </div>
+  </section>
+
+  <section class="sezione stretta griglia larga" data-reveal>
+    <div class="card accento"><h3>Novità Regolamento UE 2024/573</h3><p class="testo-corpo">[Box sintetico: cosa cambia per i tecnici e le imprese]</p></div>
+    <div class="card"><h3>Per le imprese</h3><p class="testo-corpo">[Supporto certificazione impresa, Banca Dati F-Gas, registro apparecchiature – da confermare]</p></div>
+  </section>
+
+  <Steps passi={passi} />
+  <Faq titolo="FAQ F-Gas" voci={faq} />
+</Base>

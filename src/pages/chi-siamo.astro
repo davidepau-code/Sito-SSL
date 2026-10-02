@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+const valori = ['Qualità', 'Affidabilità', 'Rispetto', 'Attenzione al territorio'];
+---
+<Base title="Chi siamo – Servizi Sicurezza Lavoro" description="Da quasi 20 anni a Siniscola al fianco delle imprese sarde: formazione, consulenza, certificazione F-Gas e due CEAS.">
+  <section class="sezione testata due-col">
+    <div class="colonna">
+      <h1>Da quasi 20 anni al fianco delle imprese sarde</h1>
+      <p class="lead" style="font-size:19px">Servizi Sicurezza Lavoro nasce a Siniscola nel [anno] con un obiettivo semplice: rendere la sicurezza sul lavoro chiara e gestibile per le aziende del territorio. Oggi ci occupiamo di formazione, consulenza, certificazione F-Gas e gestiamo due Centri di Educazione Ambientale.</p>
+    </div>
+    <div class="foto"><span>Foto: il team davanti alla sede di Siniscola</span></div>
+  </section>
+  <section class="sezione stretta" data-reveal>
+    <div class="griglia" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+      {valori.map((v, i) => (
+        <div class="card rialzo glow" style="gap:10px"><span class="num-piccolo">{String(i + 1).padStart(2, '0')}</span><span class="titolo">{v}</span></div>
+      ))}
+    </div>
+  </section>
+  <section class="sezione stretta" data-reveal>
+    <div class="card">
+      <h3>Accreditamenti e partner</h3>
+      <div class="gruppo" style="gap:10px">
+        <span class="chip piatto">[IMQ – previa autorizzazione]</span>
+        <span class="chip piatto">[Accreditamento Regione Sardegna, se presente]</span>
+        <span class="chip piatto">[altri]</span>
+      </div>
+    </div>
+  </section>
+</Base>

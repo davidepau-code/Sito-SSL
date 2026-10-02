@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+
+const centri = [
+  { nome: 'CEAS Dorgali – Cala Gonone', indirizzo: 'Viale Bue Marino 1 – 08022 Cala Gonone (NU)', testo: '[Breve descrizione: attività, laboratori, escursioni, punti di interesse]', foto: 'Foto: costa di Cala Gonone' },
+  { nome: 'CEAS Omodeo – Sedilo', indirizzo: 'Museo del Territorio – SP26 – 09076 Sedilo (OR)', testo: '[Breve descrizione: attività, laboratori, museo, lago Omodeo]', foto: 'Foto: lago Omodeo / Museo del Territorio' },
+];
+const perChi = [
+  ['Scuole', "Laboratori e uscite didattiche [per fascia d'età]"],
+  ['Enti e comuni', 'Progetti di educazione ambientale [da definire]'],
+  ['Visitatori e famiglie', '[Visite, eventi, attività]'],
+];
+---
+<Base title="CEAS – Educazione ambientale – Servizi Sicurezza Lavoro" description="Due Centri di Educazione all'Ambiente e alla Sostenibilità, a Cala Gonone (Dorgali) e a Sedilo, aperti tutto l'anno.">
+  <section class="sezione testata colonna">
+    <span class="pillola verde">CEAS · Educazione ambientale</span>
+    <h1 style="max-width:900px">CEAS – Centri di Educazione all'Ambiente e alla Sostenibilità</h1>
+    <p class="lead" style="max-width:680px">Due centri aperti tutto l'anno per scoprire, capire e proteggere il territorio della Sardegna.</p>
+  </section>
+
+  <section class="sezione stretta griglia" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))">
+    {centri.map((c) => (
+      <div class="card rialzo" style="padding:16px 16px 28px;gap:18px;box-shadow:var(--luce),0 24px 50px -28px rgb(47 94 57 / .4)">
+        <div class="foto verde" style="min-height:280px;padding:18px"><span>{c.foto}</span></div>
+        <div class="colonna" style="gap:8px;padding:0 12px">
+          <h2 style="font-size:28px;letter-spacing:-0.02em">{c.nome}</h2>
+          <span style="font-size:15px;font-weight:700;color:var(--verde-testo)">{c.indirizzo}</span>
+          <p class="testo-corpo">{c.testo}</p>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="sezione stretta" data-reveal>
+    <div class="fascia-verde" style="display:flex;flex-direction:column;gap:28px;padding:clamp(28px,4vw,48px)">
+      <h2>Per chi</h2>
+      <div class="griglia" style="gap:24px">
+        {perChi.map(([t, b]) => (<div class="colonna" style="gap:6px"><span style="font-size:20px;font-weight:800">{t}</span><span style="color:#33393e;font-size:16px">{b}</span></div>))}
+      </div>
+      <div class="gruppo">
+        <a class="btn btn-verde" style="font-size:16px;padding:14px 22px" href="#contatti" data-contatti>Prenota una visita</a>
+        <a class="btn btn-vetro" style="font-size:16px;padding:14px 22px" href="#contatti" data-contatti>Contatta il CEAS</a>
+      </div>
+    </div>
+  </section>
+</Base>

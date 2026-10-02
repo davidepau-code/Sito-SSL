@@ -1,0 +1,10 @@
+---
+interface Props { titolo?: string; voci: { domanda: string; risposta: string }[] }
+const { titolo = 'Domande frequenti', voci } = Astro.props;
+---
+<section class="sezione piccola" data-reveal>
+  <h2 style="margin-bottom:28px">{titolo}</h2>
+  <div class="faq">
+    {voci.map((v) => <details><summary>{v.domanda}</summary><p>{v.risposta}</p></details>)}
+  </div>
+</section>

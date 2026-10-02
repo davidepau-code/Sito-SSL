@@ -1,0 +1,39 @@
+<section id="contatti" class="sezione" data-reveal>
+  <div class="cta-finale">
+    <div class="colonna" style="gap:20px">
+      <h2>Non sai da dove iniziare? Te lo diciamo noi.</h2>
+      <p>Raccontaci la tua attività: in 24 ore ti diciamo quali corsi e documenti ti servono.</p>
+      <div class="contatti-rapidi">
+        <a class="tel" href="tel:+3907841949743">+39 0784 1949743</a>
+        <a href="mailto:info@servizisicurezzalavoro.it">info@servizisicurezzalavoro.it</a>
+        <span>Lunedì – Venerdì, 9:00–13:00 / 15:00–19:00</span>
+      </div>
+    </div>
+    <!-- TODO: collegare a una funzione Cloudflare (invio email) + Turnstile. Finché non c'è, il modulo NON invia nulla e lo dice. -->
+    <form class="modulo" id="modulo-contatto" novalidate>
+      <input name="nome" required placeholder="Nome" aria-label="Nome" autocomplete="name" />
+      <input name="azienda" placeholder="Azienda" aria-label="Azienda" autocomplete="organization" />
+      <input name="telefono" type="tel" placeholder="Telefono" aria-label="Telefono" autocomplete="tel" />
+      <input name="email" type="email" required placeholder="Email" aria-label="Email" autocomplete="email" />
+      <select name="servizio" class="intero" aria-label="Servizio di interesse">
+        <option value="">Servizio di interesse</option><option>Formazione</option><option>F-Gas</option><option>Consulenza</option><option>CEAS</option><option>Altro</option>
+      </select>
+      <textarea name="messaggio" class="intero" rows="3" placeholder="Messaggio" aria-label="Messaggio"></textarea>
+      <label class="privacy intero"><input type="checkbox" name="privacy" required />Acconsento al trattamento dei dati personali secondo l'<a href="/privacy/">informativa privacy</a>.</label>
+      <button class="btn btn-primario intero" type="submit">Richiedi una consulenza gratuita
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+      <p class="esito intero" id="esito-modulo" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+
+<script is:inline>
+  document.getElementById('modulo-contatto').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target, esito = document.getElementById('esito-modulo');
+    esito.hidden = false;
+    if (!f.reportValidity()) { esito.textContent = 'Controlla i campi obbligatori.'; return; }
+    esito.textContent = 'Il modulo online non è ancora attivo: scrivici a info@servizisicurezzalavoro.it o chiama il +39 0784 1949743.';
+  });
+</script>

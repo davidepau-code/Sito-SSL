@@ -1,0 +1,16 @@
+---
+interface Props { passi: { titolo: string; testo?: string }[] }
+const { passi } = Astro.props;
+---
+<section class="sezione" data-reveal>
+  <h2 style="margin-bottom:28px">Come funziona</h2>
+  <div class="griglia">
+    {passi.map((p, i) => (
+      <div class="card rialzo glow" style="gap:14px">
+        <span class="step-n">{i + 1}</span>
+        <span class="titolo">{p.titolo}</span>
+        {p.testo && <span class="corpo" style="flex:0">{p.testo}</span>}
+      </div>
+    ))}
+  </div>
+</section>

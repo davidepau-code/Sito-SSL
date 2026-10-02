@@ -1,66 +1,91 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Faq from '../components/Faq.astro';
 
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
 const servizi = [
-  { t: 'Formazione', d: 'Corsi obbligatori D.Lgs. 81/08 per lavoratori, preposti, dirigenti e datori di lavoro. Attrezzature, antincendio, primo soccorso, HACCP.', href: '/formazione/', cta: 'Vedi i corsi' },
-  { t: 'Certificazione F-Gas', d: 'Corso di preparazione ed esame con IMQ nella nostra sede. Un solo interlocutore, dal corso al certificato.', href: '/f-gas/', cta: 'Scopri come funziona' },
-  { t: 'Consulenza', d: 'DVR, DUVRI, POS, manuale HACCP. Redigiamo i documenti e li teniamo aggiornati.', href: '/consulenza/', cta: 'Scopri i servizi' },
-  { t: 'CEAS', d: 'Gestiamo due Centri di Educazione Ambientale, aperti tutto l\'anno a scuole, enti e visitatori.', href: '/ceas/', cta: 'Visita i CEAS' },
+  { titolo: 'Formazione', testo: 'Corsi obbligatori D.Lgs. 81/08 per lavoratori, preposti, dirigenti e datori di lavoro. Attrezzature, antincendio, primo soccorso, HACCP.', cta: 'Vedi i corsi', href: '/formazione/', icona: 'M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5' },
+  { titolo: 'Certificazione F-Gas', testo: 'Corso di preparazione ed esame con IMQ nella nostra sede. Un solo interlocutore, dal corso al certificato.', cta: 'Scopri come funziona', href: '/f-gas/', icona: 'M2 12h20M12 2v20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1' },
+  { titolo: 'Consulenza', testo: 'DVR, DUVRI, POS, manuale HACCP. Redigiamo i documenti e li teniamo aggiornati.', cta: 'Scopri i servizi', href: '/consulenza/', icona: 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7ZM14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8' },
+  { titolo: 'CEAS', testo: "Gestiamo due Centri di Educazione Ambientale, aperti tutto l'anno a scuole, enti e visitatori.", cta: 'Visita i CEAS', href: '/ceas/', icona: 'M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10ZM2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12' },
 ];
 const perche = [
   ['Chiarezza', 'Ti spieghiamo cosa prevede la legge per la tua attività, senza giri di parole.'],
   ['Tutto in un posto', 'Formazione, documenti e scadenze gestiti da un unico referente.'],
-  ['Sempre aggiornati', 'Corsi conformi all\'Accordo Stato-Regioni del 17 aprile 2025.'],
+  ['Sempre aggiornati', "Corsi conformi all'Accordo Stato-Regioni del 17 aprile 2025."],
   ['Vicini a te', 'Aule a Siniscola, corsi in azienda e in videoconferenza dove previsto.'],
 ];
+// Numeri: mostrare la fascia SOLO quando ci sono dati reali (v. HANDOFF §10.6)
+const numeri: { v: string; l: string }[] = [];
+const faq = [
+  'La formazione dei lavoratori è sempre obbligatoria?',
+  'Ogni quanto va aggiornato il corso per preposti?',
+  'Quando devo aggiornare il DVR?',
+  'Sono un termoidraulico: mi serve il patentino F-Gas per installare un climatizzatore?',
+].map((domanda) => ({ domanda, risposta: '[Risposta da redigere e verificare su fonte ufficiale]' }));
 ---
 <Base title="Servizi Sicurezza Lavoro – Formazione, consulenza e F-Gas in Sardegna" description="Formazione D.Lgs. 81/08, consulenza DVR e HACCP, certificazione F-Gas con IMQ e due CEAS. A Siniscola da quasi 20 anni.">
-  <section class="wrap hero">
-    <h1>Sicurezza sul lavoro, senza complicazioni.</h1>
-    <p class="sotto">Formazione, consulenza e certificazione F-Gas per le aziende della Sardegna. Ti diciamo cosa serve, lo facciamo noi, ti mettiamo in regola.</p>
-    <p class="cta">
-      <a class="btn btn-primario" href="/contatti/">Richiedi un preventivo</a>
-      <a class="btn btn-vetro" href="tel:+390784194973">Chiama 0784 1949743</a>
-    </p>
-    <p class="fiducia">Da quasi 20 anni al fianco delle imprese · Sede a Siniscola (NU)</p>
+  <section class="sezione testata due-col" style="padding-top:150px;padding-bottom:64px;gap:48px">
+    <div class="colonna" style="gap:28px">
+      <span class="pillola">Formazione · F-Gas · Consulenza · CEAS</span>
+      <h1 class="grande">Sicurezza sul lavoro, senza complicazioni.</h1>
+      <p class="lead" style="max-width:560px">Formazione, consulenza e certificazione F-Gas per le aziende della Sardegna. Ti diciamo cosa serve, lo facciamo noi, ti mettiamo in regola.</p>
+      <div class="gruppo">
+        <a class="btn btn-primario" href="#contatti" data-contatti>Richiedi un preventivo <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn btn-vetro" href="tel:+3907841949743">Chiama 0784 1949743</a>
+      </div>
+      <p style="font-size:15px;font-weight:600;color:var(--testo-3)">Da quasi 20 anni al fianco delle imprese · Sede a Siniscola (NU) · [Accreditamenti / riconoscimenti]</p>
+    </div>
+    <div style="position:relative;min-height:480px">
+      <div class="foto" style="position:absolute;inset:0"><span>Foto: aula di formazione con lavoratori, luce naturale</span></div>
+      <div class="vetro" style="position:absolute;left:-20px;top:40px;display:flex;align-items:center;gap:12px;padding:14px 18px 14px 14px;border-radius:var(--r-img)">
+        <span class="icona" style="width:40px;height:40px;background:var(--arancio);color:var(--su-arancio)"><Icon d="M20 6 9 17l-5-5" size={20} /></span>
+        <span style="display:flex;flex-direction:column;line-height:1.25"><strong style="font-size:15px">Accordo Stato-Regioni</strong><span style="font-size:13px;color:var(--testo-3)">17 aprile 2025</span></span>
+      </div>
+    </div>
   </section>
 
-  <section class="wrap">
-    <h2 class="reveal">Cosa facciamo</h2>
+  <section class="sezione" data-reveal>
+    <h2 style="margin-bottom:32px">Cosa facciamo</h2>
     <div class="griglia">
       {servizi.map((s) => (
-        <a class="card vetro reveal" href={s.href} style="text-decoration:none">
-          <h3>{s.t}</h3>
-          <p>{s.d}</p>
-          <strong style="color:var(--arancio-scuro)">{s.cta} →</strong>
+        <a class="card link glow" href={s.href}>
+          <span class="icona"><Icon d={s.icona} size={24} width={1.8} /></span>
+          <span class="titolo">{s.titolo}</span>
+          <span class="corpo">{s.testo}</span>
+          <span class="cta-link">{s.cta} <Icon d={FRECCIA} /></span>
         </a>
       ))}
     </div>
   </section>
 
-  <section class="wrap">
-    <h2 class="reveal">Perché sceglierci</h2>
-    <div class="griglia">
-      {perche.map(([t, d]) => (
-        <div class="card vetro reveal"><h3>{t}</h3><p>{d}</p></div>
-      ))}
+  <section class="sezione" data-reveal>
+    <div class="perche vetro">
+      <h2>Perché sceglierci</h2>
+      <div class="elenco">
+        {perche.map(([t, b], i) => (<div><span class="num-piccolo">{String(i + 1).padStart(2, '0')}</span><b>{t}</b><p>{b}</p></div>))}
+      </div>
     </div>
-    <!-- Numeri (anni, lavoratori formati, aziende, certificati F-Gas): solo dati reali, da chiedere a Davide -->
   </section>
 
-  <section class="wrap">
-    <div class="vetro reveal" style="padding:clamp(1.5rem,4vw,3rem);">
-      <h2>Non sai da dove iniziare? Te lo diciamo noi.</h2>
-      <p>Raccontaci la tua attività: in 24 ore ti diciamo quali corsi e documenti ti servono.</p>
-      <a class="btn btn-primario" href="/contatti/">Richiedi una consulenza gratuita</a>
+  {numeri.length > 0 && (
+    <section class="sezione stretta" data-reveal>
+      <div class="numeri">{numeri.map((n) => <div><b>{n.v}</b><span>{n.l}</span></div>)}</div>
+    </section>
+  )}
+
+  <section class="sezione" data-reveal>
+    <div class="fascia-verde">
+      <div class="foto verde" style="min-height:340px"><span>Foto: costa di Cala Gonone o lago Omodeo</span></div>
+      <div class="colonna">
+        <span class="pillola verde">CEAS · Educazione ambientale</span>
+        <h2>Non solo sicurezza.</h2>
+        <p style="color:#33393e;text-wrap:pretty">Gestiamo il CEAS Dorgali – Cala Gonone e il CEAS Omodeo a Sedilo: due centri di educazione ambientale aperti tutto l'anno, dove scuole, famiglie e visitatori scoprono il territorio della Sardegna.</p>
+        <a class="btn btn-verde" style="align-self:flex-start;font-size:16px;padding:14px 22px" href="/ceas/">Scopri i CEAS <Icon d={FRECCIA} /></a>
+      </div>
     </div>
   </section>
+
+  <Faq voci={faq} />
 </Base>
-
-<style>
-  .hero { padding-top: clamp(3rem, 9vw, 7rem); }
-  .hero h1 { max-width: 16ch; }
-  .sotto { font-size: 1.25rem; max-width: 52ch; color: var(--antracite-2); }
-  .cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block: 1.75rem; }
-  .fiducia { color: var(--grigio-testo); }
-</style>

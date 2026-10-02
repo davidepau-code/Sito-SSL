@@ -1,9 +1,13 @@
-﻿---
+---
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import marchio from '../assets/ssl-mark.png';
+import Contatto from '../components/Contatto.astro';
 
-interface Props { title: string; description: string }
-const { title, description } = Astro.props;
+interface Props { title: string; description: string; senzaContatto?: boolean }
+const { title, description, senzaContatto = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
 const menu = [
   ['Formazione', '/formazione/'],
   ['F-Gas', '/f-gas/'],
@@ -12,6 +16,7 @@ const menu = [
   ['Chi siamo', '/chi-siamo/'],
   ['Contatti', '/contatti/'],
 ];
+const attivo = (href: string) => path.startsWith(href);
 ---
 <!doctype html>
 <html lang="it">
@@ -26,69 +31,93 @@ const menu = [
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="it_IT" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <!-- Staging: nessuna indicizzazione finché il dominio non è collegato. Rimuovere al lancio. -->
+    <!-- Staging: nessuna indicizzazione finché il dominio non è collegato. RIMUOVERE AL LANCIO. -->
     <meta name="robots" content="noindex, nofollow" />
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
   </head>
   <body>
-    <div class="sfondo" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
 
-    <header class="nav vetro">
-      <a class="logo" href="/">SSL<span> Servizi Sicurezza Lavoro</span></a>
+    <header class="navbar" id="navbar">
       <nav aria-label="Principale">
-        {menu.map(([etichetta, href]) => <a href={href}>{etichetta}</a>)}
+        <a class="marchio" href="/" aria-label="Servizi Sicurezza Lavoro – home">
+          <Image src={marchio} alt="" width={44} height={44} loading="eager" />
+          <span><b>Servizi Sicurezza Lavoro</b><small>Siniscola · Sardegna</small></span>
+        </a>
+        <div class="menu">
+          {menu.map(([etichetta, href]) => <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="tendina">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path id="hamburger-icona" d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        </button>
+        <a class="btn btn-primario btn-piccolo" href="#contatti" data-contatti>Richiedi preventivo</a>
       </nav>
-      <a class="btn btn-primario" href="/contatti/">Richiedi preventivo</a>
+      <div class="tendina" id="tendina">
+        {menu.map(([etichetta, href]) => <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
+      </div>
     </header>
 
-    <main><slot /></main>
+    <main>
+      <slot />
+      {!senzaContatto && <Contatto />}
+    </main>
 
-    <footer class="wrap piede">
-      <p><strong>Servizi Sicurezza Lavoro snc</strong> · Sede legale: Loc. Salapattu snc – 08029 Siniscola (NU) · P.IVA 01313770917</p>
-      <p>Tel <a href="tel:+3907841949743">+39 0784 1949743</a> · <a href="mailto:info@servizisicurezzalavoro.it">info@servizisicurezzalavoro.it</a> · Lun–Ven 9–13 / 15–19</p>
-      <p><a href="/privacy/">Privacy</a> · <a href="/cookie/">Cookie</a></p>
+    <footer class="sito">
+      <div><strong>Servizi Sicurezza Lavoro snc</strong><span>Sede legale: Loc. Salapattu snc – 08029 Siniscola (NU)</span><span>P.IVA 01313770917</span></div>
+      <div><strong>Contatti</strong><a href="tel:+3907841949743">+39 0784 1949743</a><a href="mailto:info@servizisicurezzalavoro.it">info@servizisicurezzalavoro.it</a></div>
+      <div><strong>CEAS</strong><span>Dorgali – Cala Gonone</span><span>Omodeo – Sedilo</span></div>
+      <div class="legali"><a href="/privacy/">Privacy</a><a href="/cookie/">Cookie</a></div>
     </footer>
 
-    <div class="barra-mobile vetro">
-      <a class="btn btn-primario" href="tel:+3907841949743">Chiama</a>
-      <!-- WhatsApp: numero da chiedere a Davide -->
-      <a class="btn btn-vetro" href="/contatti/">Scrivici</a>
+    <div class="barra-mobile">
+      <a class="chiama" href="tel:+3907841949743">Chiama</a>
+      <!-- WhatsApp: sostituire con https://wa.me/<numero> quando Davide fornisce il numero -->
+      <a class="scrivi" href="#contatti" data-contatti>Scrivici</a>
     </div>
 
     <script is:inline>
-      const nav = document.querySelector('.nav');
-      addEventListener('scroll', () => nav.classList.toggle('compatta', scrollY > 30), { passive: true });
-      const io = new IntersectionObserver((voci) => voci.forEach((v) => {
-        if (v.isIntersecting) { v.target.classList.add('visto'); io.unobserve(v.target); }
-      }), { threshold: 0.12 });
-      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      (function () {
+        var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var nav = document.getElementById('navbar');
+        var onScroll = function () { nav.classList.toggle('scroll', scrollY > 40); };
+        addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+        var burger = document.getElementById('hamburger'), drop = document.getElementById('tendina'), icona = document.getElementById('hamburger-icona');
+        burger.addEventListener('click', function () {
+          var aperto = drop.classList.toggle('aperta');
+          burger.setAttribute('aria-expanded', aperto);
+          icona.setAttribute('d', aperto ? 'M6 6l12 12M18 6 6 18' : 'M4 7h16M4 12h16M4 17h16');
+        });
+
+        // Highlight del vetro che segue il cursore
+        document.querySelectorAll('.glow').forEach(function (el) {
+          el.addEventListener('mousemove', function (e) {
+            var r = el.getBoundingClientRect();
+            el.style.setProperty('--mx', e.clientX - r.left + 'px'); el.style.setProperty('--my', e.clientY - r.top + 'px');
+          });
+        });
+
+        // Comparsa allo scroll: solo per elementi fuori schermo; il contenuto resta comunque visibile.
+        if (!reduced && 'IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (voci) {
+            voci.forEach(function (v) { if (v.isIntersecting) { v.target.classList.add('rivela-in'); io.unobserve(v.target); } });
+          }, { threshold: 0.12 });
+          document.querySelectorAll('[data-reveal]').forEach(function (el) {
+            if (el.getBoundingClientRect().top > innerHeight) io.observe(el);
+          });
+        }
+
+        // "Richiedi preventivo": scorre al modulo, con offset per la navbar
+        document.querySelectorAll('[data-contatti]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            var t = document.getElementById('contatti'); if (!t) return;
+            e.preventDefault();
+            scrollTo({ top: t.getBoundingClientRect().top + scrollY - 90, behavior: reduced ? 'auto' : 'smooth' });
+          });
+        });
+      })();
     </script>
   </body>
 </html>
-
-<style is:global>
-  .nav {
-    position: sticky; top: 0.75rem; z-index: 10;
-    width: min(1120px, 100% - 1.5rem); margin: 0.75rem auto 0;
-    display: flex; align-items: center; gap: 1rem; justify-content: space-between;
-    padding: 0.6rem 0.75rem 0.6rem 1.4rem; border-radius: var(--r-pill);
-    transition: padding 0.4s var(--ease), box-shadow 0.4s var(--ease);
-  }
-  .nav.compatta { padding-block: 0.3rem; }
-  .nav nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
-  .nav nav a { text-decoration: none; font-weight: 550; }
-  .nav nav a:hover { color: var(--arancio-scuro); }
-  .logo { font-weight: 850; text-decoration: none; letter-spacing: -0.03em; font-size: 1.3rem; color: var(--arancio-scuro); }
-  .logo span { font-weight: 500; font-size: 0.85rem; color: var(--antracite); margin-left: 0.4rem; }
-  .piede { padding-block: 3rem 6rem; color: var(--grigio-testo); font-size: 0.95rem; }
-  .barra-mobile { display: none; }
-  @media (max-width: 900px) {
-    .nav nav { display: none; } /* TODO: menu mobile a scomparsa */
-    .logo span { display: none; }
-    .barra-mobile {
-      display: flex; gap: 0.5rem; position: fixed; z-index: 10;
-      inset: auto 0.75rem 0.75rem; padding: 0.5rem; border-radius: var(--r-pill);
-    }
-    .barra-mobile .btn { flex: 1; justify-content: center; }
-  }
-</style>
