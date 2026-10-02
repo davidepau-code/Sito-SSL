@@ -1,0 +1,18 @@
+// Dati aziendali: UNICA fonte per tutto il sito (footer, contatti, schema.org, barra mobile).
+// Devono coincidere con la scheda Google Business Profile e con i registri esterni (NAP identico).
+export const azienda = {
+  ragioneSociale: 'Servizi Sicurezza Lavoro snc',
+  piva: '01313770917',
+  // Numero principale (WhatsApp e chiamate): messo in evidenza ovunque.
+  cellulare: { visibile: '320 407 0573', tel: '+393204070573', wa: '393204070573' },
+  // Numero fisso: secondario.
+  fisso: { visibile: '0784 1949743', tel: '+3907841949743' },
+  email: 'info@servizisicurezzalavoro.it',
+  // Sede operativa (quella su Google Maps).
+  sede: { via: 'Zona Industriale, Comparto C, lotto 24A', cap: '08029', citta: 'Siniscola', provincia: 'NU' },
+  sedeLegale: 'Loc. Salapattu snc – 08029 Siniscola (NU)',
+  // Orari dalla scheda Google Maps (lun–ven 9–13, 14–18; sabato e domenica chiuso).
+  orari: { testo: 'Lunedì – Venerdì, 9:00–13:00 / 14:00–18:00', breve: 'Lun – Ven, 9–13 / 14–18' },
+  whatsappLink: (messaggio = 'Buongiorno, vorrei informazioni sui vostri servizi.') =>
+    `https://wa.me/393204070573?text=${encodeURIComponent(messaggio)}`,
+} as const;

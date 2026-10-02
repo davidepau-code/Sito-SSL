@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import { azienda } from '../data/azienda';
 const contatti = [
-  ['Telefono', '+39 0784 1949743'],
-  ['WhatsApp', '[numero]'],
-  ['Email', 'info@servizisicurezzalavoro.it'],
-  ['Orari', 'Lun – Ven, 9:00–13:00 / 15:00–19:00'],
-  ['Sede', '[Indirizzo definitivo – da confermare tra Z.I. comparto C lotto 24A e Via Olbia 21] – 08029 Siniscola (NU)'],
+  ['Cellulare e WhatsApp', azienda.cellulare.visibile, `tel:${azienda.cellulare.tel}`],
+  ['Fisso', azienda.fisso.visibile, `tel:${azienda.fisso.tel}`],
+  ['Email', azienda.email, `mailto:${azienda.email}`],
+  ['Orari', azienda.orari.breve, ''],
+  ['Sede', `${azienda.sede.via}, ${azienda.sede.cap} ${azienda.sede.citta} (${azienda.sede.provincia})`, ''],
 ];
 ---
 <Base title="Contatti e preventivo – Servizi Sicurezza Lavoro" description="Contatta Servizi Sicurezza Lavoro a Siniscola: telefono, email e modulo per richiedere un preventivo.">
@@ -15,10 +16,11 @@ const contatti = [
       <p class="lead">Rispondiamo entro [24 ore lavorative].</p>
     </div>
     <div class="griglia" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
-      {contatti.map(([k, v]) => (
-        <div class="card forte" style="padding:20px 22px;gap:4px;border-radius:var(--r-img)">
+      {contatti.map(([k, v, href], i) => (
+        <div class="card forte" style={`padding:20px 22px;gap:4px;border-radius:var(--r-img)${i === 0 ? ';grid-column:1/-1;background:rgb(245 134 42 / .16)' : ''}`}>
           <span style="font-size:13px;font-weight:700;color:var(--testo-3)">{k}</span>
-          <span style="font-size:16px;font-weight:700">{v}</span>
+          {href ? <a href={href} style={`font-size:${i === 0 ? 26 : 16}px;font-weight:${i < 2 ? 800 : 700};color:var(--testo)`}>{v}</a> : <span style="font-size:16px;font-weight:700">{v}</span>}
+          {i === 0 && <a class="cta-link" href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp →</a>}
         </div>
       ))}
     </div>

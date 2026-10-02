@@ -1,12 +1,17 @@
+---
+import { azienda } from '../data/azienda';
+---
 <section id="contatti" class="sezione" data-reveal>
   <div class="cta-finale">
     <div class="colonna" style="gap:20px">
       <h2>Non sai da dove iniziare? Te lo diciamo noi.</h2>
       <p>Raccontaci la tua attività: in 24 ore ti diciamo quali corsi e documenti ti servono.</p>
       <div class="contatti-rapidi">
-        <a class="tel" href="tel:+3907841949743">+39 0784 1949743</a>
-        <a href="mailto:info@servizisicurezzalavoro.it">info@servizisicurezzalavoro.it</a>
-        <span>Lunedì – Venerdì, 9:00–13:00 / 15:00–19:00</span>
+        <a class="tel" href={`tel:${azienda.cellulare.tel}`}>{azienda.cellulare.visibile}</a>
+        <a href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp</a>
+        <span>Fisso <a href={`tel:${azienda.fisso.tel}`} style="font-weight:500">{azienda.fisso.visibile}</a></span>
+        <a href={`mailto:${azienda.email}`}>{azienda.email}</a>
+        <span>{azienda.orari.testo}</span>
       </div>
     </div>
     <!-- TODO: collegare a una funzione Cloudflare (invio email) + Turnstile. Finché non c'è, il modulo NON invia nulla e lo dice. -->
@@ -34,6 +39,6 @@
     var f = e.target, esito = document.getElementById('esito-modulo');
     esito.hidden = false;
     if (!f.reportValidity()) { esito.textContent = 'Controlla i campi obbligatori.'; return; }
-    esito.textContent = 'Il modulo online non è ancora attivo: scrivici a info@servizisicurezzalavoro.it o chiama il +39 0784 1949743.';
+    esito.textContent = 'Il modulo online non è ancora attivo: scrivici su WhatsApp o chiama il 320 407 0573, oppure scrivi a info@servizisicurezzalavoro.it.';
   });
 </script>

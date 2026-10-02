@@ -35,8 +35,9 @@ Legenda: ✅ fatto · 🔶 in corso/parziale · ⬜ da fare · 👤 serve Davide
 Bloccanti per i testi:
 - ⬜ **F-Gas/IMQ**: SSL è l'OdV accreditato IMQ (come dice il sito vecchio) o l'esame lo gestisce IMQ? Uso del logo? Certificazione imprese sì/no? Date delle prossime sessioni.
 - ⬜ **Rami extra di consulenza**: ambiente/acustica e sistemi di gestione/commesse restano o no.
-- ⬜ **Sede operativa**: conferma Z.I. comparto C lotto 24A (e uscita di "Via Olbia 21").
-- ⬜ **Telefono/WhatsApp**: 320 407 0573 è il WhatsApp? Orari reali.
+- ✅ **Sede operativa**: Zona Industriale, comparto C, lotto 24A (decisione 2 ott.; "Via Olbia 21" eliminata). Sede legale Salapattu solo in footer.
+- ✅ **Contatti**: 320 407 0573 = numero principale e WhatsApp (in evidenza); fisso 0784 1949743 secondario. **Orari come su Maps**: lun–ven 9–13 / 14–18. Dati centralizzati in `src/data/azienda.ts`.
+- ⬜ **Destinazione del modulo**: casella Aruba **oppure** WhatsApp 320 (da decidere più avanti; per ora il modulo è inattivo e rimanda a WhatsApp/telefono/email).
 - ⬜ **Accreditamenti** (ISO 9001 DNV-GL, Regione Sardegna macroaree B e C, SIQUAS, INAPP, OdV IMQ): validi oggi? numeri/loghi.
 - ⬜ **Team**: pubblicare i quattro profili? Foto? Chi è Tony Ruiu?
 - ⬜ **Tono**: "tu" o "voi"? Formula storica "dal 2008".

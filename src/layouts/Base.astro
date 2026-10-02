@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import marchio from '../assets/ssl-mark.png';
 import Contatto from '../components/Contatto.astro';
 import Schema from '../components/Schema.astro';
+import { azienda } from '../data/azienda';
 
 interface Props { title: string; description: string; senzaContatto?: boolean; crumbs?: { nome: string; url: string }[] }
 const { title, description, senzaContatto = false, crumbs } = Astro.props;
@@ -70,16 +71,15 @@ const attivo = (href: string) => path.startsWith(href);
     </main>
 
     <footer class="sito">
-      <div><strong>Servizi Sicurezza Lavoro snc</strong><span>Sede legale: Loc. Salapattu snc – 08029 Siniscola (NU)</span><span>P.IVA 01313770917</span></div>
-      <div><strong>Contatti</strong><a href="tel:+3907841949743">+39 0784 1949743</a><a href="mailto:info@servizisicurezzalavoro.it">info@servizisicurezzalavoro.it</a></div>
+      <div><strong>{azienda.ragioneSociale}</strong><span>{azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia})</span><span>Sede legale: {azienda.sedeLegale}</span><span>P.IVA {azienda.piva}</span></div>
+      <div><strong>Contatti</strong><a href={`tel:${azienda.cellulare.tel}`} style="font-weight:700">{azienda.cellulare.visibile}</a><a href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp</a><a href={`tel:${azienda.fisso.tel}`}>Fisso {azienda.fisso.visibile}</a><a href={`mailto:${azienda.email}`}>{azienda.email}</a><span>{azienda.orari.breve}</span></div>
       <div><strong>CEAS</strong><span>Dorgali – Cala Gonone</span><span>Omodeo – Sedilo</span></div>
       <div class="legali"><a href="/privacy/">Privacy</a><a href="/cookie/">Cookie</a></div>
     </footer>
 
     <div class="barra-mobile">
-      <a class="chiama" href="tel:+3907841949743">Chiama</a>
-      <!-- WhatsApp: sostituire con https://wa.me/<numero> quando Davide fornisce il numero -->
-      <a class="scrivi" href="#contatti" data-contatti>Scrivici</a>
+      <a class="chiama" href={`tel:${azienda.cellulare.tel}`}>Chiama</a>
+      <a class="scrivi" href={azienda.whatsappLink()} rel="noopener">WhatsApp</a>
     </div>
 
     <script is:inline>

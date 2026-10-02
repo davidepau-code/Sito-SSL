@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
+import { azienda } from '../data/azienda';
 
 const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
 const servizi = [
@@ -33,7 +34,7 @@ const faq = [
       <p class="lead" style="max-width:560px">Formazione, consulenza e certificazione F-Gas per le aziende della Sardegna. Ti diciamo cosa serve, lo facciamo noi, ti mettiamo in regola.</p>
       <div class="gruppo">
         <a class="btn btn-primario" href="#contatti" data-contatti>Richiedi un preventivo <Icon d={FRECCIA} size={18} /></a>
-        <a class="btn btn-vetro" href="tel:+3907841949743">Chiama 0784 1949743</a>
+        <a class="btn btn-vetro" href={`tel:${azienda.cellulare.tel}`}>Chiama {azienda.cellulare.visibile}</a>
       </div>
       <p style="font-size:15px;font-weight:600;color:var(--testo-3)">Da quasi 20 anni al fianco delle imprese · Sede a Siniscola (NU) · [Accreditamenti / riconoscimenti]</p>
     </div>
