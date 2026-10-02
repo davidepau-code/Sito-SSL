@@ -139,7 +139,7 @@ function inizia() {
   function disegna() {
     const inp = ingresso();
     const e = calcola(inp);
-    sincronizza($('pk-lista'), e.voci, false, 'Nel tuo caso conviene parlarne: scrivici e ti diciamo cosa serve davvero.');
+    sincronizza($('pk-lista'), e.voci, false, settori.find((x) => x.id === inp.settore)?.vuoto ?? 'Nel tuo caso conviene parlarne: scrivici e ti diciamo cosa serve davvero.');
     sincronizza($('pk-gia'), e.gia, true);
     mostraBlocco($('pk-gia-box'), e.gia.length > 0);
     const chiave = e.avvisi.join('|');
@@ -189,6 +189,27 @@ function inizia() {
   }
 
   selS.addEventListener('change', mostra);
+
+  // Preset da link (?caso=...): la scheda arriva già compilata e porta il cliente al punto giusto.
+  const PRESET: Record<string, { settore?: string; prossimo: 'settore' | 'dim' | 'domande' }> = {
+    haccp: { settore: 'ristorazione', prossimo: 'dim' },
+    macchine: { settore: 'macchine', prossimo: 'domande' },
+    assunto: { prossimo: 'settore' },
+  };
+  const caso = new URLSearchParams(location.search).get('caso');
+  const preset = caso ? PRESET[caso] : undefined;
+  if (preset) {
+    if (preset.settore) { selS.value = preset.settore; selS.dispatchEvent(new Event('change', { bubbles: true })); }
+    const box = $('pacchetto');
+    setTimeout(() => {
+      scrollTo({ top: box.getBoundingClientRect().top + scrollY - 100, behavior: ridotto ? 'auto' : 'smooth' });
+      const sel = preset.prossimo === 'settore' ? selS : selD;
+      const btn = sel.closest('.sel')?.querySelector<HTMLButtonElement>('.sel-btn');
+      if (preset.prossimo === 'domande') return;
+      setTimeout(() => (btn ?? sel).focus({ preventScroll: true }), 500);
+      if (preset.prossimo === 'settore' && btn) setTimeout(() => btn.click(), 700);
+    }, 350);
+  }
   selD.addEventListener('change', () => { if (selS.value) disegna(); });
   document.querySelectorAll('#pk-attestati-box input').forEach((i) => i.addEventListener('change', () => { if (selS.value) disegna(); }));
   $('pk-modulo').addEventListener('click', () => {

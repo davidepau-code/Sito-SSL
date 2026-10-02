@@ -336,14 +336,18 @@ export const sezioni: Sezione[] = [
       {
         corsi: [
           {
-            id: 'haccp',
-            breve: 'HACCP (addetti e responsabili)',
-            nome: 'HACCP',
-            per: 'Per chi lavora con gli alimenti: un corso per gli addetti e uno per chi è responsabile del piano di autocontrollo.',
-            righe: [
-              { nome: 'Addetto', ore: '4', mod: ['E'], agg: 'ti indichiamo noi la cadenza adatta' },
-              { nome: 'Responsabile', ore: '8', mod: ['E'], agg: 'ti indichiamo noi la cadenza adatta' },
-            ],
+            id: 'haccp-addetto',
+            breve: 'HACCP – addetto alimentare',
+            nome: 'HACCP – addetto alla manipolazione degli alimenti',
+            per: 'Per chi lavora con gli alimenti in cucina, al banco, in laboratorio o in sala: igiene, contaminazioni e buone pratiche.',
+            righe: [{ nome: 'Addetto', ore: '4', mod: ['E'], agg: 'ti indichiamo noi la cadenza adatta' }],
+          },
+          {
+            id: 'haccp-responsabile',
+            breve: 'HACCP – responsabile',
+            nome: 'HACCP – responsabile del piano di autocontrollo',
+            per: 'Per il titolare o il responsabile che imposta e gestisce le procedure HACCP dell\'attività.',
+            righe: [{ nome: 'Responsabile', ore: '8', mod: ['E'], agg: 'ti indichiamo noi la cadenza adatta' }],
           },
         ],
       },

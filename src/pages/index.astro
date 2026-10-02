@@ -9,9 +9,9 @@ const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
 
 // "Qual è il tuo caso?": scritto con le parole del cliente, non con i nomi dei corsi.
 const casi = [
-  { io: 'Ho assunto qualcuno, o sto per farlo', serve: 'Servono la formazione dei lavoratori e il documento di valutazione dei rischi.', href: '/formazione/corsi/lavoratori/', cta: 'Vedi cosa serve', icona: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v6M22 11h-6' },
-  { io: 'Uso muletto, gru, piattaforme o altri mezzi', serve: 'Patentino e aggiornamenti per chi guida o aziona macchine e attrezzature.', href: '/formazione/#attrezzature', cta: 'Vedi i patentini', icona: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1' },
-  { io: 'Ho un bar, un ristorante o un laboratorio', serve: 'Corsi HACCP per il personale e manuale di autocontrollo per l\'attività.', href: '/formazione/#alimentare', cta: 'Vedi HACCP', icona: 'M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3' },
+  { io: 'Ho assunto qualcuno, o sto per farlo', serve: 'Servono la formazione dei lavoratori e il documento di valutazione dei rischi.', href: '/formazione/?caso=assunto#pacchetto', cta: 'Vedi cosa serve', icona: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v6M22 11h-6' },
+  { io: 'Uso muletto, gru, piattaforme o altri mezzi', serve: 'Patentino e aggiornamenti per chi guida o aziona macchine e attrezzature.', href: '/formazione/?caso=macchine#pacchetto', cta: 'Scegli i patentini', icona: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1' },
+  { io: 'Ho un bar, un ristorante o un laboratorio', serve: 'Corsi HACCP per il personale e manuale di autocontrollo per l\'attività.', href: '/formazione/?caso=haccp#pacchetto', cta: 'Vedi HACCP', icona: 'M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3' },
   { io: 'Sono frigorista, termoidraulico o installatore', serve: 'Corso e esame per la certificazione F-Gas, per te o per la tua impresa.', href: '/f-gas/', cta: 'Scopri la certificazione', icona: 'M2 12h20M12 2v20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1' },
 ];
 

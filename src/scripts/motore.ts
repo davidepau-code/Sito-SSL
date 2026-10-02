@@ -69,7 +69,9 @@ export function calcola(inp: Ingresso): Esito {
   // 5. Avvisi di contesto
   const avvisi: string[] = [];
   if (solo) avvisi.push('Se lavori da solo, senza dipendenti né collaboratori, gli obblighi sono diversi e spesso minori: restano valide solo le voci che vedi qui. Se hai soci che lavorano con te, scrivici: il quadro cambia.');
-  if (s.rischio) avvisi.push(`Per la formazione dei lavoratori, il tuo settore (${s.ateco}) è classificato a rischio ${s.rischio}. Se alcune mansioni espongono a un rischio maggiore, la formazione specifica si adegua.`);
+  const haLavoratori = voci.some((v) => v.id === 'lavoratori') || gia.some((v) => v.id === 'lavoratori');
+  if (!haLavoratori) { /* nessun avviso sul rischio: non ci sono lavoratori da formare */ }
+  else if (s.rischio) avvisi.push(`Per la formazione dei lavoratori, il tuo settore (${s.ateco}) è classificato a rischio ${s.rischio}. Se alcune mansioni espongono a un rischio maggiore, la formazione specifica si adegua.`);
   else avvisi.push('Non conosciamo il rischio del tuo settore: ti diciamo noi quale formazione specifica serve in base al codice ATECO.');
 
   return { voci, gia, avvisi, rischio: s.rischio, ateco: s.ateco };

@@ -215,6 +215,7 @@ export type Settore = {
   id: string; etichetta: string; descrizione: string;
   ateco?: string; rischio?: Rischio;
   fisso: string[];
+  vuoto?: string; // messaggio quando non c'è ancora nessuna voce
   domande: { id: string; testo: string; aggiunge: string[] }[];
 };
 
@@ -303,6 +304,20 @@ export const settori: Settore[] = [
     ateco: 'H – Trasporto e magazzinaggio', rischio: 'medio',
     fisso: BASE,
     domande: [qCarrelli, { id: 'gru', testo: 'Usate gru su autocarro?', aggiunge: ['gru'] }, qPreposti, qDirigenti, qRspp],
+  },
+  {
+    id: 'macchine', etichetta: "Solo patentini per macchine e attrezzature", descrizione: "Muletti, gru, piattaforme elevabili, escavatori, trattori e altri mezzi.",
+    fisso: [],
+    vuoto: "Rispondi sì ai mezzi che usate: ti mostriamo i patentini e gli aggiornamenti che servono.",
+    domande: [
+      qCarrelli,
+      { id: 'ple', testo: "Usate piattaforme di lavoro elevabili (cestelli, ragni)?", aggiunge: ['ple'] },
+      { id: 'gru', testo: "Usate gru (su autocarro, a torre, mobili)?", aggiunge: ['gru'] },
+      { id: 'mmt', testo: "Usate escavatori, pale, terne o altre macchine movimento terra?", aggiunge: ['mmt'] },
+      { id: 'pompe', testo: "Usate autopompe per calcestruzzo?", aggiunge: ['pompe'] },
+      { id: 'trattori', testo: "Usate trattori agricoli o forestali?", aggiunge: ['trattori'] },
+      { id: 'carriponte', testo: "Usate carriponte o gru a ponte?", aggiunge: ['carriponte'] },
+    ],
   },
   {
     id: 'altro', etichetta: 'Altra attività / non so', descrizione: 'Ti diciamo noi cosa serve nel tuo caso.',
