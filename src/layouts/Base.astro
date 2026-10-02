@@ -70,6 +70,7 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
       </nav>
       <div class="tendina" id="tendina">
         {menu.map(([etichetta, href]) => <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
+        <a class="btn btn-primario tendina-cta" href="#contatti" data-contatti>Richiedi preventivo</a>
       </div>
     </header>
 
@@ -101,11 +102,16 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
         // Tema: segue il sistema; il pulsante lo forza e lo ricorda (solo preferenza, nessun dato personale).
         document.getElementById('tema').addEventListener('click', function () {
           var r = document.documentElement, scuroOra = r.dataset.tema ? r.dataset.tema === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-          var nuovo = scuroOra ? 'light' : 'dark'; r.dataset.tema = nuovo;
+          var nuovo = scuroOra ? 'light' : 'dark';
+          if (!reduced) { r.classList.add('tema-anim'); setTimeout(function () { r.classList.remove('tema-anim'); }, 600); }
+          r.dataset.tema = nuovo;
           try { localStorage.setItem('tema', nuovo); } catch (e) {}
         });
 
         var burger = document.getElementById('hamburger'), drop = document.getElementById('tendina'), icona = document.getElementById('hamburger-icona');
+        drop.addEventListener('click', function (e) {
+          if (e.target.closest('a')) { drop.classList.remove('aperta'); burger.setAttribute('aria-expanded', 'false'); icona.setAttribute('d', 'M4 7h16M4 12h16M4 17h16'); }
+        });
         burger.addEventListener('click', function () {
           var aperto = drop.classList.toggle('aperta');
           burger.setAttribute('aria-expanded', aperto);

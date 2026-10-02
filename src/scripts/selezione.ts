@@ -28,7 +28,6 @@ function migliora(select: HTMLSelectElement) {
   const lista = document.createElement('ul');
   lista.className = 'sel-lista';
   lista.setAttribute('role', 'listbox');
-  lista.hidden = true;
   const opzioni = Array.from(select.options).map((o, i) => {
     const li = document.createElement('li');
     li.setAttribute('role', 'option');
@@ -48,8 +47,9 @@ function migliora(select: HTMLSelectElement) {
     bottone.classList.toggle('vuoto', !select.value);
     opzioni.forEach((li, i) => { li.setAttribute('aria-selected', String(i === select.selectedIndex)); li.classList.toggle('attivo', i === attivo); });
   };
-  const apri = () => { lista.hidden = false; bottone.setAttribute('aria-expanded', 'true'); attivo = select.selectedIndex; aggiorna(); opzioni[attivo]?.scrollIntoView({ block: 'nearest' }); };
-  const chiudi = () => { lista.hidden = true; bottone.setAttribute('aria-expanded', 'false'); };
+  const aperta = () => lista.classList.contains('aperta');
+  const apri = () => { lista.classList.add('aperta'); bottone.setAttribute('aria-expanded', 'true'); attivo = select.selectedIndex; aggiorna(); opzioni[attivo]?.scrollIntoView({ block: 'nearest' }); };
+  const chiudi = () => { lista.classList.remove('aperta'); bottone.setAttribute('aria-expanded', 'false'); };
   const scegli = (i: number) => {
     select.selectedIndex = i;
     select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -57,15 +57,15 @@ function migliora(select: HTMLSelectElement) {
   };
   const muovi = (d: number) => { attivo = Math.min(opzioni.length - 1, Math.max(0, attivo + d)); aggiorna(); opzioni[attivo].scrollIntoView({ block: 'nearest' }); };
 
-  bottone.addEventListener('click', () => (lista.hidden ? apri() : chiudi()));
+  bottone.addEventListener('click', () => (aperta() ? chiudi() : apri()));
   bottone.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (lista.hidden) apri(); else muovi(e.key === 'ArrowDown' ? 1 : -1); }
-    else if ((e.key === 'Enter' || e.key === ' ') && !lista.hidden) { e.preventDefault(); scegli(attivo); }
-    else if (e.key === 'Escape' && !lista.hidden) { e.preventDefault(); chiudi(); }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (!aperta()) apri(); else muovi(e.key === 'ArrowDown' ? 1 : -1); }
+    else if ((e.key === 'Enter' || e.key === ' ') && aperta()) { e.preventDefault(); scegli(attivo); }
+    else if (e.key === 'Escape' && aperta()) { e.preventDefault(); chiudi(); }
     else if (e.key === 'Tab') chiudi();
     else if (e.key.length === 1) { // ricerca alla digitazione
       const i = Array.from(select.options).findIndex((o, k) => k > 0 && o.text.toLowerCase().startsWith(e.key.toLowerCase()));
-      if (i >= 0) { attivo = i; if (lista.hidden) scegli(i); else { aggiorna(); opzioni[i].scrollIntoView({ block: 'nearest' }); } }
+      if (i >= 0) { attivo = i; if (!aperta()) scegli(i); else { aggiorna(); opzioni[i].scrollIntoView({ block: 'nearest' }); } }
     }
   });
   document.addEventListener('click', (e) => { if (!wrap.contains(e.target as Node)) chiudi(); });
