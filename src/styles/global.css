@@ -512,10 +512,3 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 @keyframes giu-su-giu { 0%, 60%, 100% { transform: translateY(0); } 80% { transform: translateY(3px); } }
 @media (prefers-reduced-motion: reduce) { .btn-giu svg { animation: none; } }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-
-/* Solo freccia dove c'è il mouse e poco spazio (titolo e aria-label spiegano dove porta); su touch e schermi stretti si vede anche il testo. */
-.btn-giu { gap: 0; }
-.giu-testo { margin-right: 8px; }
-@media (hover: hover) and (pointer: fine) and (min-width: 1000px) {
-  .giu-testo { display: none; }
-}
