@@ -11,7 +11,8 @@
   },
   "vars": {
     "EMAIL_A": "info@servizisicurezzalavoro.it",
-    "EMAIL_CC": "davide.pau@servizisicurezzalavoro.it",
+    // Copia conoscenza: riattivare al lancio, dopo aver verificato il dominio su Resend (prima Resend rifiuta destinatari diversi dal titolare dell'account):
+    // "EMAIL_CC": "davide.pau@servizisicurezzalavoro.it",
     "EMAIL_DA": "Sito SSL <onboarding@resend.dev>"
   }
 }
