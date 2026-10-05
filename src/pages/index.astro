@@ -5,6 +5,7 @@ import Faq from '../components/Faq.astro';
 import Steps from '../components/Steps.astro';
 import { azienda } from '../data/azienda';
 
+const mappa = encodeURIComponent(`${azienda.sede.via}, ${azienda.sede.cap} ${azienda.sede.citta} ${azienda.sede.provincia}`);
 const GIU = 'M12 5v14M5 12l7 7 7-7';
 const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
 
@@ -53,8 +54,10 @@ const faq = [
       <p style="font-size:15px;font-weight:600;color:var(--testo-3)">Siniscola · Baronia · Olbia · Nuoro, in aula o in azienda.</p>
     </div>
     <div style="position:relative;min-height:480px">
-      <div class="foto" style="position:absolute;inset:0"><span>Foto: aula di formazione con lavoratori, luce naturale</span></div>
-      <div class="vetro" style="position:absolute;left:-20px;top:40px;display:flex;align-items:center;gap:12px;padding:14px 18px 14px 14px;border-radius:var(--r-img)">
+      <div class="hero-mappa">
+        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={`https://maps.google.com/maps?q=${mappa}&output=embed&hl=it`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="vetro hero-tile" style="display:flex;align-items:center;gap:12px;padding:14px 18px 14px 14px;border-radius:var(--r-img)">
         <span class="icona" style="width:40px;height:40px;background:var(--arancio);color:var(--su-arancio)"><Icon d="M20 6 9 17l-5-5" size={20} /></span>
         <span style="display:flex;flex-direction:column;line-height:1.25"><strong style="font-size:15px">Dal 2008</strong><span style="font-size:13px;color:var(--testo-3)">formazione e consulenza a Siniscola</span></span>
       </div>
