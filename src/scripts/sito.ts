@@ -79,14 +79,33 @@ document.addEventListener('click', (e) => {
 });
 
 // Modulo di contatto (per ora non attivo: rimanda a WhatsApp, telefono, email)
-document.addEventListener('submit', (e) => {
+const apertura = Date.now();
+document.addEventListener('submit', async (e) => {
   const f = e.target as HTMLFormElement;
   if (f.id !== 'modulo-contatto') return;
   e.preventDefault(); e.stopImmediatePropagation(); // prima del router, che altrimenti la tratterebbe come navigazione
   const esito = $('esito-modulo')!;
+  const btn = f.querySelector<HTMLButtonElement>('button[type=submit]')!;
   esito.hidden = false;
   if (!f.reportValidity()) { esito.textContent = 'Controlla i campi obbligatori.'; return; }
-  esito.textContent = 'Il modulo online non è ancora attivo: scrivici su WhatsApp o chiama il 320 407 0573, oppure scrivi a info@servizisicurezzalavoro.it.';
+  const v = (n: string) => (f.elements.namedItem(n) as HTMLInputElement | null)?.value ?? '';
+  btn.disabled = true;
+  esito.textContent = 'Invio in corso…';
+  try {
+    const r = await fetch('/api/contatto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome: v('nome'), azienda: v('azienda'), telefono: v('telefono'), email: v('email'), servizio: v('servizio'), messaggio: v('messaggio'), privacy: true, sito: v('sito'), t: Date.now() - apertura }),
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok || !d.ok) throw new Error('invio');
+    f.reset();
+    esito.textContent = 'Grazie, abbiamo ricevuto la tua richiesta. Ti ricontattiamo il prima possibile.';
+  } catch {
+    esito.textContent = 'Non siamo riusciti a inviare il modulo. Scrivici su WhatsApp o chiama il 320 407 0573, oppure scrivi a info@servizisicurezzalavoro.it.';
+  } finally {
+    btn.disabled = false;
+  }
 }, true);
 
 // Il tema scelto deve sopravvivere al cambio pagina (Astro sostituisce gli attributi di <html>)

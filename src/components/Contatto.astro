@@ -14,8 +14,9 @@ import { azienda } from '../data/azienda';
         <span>{azienda.orari.testo}</span>
       </div>
     </div>
-    <!-- TODO: collegare a una funzione Cloudflare (invio email) + Turnstile. Finché non c'è, il modulo NON invia nulla e lo dice. -->
+    <!-- Invio: Worker /api/contatto (worker/index.ts) via Resend. Antirobot: campo trappola "sito" + tempo minimo. TODO opzionale: Turnstile. -->
     <form class="modulo" id="modulo-contatto" novalidate>
+      <input name="sito" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
       <input name="nome" required placeholder="Nome" aria-label="Nome" autocomplete="name" />
       <input name="azienda" placeholder="Azienda" aria-label="Azienda" autocomplete="organization" />
       <input name="telefono" type="tel" placeholder="Telefono" aria-label="Telefono" autocomplete="tel" />
