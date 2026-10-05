@@ -13,6 +13,10 @@ export const azienda = {
   sedeLegale: 'Loc. Salapattu snc – 08029 Siniscola (NU)',
   // Orari dalla scheda Google Maps (lun–ven 9–13, 14–18; sabato e domenica chiuso).
   orari: { testo: 'Lunedì – Venerdì, 9:00–13:00 / 14:00–18:00', breve: 'Lun – Ven, 9–13 / 14–18' },
+  // Referente F-Gas: Michela (WhatsApp dedicato, indicato da Davide il 5 ottobre 2026).
+  fgas: { referente: 'Michela', visibile: '320 783 1980', wa: '393207831980' },
+  whatsappFgas: (messaggio = 'Buongiorno, vorrei informazioni sul F-Gas.') =>
+    `https://wa.me/393207831980?text=${encodeURIComponent(messaggio)}`,
   whatsappLink: (messaggio = 'Buongiorno, vorrei informazioni sui vostri servizi.') =>
     `https://wa.me/393204070573?text=${encodeURIComponent(messaggio)}`,
 } as const;

@@ -6,7 +6,7 @@ import Faq from '../components/Faq.astro';
 import { azienda } from '../data/azienda';
 
 const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
-const wa = (m: string) => azienda.whatsappLink(m);
+const wa = (m: string) => azienda.whatsappFgas(m); // sempre al WhatsApp di Michela, referente F-Gas
 
 // "Di cosa hai bisogno?": cinque percorsi, ognuno porta a una sezione o a una richiesta.
 const percorsi = [
@@ -75,7 +75,7 @@ const CHECK = 'M20 6 9 17l-5-5';
       <p class="lead">Per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore. Ti prepariamo, organizziamo l'esame e accompagniamo la tua impresa fino alla certificazione, poi ci occupiamo degli adempimenti.</p>
       <div class="gruppo">
         <a class="btn btn-primario" href="#impresa">Certifica la tua impresa <Icon d={FRECCIA} size={18} /></a>
-        <a class="btn btn-vetro" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Scrivici su WhatsApp</a>
+        <a class="btn btn-vetro" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Scrivi a {azienda.fgas.referente} su WhatsApp</a>
       </div>
       <div class="gruppo">
         <a class="btn btn-vetro btn-giu" href="#bisogno">Di cosa hai bisogno? <Icon d="M12 5v14M5 12l7 7 7-7" size={18} /></a>
@@ -99,7 +99,7 @@ const CHECK = 'M20 6 9 17l-5-5';
         </a>
       ))}
     </div>
-    <p style="margin-top:24px;color:var(--testo-2)">Hai un dubbio? <a href={wa('Buongiorno, ho bisogno di assistenza sul F-Gas.')} rel="noopener" style="font-weight:700">Scrivici</a>: ti rispondiamo noi.</p>
+    <p style="margin-top:24px;color:var(--testo-2)">Hai un dubbio? <a href={wa('Buongiorno, ho bisogno di assistenza sul F-Gas.')} rel="noopener" style="font-weight:700">Scrivi a {azienda.fgas.referente}</a>, la nostra referente F-Gas: ti risponde lei.</p>
   </section>
 
   <section class="sezione" data-reveal id="impresa" style="scroll-margin-top:80px">
@@ -114,7 +114,7 @@ const CHECK = 'M20 6 9 17l-5-5';
       </ul>
       <div class="gruppo">
         <a class="btn btn-primario" href={wa('Buongiorno, vorrei una verifica preliminare per la certificazione F-Gas della mia impresa.')} rel="noopener">Richiedi una verifica preliminare <Icon d={FRECCIA} size={18} /></a>
-        <a class="btn" href="#contatti" data-contatti>Parla con un consulente F-Gas</a>
+        <a class="btn" href={wa('Buongiorno, vorrei parlare con un consulente F-Gas.')} rel="noopener">Parla con {azienda.fgas.referente}, consulente F-Gas</a>
       </div>
     </div>
   </section>
@@ -137,7 +137,7 @@ const CHECK = 'M20 6 9 17l-5-5';
         <p style="color:#d9d6d2">[Calendario in definizione: contattaci per sapere quando parte il prossimo corso.]</p>
         <div class="gruppo">
           <a class="btn btn-primario" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei iscrivermi al corso di preparazione all\'esame F-Gas.')} rel="noopener">Iscriviti al corso</a>
-          <a class="btn" style="font-size:16px;padding:13px 22px" href="#contatti" data-contatti>Richiedi informazioni</a>
+          <a class="btn" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Richiedi informazioni</a>
         </div>
       </div>
     </div>
@@ -163,7 +163,7 @@ const CHECK = 'M20 6 9 17l-5-5';
         : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte la prossima sessione.</p>}
       <div class="gruppo">
         <a class="btn btn-primario" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei iscrivermi a una sessione d\'esame F-Gas.')} rel="noopener">Iscriviti all'esame</a>
-        <a class="btn" style="font-size:16px;padding:13px 22px" href="#contatti" data-contatti>Richiedi informazioni</a>
+        <a class="btn" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Richiedi informazioni</a>
       </div>
     </div>
   </section>
