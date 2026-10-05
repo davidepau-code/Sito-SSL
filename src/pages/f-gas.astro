@@ -11,7 +11,7 @@ const wa = (m: string) => azienda.whatsappFgas(m); // sempre al WhatsApp di Mich
 // "Di cosa hai bisogno?": cinque percorsi, ognuno porta a una sezione o a una richiesta.
 const percorsi = [
   { io: 'Devo certificare la mia impresa', serve: 'Ti accompagniamo nell\'iter di certificazione F-Gas dell\'azienda.', href: '#impresa', cta: 'Certifica la tua impresa', icona: 'M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M10 21v-4h4v4' },
-  { io: 'Devo prepararmi all\'esame', serve: 'Corso teorico di preparazione per i tecnici che devono sostenere l\'esame.', href: '#formazione', cta: 'Vedi il corso', icona: 'M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5' },
+  { io: 'Devo prepararmi all\'esame', serve: 'Corso teorico in videoconferenza, in diretta con il docente, per i tecnici che devono sostenere l\'esame.', href: '#formazione', cta: 'Vedi il corso', icona: 'M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5' },
   { io: 'Devo sostenere l\'esame', serve: 'Sessioni d\'esame organizzate da noi come Organismo di Valutazione di IMQ.', href: '#esami', cta: 'Vedi come funziona', icona: 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11' },
   { io: 'Devo gestire un adempimento F-Gas', serve: 'Registro, Banca Dati, abilitazioni e comunicazione degli interventi.', href: '#adempimenti', cta: 'Vedi l\'assistenza', icona: 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7ZM14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8' },
 ];
@@ -147,7 +147,7 @@ const CHECK = 'M20 6 9 17l-5-5';
   <section class="sezione stretta" data-reveal id="formazione" style="scroll-margin-top:80px">
     <div class="sezione-titolo">
       <h2>Formazione pre-esame</h2>
-      <p>Corso teorico per i tecnici che devono affrontare l'esame di certificazione F-Gas della persona.</p>
+      <p>Corso teorico in videoconferenza sincrona (in diretta con il docente) per i tecnici che devono affrontare l'esame di certificazione F-Gas della persona.</p>
     </div>
     <div class="due-col alto">
       <div class="card">
@@ -155,7 +155,7 @@ const CHECK = 'M20 6 9 17l-5-5';
         <ul class="fg-elenco chiaro">
           {formazione.map((v) => <li><Icon d={CHECK} size={18} width={2.4} /><span>{v}</span></li>)}
         </ul>
-        <p class="corpo" style="flex:0;font-size:14.5px">La formazione che teniamo è di tipo teorico.</p>
+        <p class="corpo" style="flex:0;font-size:14.5px">Il corso è teorico e si svolge in videoconferenza sincrona, cioè in diretta con il docente.</p>
       </div>
       <div class="card scura">
         <h3>Prossime date del corso</h3>
