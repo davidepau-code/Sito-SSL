@@ -99,6 +99,13 @@ document.addEventListener('astro:before-swap', (e: any) => {
 let io: IntersectionObserver | null = null;
 function paginaPronta() {
   onScroll();
+  // Elenchi di date generati alla pubblicazione: via quelle già passate
+  const oggi = new Date().toISOString().slice(0, 10);
+  document.querySelectorAll<HTMLElement>('[data-sessione]').forEach((el) => { if ((el.dataset.sessione || '') < oggi) el.remove(); });
+  // Si vede una sola data per volta: la prossima
+  new Set(Array.from(document.querySelectorAll<HTMLElement>('[data-sessione]'), (el) => el.parentElement)).forEach((gr) => {
+    gr?.querySelectorAll<HTMLElement>('[data-sessione]').forEach((el, i) => { el.hidden = i > 0; });
+  });
   iniziaSelezioni();
   io?.disconnect();
   if (!ridotto && 'IntersectionObserver' in window) {
