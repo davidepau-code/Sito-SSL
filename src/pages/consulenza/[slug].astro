@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Steps from '../../components/Steps.astro';
+import { azienda } from '../../data/azienda';
+import { consulenze, consulenzaPerSlug } from '../../data/consulenze';
+
+export function getStaticPaths() {
+  return consulenze.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const collegati = c.collegati.map(consulenzaPerSlug);
+const passi = [
+  { titolo: 'Ci racconti cosa ti serve', testo: 'Chiamaci o scrivici: ci bastano l\'attività e la situazione in cui ti trovi.' },
+  { titolo: 'Valutiamo insieme', testo: 'Ti diciamo cosa serve davvero e ti prepariamo un preventivo chiaro, senza impegno.' },
+  { titolo: 'Ce ne occupiamo noi', testo: 'Facciamo il lavoro e, quando serve, un sopralluogo.' },
+  { titolo: 'Ti seguiamo nel tempo', testo: 'Consegniamo tutto e restiamo a disposizione per gli aggiornamenti.' },
+];
+---
+<Base
+  title={`${c.nome} – Servizi Sicurezza Lavoro`}
+  description={c.riassunto}
+  crumbs={[{ nome: 'Home', url: '/' }, { nome: 'Consulenza', url: '/consulenza/' }, { nome: c.breve, url: `/consulenza/${c.slug}/` }]}
+>
+  <section class="sezione testata colonna">
+    <div class="briciole"><a href="/">Home</a><span>›</span><a href="/consulenza/">Consulenza</a><span>›</span><span aria-current="page">{c.breve}</span></div>
+    <span class="chip piatto" style="align-self:flex-start">{c.area}</span>
+    <h1>{c.nome}</h1>
+    <p class="lead" style="max-width:720px">{c.riassunto}</p>
+    <div class="gruppo">
+      <a class="btn btn-primario" href={azienda.whatsappLink(`Buongiorno, vorrei un preventivo per: ${c.nome}.`)} rel="noopener">Scrivici su WhatsApp <Icon d={FRECCIA} size={18} /></a>
+      <a class="btn btn-vetro" href="#contatti" data-contatti>Richiedi un preventivo</a>
+    </div>
+  </section>
+
+  <section class="sezione stretta griglia larga" data-reveal>
+    <div class="card">
+      <h3>A chi serve</h3>
+      <p class="testo-corpo">{c.chi}</p>
+      <h3 style="margin-top:16px">Quando serve</h3>
+      <p class="testo-corpo">{c.quando}</p>
+    </div>
+    <div class="card forte" style="gap:4px">
+      <h3 style="margin-bottom:8px">Cosa comprende</h3>
+      <div class="spunte">
+        {c.facciamo.map((f) => <div><i><Icon d="M20 6 9 17l-5-5" size={14} width={2.6} /></i><span>{f}</span></div>)}
+      </div>
+      {c.esclusioni && <p class="testo-corpo" style="margin-top:12px;font-size:14px">{c.esclusioni}</p>}
+      {c.note && <p class="testo-corpo" style="margin-top:8px;font-size:14px;font-weight:600">{c.note}</p>}
+    </div>
+  </section>
+
+  <Steps passi={passi} />
+
+  {(collegati.length > 0 || c.corso) && (
+    <section class="sezione stretta" data-reveal>
+      {collegati.length > 0 && (
+        <>
+          <h2 style="font-size:clamp(26px,3.2vw,36px);margin-bottom:18px">Servizi collegati</h2>
+          <div class="gruppo" style="gap:10px;margin-bottom:20px">
+            {collegati.map((k) => <a class="chip" href={`/consulenza/${k.slug}/`}>{k.breve}</a>)}
+          </div>
+        </>
+      )}
+      {c.corso && <p style="color:var(--testo-2)"><a href={c.corso.href} style="font-weight:700">{c.corso.testo} →</a></p>}
+    </section>
+  )}
+
+  <section class="sezione stretta" data-reveal>
+    <p style="color:var(--testo-3);font-size:14px">Riferimento normativo: {c.fonte} I contenuti hanno scopo informativo: il servizio si definisce insieme a te in base alla tua attività.</p>
+  </section>
+</Base>

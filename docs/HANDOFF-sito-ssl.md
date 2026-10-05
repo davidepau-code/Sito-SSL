@@ -99,8 +99,7 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
   /formazione/haccp/                HACCP / OSA
 /f-gas/                             Corso ed esame IMQ, supporto imprese, FAQ, novità Reg. UE 2024/573
 /consulenza/
-  /consulenza/sicurezza-sul-lavoro/ DVR, DUVRI, POS, valutazioni rischi, piani di emergenza
-  /consulenza/sicurezza-alimentare/ Manuale HACCP, autocontrollo, audit
+  /consulenza/<servizio>/  una pagina per servizio (dati in src/data/consulenze.ts, dal Listino consulenze Notion): dvr, aggiornamento-dvr, duvri, pos, haccp, iso-9001, collaudo-acustico (+ F-Gas impresa su /f-gas/#impresa). Redirect in public/_redirects.
 /ceas/                              CEAS Dorgali–Cala Gonone e CEAS Omodeo–Sedilo
 /chi-siamo/
 /contatti/                          Contatti + modulo preventivo
@@ -164,11 +163,11 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 /about-us/privacy/                                → /privacy/
 /about-us/cookies/                                → /cookie/
 /about-us/ceas/                                   → /ceas/
-/consulenza/sicurezza-sul-lavoro/                 → /consulenza/sicurezza-sul-lavoro/
-/consulenza/sicurezza-alimentare/                 → /consulenza/sicurezza-alimentare/
+/consulenza/sicurezza-sul-lavoro/                 → /consulenza/dvr/
+/consulenza/sicurezza-alimentare/                 → /consulenza/haccp/
 /consulenza/envsafety/                            → /consulenza/
 /consulenza/sdg/                                  → /ceas/
-/servizi/sicurezza-sul-lavoro/dvr/                → /consulenza/sicurezza-sul-lavoro/   (oggi 404 ma indicizzata)
+/servizi/sicurezza-sul-lavoro/dvr/                → /consulenza/dvr/   (oggi 404 ma indicizzata)
 /formazione-lavoro/                               → /formazione/
 /formazione-lavoro/corsisicurezzalavoro/*         → /formazione/sicurezza-sul-lavoro/… (mappare 1:1 per lavoratori, preposti, dirigenti, rls, antincendio, primosoccorso, rsppdl, spp)
 /formazione-lavoro/corsisicurezzalavoro/spaziconfinati/ , /atex/ → /formazione/rischi-specifici/
@@ -248,3 +247,7 @@ Deve contenere almeno:
 8. Foto reali disponibili (aula, sedi, CEAS, attrezzature).
 9. Logo in formato vettoriale (SVG) e codici colore esatti del brand SSL.
 10. Chi riceve le richieste dai moduli (email di destinazione).
+
+
+### Aggiornamento 2026-10-05 – Consulenza
+Una pagina per servizio (DVR, aggiornamento DVR, DUVRI, POS, manuale HACCP, ISO 9001, collaudo acustico). Testi in bozza scritti dal Listino consulenze Notion + norme: da far verificare da un RSPP. Non presenti nel listino e quindi non create: piano di emergenza, stress lavoro-correlato, valutazione rumore/vibrazioni (inclusa nel DVR).

@@ -40,7 +40,7 @@ export const percorsi = [
   { id: 'datore', etichetta: 'Sono il titolare / datore di lavoro', risultati: [
     { nome: 'Formazione dei tuoi lavoratori', href: '/formazione/catalogo/#lavoratori' },
     { nome: 'Preposti, dirigenti e datore di lavoro', href: '/formazione/#sicurezza' },
-    { nome: 'Documento di valutazione dei rischi (DVR)', href: '/consulenza/sicurezza-sul-lavoro/' },
+    { nome: 'Documento di valutazione dei rischi (DVR)', href: '/consulenza/dvr/' },
   ] },
   { id: 'lavoratore', etichetta: 'Sono un lavoratore (o sto per iniziare)', risultati: [
     { nome: 'Formazione lavoratori (generale e specifica)', href: '/formazione/catalogo/#lavoratori' },

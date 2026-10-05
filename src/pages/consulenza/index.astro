@@ -1,23 +1,40 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import { consulenze } from '../../data/consulenze';
 const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const FGAS = 'M2 12h20M12 2v20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1';
+const aree = ['Sicurezza sul lavoro', 'Sicurezza alimentare', 'Qualità', 'Edilizia e acustica'] as const;
 ---
-<Base title="Consulenza – Servizi Sicurezza Lavoro" description="Consulenza per la sicurezza sul lavoro (DVR, DUVRI, POS) e per la sicurezza alimentare (manuale HACCP, autocontrollo, audit).">
+<Base title="Consulenza – DVR, DUVRI, POS, HACCP, ISO 9001 – Servizi Sicurezza Lavoro" description="Redigiamo i documenti che la legge richiede: DVR e aggiornamento, DUVRI, POS, manuale HACCP, sistema qualità ISO 9001, collaudo acustico, certificazione F-Gas dell'impresa.">
   <section class="sezione testata colonna">
     <h1>Consulenza</h1>
-    <p class="lead">Redigiamo i documenti che la legge richiede e li teniamo aggiornati.</p>
+    <p class="lead">Redigiamo i documenti che la legge richiede e li teniamo aggiornati. Scegli il servizio che ti serve.</p>
   </section>
-  <section class="sezione stretta griglia larga" data-reveal>
-    <a class="card link glow" href="/consulenza/sicurezza-sul-lavoro/">
-      <span class="titolo">Sicurezza sul lavoro</span>
-      <span class="corpo">DVR, DUVRI, POS, valutazioni dei rischi, piani di emergenza.</span>
-      <span class="cta-link">Scopri i servizi <Icon d={FRECCIA} /></span>
-    </a>
-    <div class="card">
-      <span class="titolo">Sicurezza alimentare</span>
-      <span class="corpo">Manuale HACCP, autocontrollo, audit. [Pagina dedicata in preparazione]</span>
-      <a class="cta-link" href="#contatti" data-contatti>Chiedi informazioni <Icon d={FRECCIA} /></a>
+  {aree.map((area) => (
+    <section class="sezione stretta" data-reveal>
+      <h2 style="font-size:clamp(24px,3vw,32px);margin-bottom:18px">{area}</h2>
+      <div class="griglia larga">
+        {consulenze.filter((c) => c.area === area).map((c) => (
+          <a class="card link glow" href={`/consulenza/${c.slug}/`}>
+            <span class="icona"><Icon d={c.icona} size={24} width={1.8} /></span>
+            <span class="titolo">{c.breve}</span>
+            <span class="corpo">{c.riassunto}</span>
+            <span class="cta-link">Scopri il servizio <Icon d={FRECCIA} /></span>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+  <section class="sezione stretta" data-reveal>
+    <h2 style="font-size:clamp(24px,3vw,32px);margin-bottom:18px">F-Gas</h2>
+    <div class="griglia larga">
+      <a class="card link glow" href="/f-gas/#impresa">
+        <span class="icona"><Icon d={FGAS} size={24} width={1.8} /></span>
+        <span class="titolo">Certificazione F-Gas dell'impresa</span>
+        <span class="corpo">Consulenza per ottenere la certificazione F-Gas della tua impresa (Reg. CE 2067/2015).</span>
+        <span class="cta-link">Vai alla pagina F-Gas <Icon d={FRECCIA} /></span>
+      </a>
     </div>
   </section>
 </Base>
