@@ -571,3 +571,24 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .cookie-x { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; border: 0; background: none; color: var(--testo-2); cursor: pointer; }
 .cookie-x:hover { background: rgb(128 128 128 / .2); color: var(--testo); }
 .cookie-azioni .btn { min-width: 104px; justify-content: center; }
+
+/* ---- Effetto "ci sei sopra": tessere cliccabili e bottoni si illuminano di arancione e si ingrandiscono appena ---- */
+.card.link, .caso, .btn, a.chip, .cat-filtri button, .cat-aree a, .pk-sino button {
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease), background-color .4s var(--ease), border-color .4s var(--ease), color .3s, filter .4s var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card.link:hover, .caso:hover {
+    transform: scale(1.015);
+    box-shadow: 0 0 0 1.5px rgb(245 134 42 / .5), 0 0 40px -6px rgb(245 134 42 / .38), 0 24px 50px -24px rgb(245 134 42 / .55), inset 0 0 70px rgb(245 134 42 / .09);
+  }
+  .btn:hover, a.chip:hover, .cat-filtri button:hover, .cat-aree a:hover, .pk-sino button:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 0 3px rgb(245 134 42 / .22), 0 10px 28px -8px rgb(245 134 42 / .6);
+  }
+  .btn-vetro:hover, a.chip:hover, .cat-filtri button:hover, .cat-aree a:hover, .pk-sino button:hover { background-color: rgb(245 134 42 / .16); border-color: rgb(245 134 42 / .6); color: var(--testo); }
+  .btn-primario:hover { filter: brightness(1.08); }
+  .menu a:hover { background: rgb(245 134 42 / .14); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card.link:hover, .caso:hover, .btn:hover, a.chip:hover { transform: none; }
+}
