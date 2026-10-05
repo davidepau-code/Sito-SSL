@@ -16,7 +16,8 @@ $('tema')!.addEventListener('click', () => {
   const nuovo = scuroOra ? 'light' : 'dark';
   if (!ridotto) { r.classList.add('tema-anim'); setTimeout(() => r.classList.remove('tema-anim'), 600); }
   r.dataset.tema = nuovo;
-  try { localStorage.setItem('tema', nuovo); } catch {}
+  // La scelta col pulsante vale solo per questa visita (sessionStorage): alla prossima il sito torna a seguire il tema del dispositivo.
+  try { sessionStorage.setItem('tema', nuovo); } catch {}
 });
 
 const burger = $('hamburger')!, drop = $('tendina')!, icona = $('hamburger-icona')!;

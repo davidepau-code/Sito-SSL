@@ -30,7 +30,7 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Il sito gestisce da sé tema chiaro e scuro: dichiararlo impedisce ai browser di forzare una "modalità scura automatica" che romperebbe lo stile. -->
     <meta name="color-scheme" content="light dark" />
-    <script is:inline>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.dataset.tema=t;}catch(e){}</script>
+    <script is:inline>try{localStorage.removeItem('tema');var t=sessionStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.dataset.tema=t;}catch(e){}</script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
