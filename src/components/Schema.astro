@@ -6,7 +6,7 @@ import { azienda } from '../data/azienda';
 const site = Astro.site!.origin;
 
 const organization = {
-  '@type': ['Organization', 'EducationalOrganization'],
+  '@type': ['LocalBusiness', 'EducationalOrganization'],
   '@id': `${site}/#organizzazione`,
   name: 'Servizi Sicurezza Lavoro snc',
   alternateName: 'SSL',
@@ -20,7 +20,13 @@ const organization = {
   email: azienda.email,
   vatID: `IT${azienda.piva}`,
   address: { '@type': 'PostalAddress', streetAddress: azienda.sede.via, postalCode: azienda.sede.cap, addressLocality: azienda.sede.citta, addressRegion: azienda.sede.provincia, addressCountry: 'IT' },
-  areaServed: { '@type': 'AdministrativeArea', name: 'Sardegna' },
+  foundingDate: '2008',
+  geo: { '@type': 'GeoCoordinates', latitude: 40.555986, longitude: 9.6773556 },
+  hasMap: azienda.mapsLink,
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Sardegna' },
+    ...['Siniscola', 'Olbia', 'Nuoro'].map((name) => ({ '@type': 'City', name })),
+  ],
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '13:00' },
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '14:00', closes: '18:00' },
