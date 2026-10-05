@@ -198,7 +198,7 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 - [ ] Testi di CEAS, Consulenza, Pubbliche amministrazioni, risposte alle FAQ, foto reali.
 - [ ] Conferme di "Chi siamo" (team, accreditamenti, eventuale citazione audit IMQ).
 - [ ] Informativa privacy e cookie reali (oggi segnaposto).
-- [~] Modulo contatti: invio reale fatto (Worker `worker/index.ts` + Resend, segreto `RESEND_API_KEY` su Cloudflare). Al lancio: verificare il dominio su Resend (2 record DNS), cambiare `EMAIL_DA` in `Sito SSL <sito@servizisicurezzalavoro.it>` e riattivare `EMAIL_CC` (Davide) in `wrangler.jsonc`. Facoltativo: Turnstile.
+- [~] Modulo contatti: invio reale FUNZIONANTE (Worker `worker/index.ts` + Resend, segreto `RESEND_API_KEY` su Cloudflare; account Resend creato con info@). RIMANDATO, serve l'accesso al pannello Aruba: verificare il dominio su Resend aggiungendo il sottodominio `send.servizisicurezzalavoro.it` (3 record DNS: TXT DKIM, MX, TXT SPF; non toccare i record della posta esistenti). Poi: cambiare `EMAIL_DA` in `Sito SSL <sito@send.servizisicurezzalavoro.it>`, riattivare `EMAIL_CC` (davide.pau@servizisicurezzalavoro.it) in `wrangler.jsonc`, togliere `dettaglio` dalla risposta d'errore in `worker/index.ts`. Facoltativo: Turnstile.
 - [ ] Mappa in Contatti: sostituire con il codice "Incorpora una mappa" della scheda Google dell'attività (oggi il segnaposto cade su "Zona Industriale").
 
 **B. Passaggio al dominio** (vedi sezione sopra: DNS, Custom Domain, redirect 301, test email).
