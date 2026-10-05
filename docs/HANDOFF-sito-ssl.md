@@ -206,7 +206,7 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 **C. Indicizzazione**
 - [ ] Impostare `PUBLIC_INDEXABLE=true` nella build di produzione su Cloudflare e ripubblicare (toglie il `noindex`).
 - [ ] Controllare che `site` in `astro.config.mjs` sia il dominio definitivo (oggi `https://www.servizisicurezzalavoro.it`; deve coincidere con www/apex scelto).
-- [ ] Aggiungere `public/robots.txt` con `Sitemap: https://<dominio>/sitemap-index.xml` (oggi non esiste).
+- [x] `robots.txt` generato da `src/pages/robots.txt.ts`: blocca tutto finché `PUBLIC_INDEXABLE` non è `true`, poi apre e indica la sitemap (si aggiorna da solo).
 - [ ] Verificare nel codice sorgente della pagina pubblicata che non ci sia più `noindex` e che i canonical puntino al dominio vero.
 
 **D. Google Search Console**
