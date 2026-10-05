@@ -31,10 +31,11 @@ const mappa = encodeURIComponent(`${azienda.sede.via}, ${azienda.sede.cap} ${azi
         <span style="font-size:18px;font-weight:700">{azienda.orari.testo}</span>
         <span style="color:var(--testo-3)">Sabato e domenica chiuso.</span>
       </div>
-      <div class="card forte" style="padding:0;overflow:hidden;border-radius:var(--r-img);min-height:300px;position:relative">
-        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={`https://maps.google.com/maps?q=${azienda.coordinate}&z=16&output=embed&hl=it`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;width:100%;height:100%;min-height:300px;display:block"></iframe>
+      <div class="card forte hero-mappa mappa-card" style="padding:0;border-radius:var(--r-img);min-height:300px">
+        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={`https://maps.google.com/maps?q=${azienda.coordinate}&z=16&output=embed&hl=it`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" ></iframe>
+        <a class="btn btn-primario btn-mappa" href={azienda.mapsLink} target="_blank" rel="noopener">Apri in Maps</a>
       </div>
     </div>
-    <p style="color:var(--testo-2)"><strong>Sede:</strong> {indirizzo}. <a href={`https://www.google.com/maps/dir/?api=1&destination=${mappa}`} rel="noopener" target="_blank" style="font-weight:700">Apri in Google Maps →</a></p>
+    <p style="color:var(--testo-2)"><strong>Sede:</strong> {indirizzo}.</p>
   </section>
 </Base>
