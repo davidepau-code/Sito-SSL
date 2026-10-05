@@ -536,3 +536,17 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .mappa-card.hero-mappa { inset: auto; }
 /* "Apri in Maps": stessa distanza (16px) dal bordo destro e da quello basso, sopra i crediti di Google */
 .btn-mappa { position: absolute; right: 16px; bottom: 16px; z-index: 2; padding: 10px 18px; font-size: 15px; }
+
+/* Home: "Per chi lavora..." con confronto senza noi / con noi */
+.pd { padding: clamp(28px, 4vw, 48px); gap: 28px; }
+.pd-colonne { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+.pd-col { border-radius: var(--r-img); padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.pd-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.pd-col li { display: flex; gap: 10px; align-items: flex-start; font-size: 17px; line-height: 1.4; }
+.pd-col li svg { flex: none; margin-top: 3px; }
+.pd-etichetta { font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.pd-senza { background: rgb(128 128 128 / .12); color: var(--testo-2); }
+.pd-senza .pd-etichetta, .pd-senza svg { color: var(--testo-3); }
+.pd-con { background: rgb(245 134 42 / .16); box-shadow: inset 0 0 0 1.5px rgb(245 134 42 / .55); color: var(--testo); }
+.pd-con .pd-etichetta, .pd-con svg { color: var(--arancio); }
+.pd-chiusura { font-size: clamp(22px, 3vw, 30px); font-weight: 800; line-height: 1.25; text-wrap: balance; margin: 0; }

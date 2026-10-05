@@ -31,6 +31,17 @@ const servizi = [
   { titolo: 'Pubbliche amministrazioni', testo: 'DVR, DUVRI e formazione per comuni ed enti.', href: '/pubblica-amministrazione/', icona: 'M3 21h18M5 21V10M19 21V10M9 21v-6M15 21v-6M2 10l10-7 10 7' },
 ];
 
+const prima = [
+  'Ricordarti da solo quando scade ogni corso',
+  'Capire quali corsi e documenti servono alla tua azienda',
+  'Cercare chi li organizza e chi li redige',
+];
+const dopo = [
+  'Sappiamo noi cosa serve alla tua azienda',
+  'Teniamo noi il conto delle scadenze',
+  'Ti avvisiamo prima che sia ora di rinnovare',
+];
+
 const faq = [
   'La formazione dei lavoratori è sempre obbligatoria?',
   'Ogni quanto va aggiornato il corso per preposti?',
@@ -87,9 +98,24 @@ const faq = [
   <Steps passi={passi} />
 
   <section class="sezione stretta" data-reveal>
-    <div class="card accento" style="padding:clamp(28px,4vw,48px);gap:16px;max-width:900px">
-      <h2>La sicurezza è una noia? Per questo c'è chi se ne occupa.</h2>
-      <p style="font-size:19px;color:var(--testo-2)">Sappiamo che per chi lavora la sicurezza è un pensiero in più. Noi ti togliamo quel pensiero: sappiamo quali corsi e documenti servono alla tua azienda, teniamo il conto delle scadenze e ti avvisiamo noi quando è ora di rinnovare. Tu pensi al tuo lavoro.</p>
+    <div class="card accento pd">
+      <h2>Per chi lavora, la sicurezza è un pensiero in più.</h2>
+      <div class="pd-colonne">
+        <div class="pd-col pd-senza">
+          <span class="pd-etichetta">Senza di noi</span>
+          <ul>
+            {prima.map((t) => <li><Icon d="M18 6 6 18M6 6l12 12" size={18} width={2.4} />{t}</li>)}
+          </ul>
+        </div>
+        <div class="pd-col pd-con">
+          <span class="pd-etichetta">Con noi</span>
+          <ul>
+            {dopo.map((t) => <li><Icon d="M20 6 9 17l-5-5" size={18} width={2.4} />{t}</li>)}
+          </ul>
+        </div>
+      </div>
+      <p class="pd-chiusura">Tu pensi al tuo lavoro. Alla sicurezza pensiamo noi.</p>
+      <a class="btn btn-primario" style="align-self:flex-start" href="#contatti" data-contatti>Parlaci della tua azienda <Icon d={FRECCIA} size={18} /></a>
     </div>
   </section>
 
