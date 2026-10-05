@@ -11,6 +11,7 @@
   },
   "vars": {
     "EMAIL_A": "info@servizisicurezzalavoro.it",
+    "EMAIL_CC": "davide.pau@servizisicurezzalavoro.it",
     "EMAIL_DA": "Sito SSL <onboarding@resend.dev>"
   }
 }

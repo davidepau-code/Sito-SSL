@@ -3,6 +3,7 @@ interface Env {
   ASSETS: { fetch: (r: Request) => Promise<Response> };
   RESEND_API_KEY?: string; // segreto, impostato su Cloudflare
   EMAIL_A: string;         // destinatario delle richieste
+  EMAIL_CC?: string;       // copia conoscenza (facoltativa)
   EMAIL_DA: string;        // mittente (dominio verificato su Resend)
 }
 
@@ -42,7 +43,7 @@ async function contatto(request: Request, env: Env): Promise<Response> {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: env.EMAIL_DA, to: [env.EMAIL_A], reply_to: email, subject: `Richiesta dal sito: ${nome}${servizio ? ' (' + servizio + ')' : ''}`, html, text: testo }),
+    body: JSON.stringify({ from: env.EMAIL_DA, to: [env.EMAIL_A], ...(env.EMAIL_CC ? { cc: [env.EMAIL_CC] } : {}), reply_to: email, subject: `Richiesta dal sito: ${nome}${servizio ? ' (' + servizio + ')' : ''}`, html, text: testo }),
   });
   if (!r.ok) return json({ ok: false, errore: 'invio' }, 502);
   return json({ ok: true });
