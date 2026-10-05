@@ -1,10 +1,14 @@
 ---
 // Avviso cookie. Il sito usa solo cookie tecnici; il consenso serve per la mappa di Google.
+// Linee guida Garante (10/6/2021): Accetta e Rifiuta con pari evidenza, X in alto a destra = continua senza accettare, link all'informativa.
 ---
 <div class="cookie-banner card forte" id="cookie-banner" role="region" aria-label="Cookie" hidden transition:persist="cookie">
-  <p><strong>Cookie.</strong> Questo sito usa solo cookie tecnici. Per mostrarti la mappa di Google servono i cookie di Google: se accetti, la mappa si vede. <a href="/cookie/">Informativa cookie</a></p>
+  <button type="button" class="cookie-x" data-consenso="no" aria-label="Chiudi e continua senza accettare">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+  </button>
+  <p><strong>Cookie.</strong> Questo sito usa solo cookie tecnici. Per mostrarti la mappa di Google servono i cookie di Google: se accetti, la mappa si vede. Chiudendo con la X continui senza accettare. <a href="/cookie/">Informativa cookie</a></p>
   <div class="cookie-azioni">
-    <button type="button" class="btn btn-primario btn-piccolo" data-consenso="si">Accetta</button>
+    <button type="button" class="btn btn-vetro btn-piccolo" data-consenso="si">Accetta</button>
     <button type="button" class="btn btn-vetro btn-piccolo" data-consenso="no">Rifiuta</button>
   </div>
 </div>

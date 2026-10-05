@@ -567,3 +567,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .link-btn { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; }
 @media (max-width: 759px) { .cookie-banner { left: 12px; right: 12px; bottom: 88px; max-width: none; } }
 .legale h2 { font-size: 22px; margin-top: 14px; }
+.cookie-banner { padding-right: 48px; }
+.cookie-x { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; border: 0; background: none; color: var(--testo-2); cursor: pointer; }
+.cookie-x:hover { background: rgb(128 128 128 / .2); color: var(--testo); }
+.cookie-azioni .btn { min-width: 104px; justify-content: center; }

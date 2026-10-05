@@ -81,7 +81,14 @@ document.addEventListener('click', (e) => {
 // Modulo di contatto (per ora non attivo: rimanda a WhatsApp, telefono, email)
 // ---- Consenso ai cookie (serve solo per la mappa di Google) ----
 const CHIAVE = 'consenso-cookie';
-const leggiConsenso = (): string | null => { try { return localStorage.getItem(CHIAVE); } catch { return null; } };
+const SCADENZA = 365 * 24 * 3600 * 1000; // la scelta si richiede di nuovo dopo 12 mesi (le linee guida del Garante vietano di farlo prima di 6)
+const leggiConsenso = (): string | null => {
+  try {
+    const v = JSON.parse(localStorage.getItem(CHIAVE) || 'null');
+    return v && (v.s === 'si' || v.s === 'no') && Date.now() - v.t < SCADENZA ? v.s : null;
+  } catch { return null; }
+};
+const salvaConsenso = (s: string) => { try { localStorage.setItem(CHIAVE, JSON.stringify({ s, t: Date.now() })); } catch {} };
 function applicaConsenso() {
   const c = leggiConsenso();
   document.querySelectorAll<HTMLIFrameElement>('iframe[data-src]').forEach((f) => {
@@ -96,7 +103,7 @@ document.addEventListener('click', (e) => {
   const t = e.target as HTMLElement;
   const scelta = t.closest<HTMLElement>('[data-consenso]');
   if (scelta) {
-    try { localStorage.setItem(CHIAVE, scelta.dataset.consenso!); } catch {}
+    salvaConsenso(scelta.dataset.consenso!);
     applicaConsenso();
   } else if (t.closest('[data-cookie-preferenze]')) {
     try { localStorage.removeItem(CHIAVE); } catch {}
