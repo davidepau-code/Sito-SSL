@@ -189,6 +189,38 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 6. Inviare la nuova sitemap a Google Search Console.
 7. Solo dopo: downgrade piano Aruba a scadenza contratto (verificare n. caselle email e spazio usato: Linux Basic = 5 caselle da 1 GB; Linux Easy = caselle illimitate).
 
+### Lista "da fare al lancio" (aggiunta 2026-10-05)
+
+**A. Contenuti da chiudere prima di pubblicare**
+- [ ] Validazione dei dati normativi (corsi, durate, scadenze) da parte di un RSPP.
+- [ ] Dati dubbi del catalogo (trattori a ruote e cingoli, pompe CLS, autogru 14/22 h, preposto 12 vs 16 h, corsi combinati "su richiesta").
+- [ ] Testi F-Gas ancora provvisori (requisiti esame, prova teorica/pratica, documenti, FAQ), date delle sessioni confermate (es. 26 dicembre = Santo Stefano).
+- [ ] Testi di CEAS, Consulenza, Pubbliche amministrazioni, risposte alle FAQ, foto reali.
+- [ ] Conferme di "Chi siamo" (team, accreditamenti, eventuale citazione audit IMQ).
+- [ ] Informativa privacy e cookie reali (oggi segnaposto).
+- [ ] Modulo contatti: collegare l'invio reale (funzione Cloudflare + Turnstile). Oggi non invia nulla.
+- [ ] Mappa in Contatti: sostituire con il codice "Incorpora una mappa" della scheda Google dell'attività (oggi il segnaposto cade su "Zona Industriale").
+
+**B. Passaggio al dominio** (vedi sezione sopra: DNS, Custom Domain, redirect 301, test email).
+
+**C. Indicizzazione**
+- [ ] Impostare `PUBLIC_INDEXABLE=true` nella build di produzione su Cloudflare e ripubblicare (toglie il `noindex`).
+- [ ] Controllare che `site` in `astro.config.mjs` sia il dominio definitivo (oggi `https://www.servizisicurezzalavoro.it`; deve coincidere con www/apex scelto).
+- [ ] Aggiungere `public/robots.txt` con `Sitemap: https://<dominio>/sitemap-index.xml` (oggi non esiste).
+- [ ] Verificare nel codice sorgente della pagina pubblicata che non ci sia più `noindex` e che i canonical puntino al dominio vero.
+
+**D. Google Search Console**
+- [ ] Creare la proprietà di tipo "Dominio" (copre www/apex, http/https).
+- [ ] Verificare con record DNS TXT (dove stanno i DNS: Cloudflare dopo il cambio nameserver, altrimenti Aruba). Lasciare il record per sempre.
+- [ ] Inviare `https://<dominio>/sitemap-index.xml` in Sitemap.
+- [ ] Richiedere l'indicizzazione della home con "Controllo URL".
+- [ ] Dopo 1–2 settimane: controllare Copertura/Pagine, 404 provenienti dal vecchio sito (redirect mancanti) e Core Web Vitals.
+- [ ] Opzionale: Google Business Profile (scheda Maps) con indirizzo, orari e sito nuovi; eventuale Google Analytics/misurazione con banner cookie.
+
+**E. Dopo il lancio**
+- [ ] Prova di invio/ricezione email, test modulo contatti, test WhatsApp (principale e Michela) da telefono.
+- [ ] Disattivare l'URL `workers.dev`; downgrade Aruba solo a scadenza contratto.
+
 ---
 
 ## 9. `CLAUDE.md` da creare nel repo (guida interna)
