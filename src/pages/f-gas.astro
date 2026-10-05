@@ -46,10 +46,30 @@ const adempimenti = [
   'Assistenza per problemi operativi con la Banca Dati',
 ];
 const esame = [
-  { t: 'Requisiti di accesso', d: '[Da completare]' },
-  { t: 'Prova teorica', d: '[Da completare]' },
-  { t: 'Prova pratica', d: '[Da completare]' },
-  { t: 'Documenti richiesti', d: '[Da completare]' },
+  { t: 'Le quattro categorie', d: 'Categoria I: tutte le attività. Categoria II: controllo delle perdite (senza intervenire sui circuiti), recupero, installazione, manutenzione e smantellamento su apparecchiature con meno di 3 kg di gas (6 kg se sigillate ermeticamente). Categoria III: solo recupero, sulle stesse apparecchiature. Categoria IV: solo controllo delle perdite, senza intervenire sui circuiti.' },
+  { t: 'Requisiti di accesso', d: 'Per accedere all’esame bisogna essere già iscritti al Registro Telematico Nazionale F-Gas, e il certificato va ottenuto entro 8 mesi dall’iscrizione. La domanda di ammissione va inviata almeno 5 giorni lavorativi prima della data scelta. Le prove si svolgono in italiano.' },
+  { t: 'Prova teorica', d: 'Domande a risposta multipla, con tre alternative e una sola corretta: 30 domande per le categorie I e II, 12 per la III, 15 per la IV. Durata massima 90 minuti per le categorie I e II, 30 minuti per la III e la IV. Serve almeno il 60%.' },
+  { t: 'Prova pratica', d: 'Si svolgono compiti con il materiale e gli strumenti messi a disposizione, indossando i DPI. La prova riguarda tutti i temi obbligatori e almeno uno dei gruppi sui componenti, che non si conosce prima. Durata massima 90 minuti per le categorie I e II, 45 minuti per la III e la IV. Si accede alla pratica solo superando la teoria.' },
+  { t: 'Esito dell’esame', d: 'Per superare l’esame serve almeno il 60% in ciascuna prova e almeno il 70% complessivo, dove la pratica pesa più della teoria (30% teoria, 70% pratica). Chi supera la teoria ma non la pratica può ripetere solo la pratica, entro i termini previsti dalla norma.' },
+  { t: 'Documenti richiesti', d: 'Domanda di ammissione compilata e firmata, attestato di iscrizione al Registro Telematico Nazionale, documento d’identità in corso di validità, fotografia formato tessera e prova dell’avvenuto pagamento.' },
+];
+const faq = [
+  {
+    domanda: 'Quanto dura la certificazione?',
+    risposta: 'La certificazione della persona dura 10 anni dalla data di emissione. Ogni anno c’è una verifica di sorveglianza fatta sui documenti: una dichiarazione sui reclami e sull’attività svolta, l’estratto della Banca Dati F-Gas con gli interventi, il documento d’identità e la prova del pagamento. Per rinnovarla si rifà l’esame, e la domanda va presentata entro 60 giorni prima della scadenza.',
+  },
+  {
+    domanda: "Che differenza c’è tra certificazione della persona e dell’impresa?",
+    risposta: 'La certificazione della persona riguarda il singolo tecnico: si ottiene superando l’esame teorico e pratico e la rilascia un organismo di certificazione, nel nostro caso IMQ. La certificazione dell’impresa riguarda l’azienda che svolge le attività e richiede, tra l’altro, personale certificato, attrezzature adeguate e procedure. Per ottenere quest’ultima possiamo accompagnarti noi.',
+  },
+  {
+    domanda: 'Posso installare un climatizzatore senza patentino?',
+    risposta: 'In generale no: installare, mantenere o riparare apparecchiature che contengono gas fluorurati richiede la certificazione della persona, nella categoria giusta, e l’iscrizione al Registro. Se non sei sicuro che il tuo caso rientri, scrivi a Michela e lo vediamo insieme.',
+  },
+  {
+    domanda: 'Cosa succede se la mia certificazione scade?',
+    risposta: 'Se non invii i documenti della verifica annuale, la certificazione viene sospesa. Se i documenti non arrivano nemmeno entro 180 giorni dopo la scadenza, viene revocata e, prima di fare un nuovo intervento, bisogna rifare tutto l’iter con esame teorico e pratico. Alla scadenza dei 10 anni la certificazione si rinnova rifacendo l’esame.',
+  },
 ];
 // Chi fa cosa: tre ruoli distinti.
 const passi = [
@@ -57,12 +77,6 @@ const passi = [
   { titolo: 'Sostieni l\'esame', testo: 'Le sessioni sono organizzate da SSL in qualità di Organismo di Valutazione di IMQ.' },
   { titolo: 'IMQ certifica', testo: 'IMQ, Organismo di Certificazione, rilascia la certificazione al termine dell\'iter previsto.' },
 ];
-const faq = [
-  'Quanto dura la certificazione?',
-  "Che differenza c'è tra certificazione della persona e dell'impresa?",
-  'Posso installare un climatizzatore senza patentino?',
-  'Cosa succede se la mia certificazione scade?',
-].map((domanda) => ({ domanda, risposta: '[Risposta da redigere e verificare su fonte ufficiale]' }));
 // Sessioni d'esame: per ora l'ultimo sabato di ogni mese, TUTTE da confermare.
 // Calcolate alla pubblicazione (le prossime 6); uno script nasconde quelle già passate.
 const ultimoSabato = (anno: number, mese: number) => {
@@ -170,6 +184,7 @@ const CHECK = 'M20 6 9 17l-5-5';
         </div>
       ))}
     </div>
+    <p style="margin-top:14px;color:var(--testo-3);font-size:14px">Fonte: prescrizioni IMQ per la certificazione di persone (Reg. UE 2015/2067), revisione 5 del 26/02/2026. Le regole possono cambiare: ti confermiamo sempre i dettagli prima dell'iscrizione.</p>
     <div class="card scura" style="margin-top:20px">
       <h3>Prossime sessioni d'esame</h3>
       {sessioni.length > 0
