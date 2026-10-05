@@ -79,6 +79,31 @@ document.addEventListener('click', (e) => {
 });
 
 // Modulo di contatto (per ora non attivo: rimanda a WhatsApp, telefono, email)
+// ---- Consenso ai cookie (serve solo per la mappa di Google) ----
+const CHIAVE = 'consenso-cookie';
+const leggiConsenso = (): string | null => { try { return localStorage.getItem(CHIAVE); } catch { return null; } };
+function applicaConsenso() {
+  const c = leggiConsenso();
+  document.querySelectorAll<HTMLIFrameElement>('iframe[data-src]').forEach((f) => {
+    const vuota = f.parentElement?.querySelector<HTMLElement>('[data-mappa-vuota]');
+    if (c === 'si') { if (!f.src) f.src = f.dataset.src!; f.hidden = false; if (vuota) vuota.hidden = true; }
+    else { f.hidden = true; if (vuota) vuota.hidden = false; }
+  });
+  const b = document.getElementById('cookie-banner');
+  if (b) b.hidden = c !== null;
+}
+document.addEventListener('click', (e) => {
+  const t = e.target as HTMLElement;
+  const scelta = t.closest<HTMLElement>('[data-consenso]');
+  if (scelta) {
+    try { localStorage.setItem(CHIAVE, scelta.dataset.consenso!); } catch {}
+    applicaConsenso();
+  } else if (t.closest('[data-cookie-preferenze]')) {
+    try { localStorage.removeItem(CHIAVE); } catch {}
+    applicaConsenso();
+  }
+});
+
 const apertura = Date.now();
 document.addEventListener('submit', async (e) => {
   const f = e.target as HTMLFormElement;
@@ -118,6 +143,7 @@ document.addEventListener('astro:before-swap', (e: any) => {
 let io: IntersectionObserver | null = null;
 function paginaPronta() {
   onScroll();
+  applicaConsenso();
   // Elenchi di date generati alla pubblicazione: via quelle già passate
   const oggi = new Date().toISOString().slice(0, 10);
   document.querySelectorAll<HTMLElement>('[data-sessione]').forEach((el) => { if ((el.dataset.sessione || '') < oggi) el.remove(); });

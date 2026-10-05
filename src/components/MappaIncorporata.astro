@@ -1,0 +1,10 @@
+---
+// Mappa di Google: si carica SOLO dopo il consenso ai cookie (vedi applicaConsenso in scripts/sito.ts).
+import { azienda } from '../data/azienda';
+---
+<iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" data-src={azienda.mappaIncorporata} referrerpolicy="no-referrer-when-downgrade" hidden></iframe>
+<div class="mappa-vuota" data-mappa-vuota>
+  <strong>La mappa è fornita da Google</strong>
+  <span>Per mostrarla serve il tuo consenso ai cookie di Google.</span>
+  <button type="button" class="btn btn-vetro" data-consenso="si">Accetta e mostra la mappa</button>
+</div>

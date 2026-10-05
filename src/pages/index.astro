@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import MappaIncorporata from '../components/MappaIncorporata.astro';
 import Faq from '../components/Faq.astro';
 import Steps from '../components/Steps.astro';
 import { azienda } from '../data/azienda';
@@ -66,7 +67,7 @@ const faq = [
     </div>
     <div style="position:relative;min-height:480px">
       <div class="hero-mappa">
-        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={azienda.mappaIncorporata} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <MappaIncorporata />
         <a class="btn btn-primario btn-mappa" href={azienda.mapsLink} target="_blank" rel="noopener">Apri in Maps</a>
       </div>
       <div class="vetro hero-tile" style="display:flex;align-items:center;gap:12px;padding:14px 18px 14px 14px;border-radius:var(--r-img)">

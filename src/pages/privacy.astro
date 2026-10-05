@@ -1,9 +1,43 @@
 ---
 import Base from '../layouts/Base.astro';
+import { azienda } from '../data/azienda';
+const aggiornata = '5 ottobre 2026';
 ---
-<Base title="Privacy – Servizi Sicurezza Lavoro" description="Informativa sul trattamento dei dati personali." senzaContatto>
-  <section class="sezione testata piccola colonna">
+<Base title="Informativa privacy – Servizi Sicurezza Lavoro" description="Come trattiamo i dati personali di chi ci contatta o visita il sito: titolare, finalità, destinatari, tempi di conservazione e diritti." senzaContatto>
+  <section class="sezione testata piccola colonna legale" style="gap:16px">
     <h1>Informativa privacy</h1>
-    <p class="testo-corpo">[Da redigere con il consulente privacy: titolare Servizi Sicurezza Lavoro snc, Loc. Salapattu snc – 08029 Siniscola (NU), P.IVA 01313770917, info@servizisicurezzalavoro.it.] Trattamento dei dati inviati tramite modulo; nessun cookie di profilazione.</p>
+    <p class="testo-corpo" style="color:var(--testo-3)">Ai sensi degli artt. 13 e 14 del Regolamento (UE) 2016/679 (GDPR). Ultimo aggiornamento: {aggiornata}.</p>
+
+    <h2>1. Titolare del trattamento</h2>
+    <p class="testo-corpo"><strong>{azienda.ragioneSociale}</strong>, sede legale in {azienda.sedeLegale}, sede operativa in {azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia}), P.IVA {azienda.piva}. Per qualsiasi richiesta sui tuoi dati puoi scrivere a <a href={`mailto:${azienda.email}`}>{azienda.email}</a>. Non è stato nominato un Responsabile della protezione dei dati (DPO), perché non è obbligatorio per la nostra attività.</p>
+
+    <h2>2. Quali dati trattiamo e perché</h2>
+    <p class="testo-corpo"><strong>a) Modulo di contatto e richieste.</strong> Se compili il modulo ci invii nome, azienda (facoltativa), telefono (facoltativo), email, servizio di interesse e il testo del messaggio. Usiamo questi dati solo per risponderti e per prepararti un preventivo o una proposta. Base giuridica: esecuzione di misure precontrattuali richieste da te (art. 6.1.b GDPR). Il conferimento di nome ed email è necessario per poterti rispondere; senza non possiamo gestire la richiesta.</p>
+    <p class="testo-corpo"><strong>b) Telefono e WhatsApp.</strong> Se ci chiami o ci scrivi su WhatsApp, trattiamo il tuo numero e il contenuto della conversazione per risponderti. Cliccando sul pulsante WhatsApp esci dal nostro sito: la conversazione è regolata dall'informativa di WhatsApp (Meta).</p>
+    <p class="testo-corpo"><strong>c) Dati tecnici di navigazione.</strong> Il servizio che ospita il sito (vedi punto 4) registra per brevi periodi dati tecnici come l'indirizzo IP, la data e la pagina richiesta, necessari al funzionamento e alla sicurezza del sito. Non li usiamo per profilarti. Base giuridica: legittimo interesse alla sicurezza e al corretto funzionamento del sito (art. 6.1.f GDPR).</p>
+    <p class="testo-corpo"><strong>d) Mappa di Google.</strong> La mappa che mostra la nostra sede viene caricata solo se accetti i cookie di Google dal banner. Se rifiuti, non viene stabilita alcuna connessione con Google. Base giuridica: il tuo consenso (art. 6.1.a GDPR e art. 122 del Codice privacy). Puoi cambiare scelta in ogni momento da "Preferenze cookie" nel fondo della pagina.</p>
+    <p class="testo-corpo">Non facciamo profilazione, non vendiamo i tuoi dati, non usiamo cookie pubblicitari e non prendiamo decisioni automatizzate. Non raccogliamo dati di categorie particolari tramite il sito: ti chiediamo di non inserirli nel messaggio.</p>
+
+    <h2>3. Per quanto tempo conserviamo i dati</h2>
+    <p class="testo-corpo">Le richieste ricevute dal modulo o via email vengono conservate per il tempo necessario a risponderti. Se non ne nasce un rapporto di lavoro le cancelliamo entro 12 mesi. Se diventi nostro cliente, i dati passano nella gestione del rapporto e vengono conservati per i tempi previsti dalla legge (ad esempio gli obblighi fiscali e contabili, 10 anni). Il consenso per la mappa di Google è memorizzato solo nel tuo browser, finché non lo cancelli.</p>
+
+    <h2>4. Chi può ricevere i dati</h2>
+    <p class="testo-corpo">I dati sono trattati dal nostro personale incaricato e, per la parte tecnica, da fornitori che agiscono per nostro conto (responsabili del trattamento):</p>
+    <ul class="testo-corpo" style="padding-left:20px;display:flex;flex-direction:column;gap:6px">
+      <li><strong>Cloudflare, Inc.</strong>: ospita il sito e gestisce il modulo di contatto.</li>
+      <li><strong>Resend</strong>: invia a noi, per email, la richiesta compilata nel modulo.</li>
+      <li><strong>Fornitore della nostra posta elettronica</strong>: gestisce le caselle email aziendali su cui riceviamo le richieste.</li>
+      <li><strong>Google Ireland Ltd</strong>: solo se accetti i cookie, per mostrare la mappa (titolare autonomo, vedi la sua informativa).</li>
+    </ul>
+    <p class="testo-corpo">Alcuni di questi fornitori hanno sede negli Stati Uniti. Il trasferimento dei dati avviene con le garanzie previste dal GDPR (decisione di adeguatezza "Data Privacy Framework" o clausole contrattuali standard). I dati non vengono diffusi.</p>
+
+    <h2>5. I tuoi diritti</h2>
+    <p class="testo-corpo">Puoi chiederci in ogni momento di accedere ai tuoi dati, correggerli, cancellarli, limitarne il trattamento, riceverli in un formato leggibile (portabilità) e opporti al trattamento (artt. 15-22 GDPR). Se il trattamento si basa sul consenso, puoi revocarlo in qualsiasi momento senza pregiudicare ciò che è avvenuto prima. Scrivici a <a href={`mailto:${azienda.email}`}>{azienda.email}</a>: rispondiamo entro un mese. Hai inoltre il diritto di proporre reclamo al Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it" rel="noopener" target="_blank">garanteprivacy.it</a>).</p>
+
+    <h2>6. Cookie</h2>
+    <p class="testo-corpo">Per i dettagli su cookie e tecnologie simili consulta l'<a href="/cookie/">informativa cookie</a>.</p>
+
+    <h2>7. Modifiche</h2>
+    <p class="testo-corpo">Possiamo aggiornare questa informativa, ad esempio se aggiungiamo nuovi servizi. La data in alto indica l'ultima versione.</p>
   </section>
 </Base>

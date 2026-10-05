@@ -197,7 +197,7 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 - [ ] Testi F-Gas ancora provvisori (requisiti esame, prova teorica/pratica, documenti, FAQ), date delle sessioni confermate (es. 26 dicembre = Santo Stefano).
 - [ ] Testi di CEAS, Consulenza, Pubbliche amministrazioni, risposte alle FAQ, foto reali.
 - [ ] Conferme di "Chi siamo" (team, accreditamenti, eventuale citazione audit IMQ).
-- [ ] Informativa privacy e cookie reali (oggi segnaposto).
+- [~] Informativa privacy e cookie: bozza completa scritta il 2026-10-05 (titolare, finalità, destinatari Cloudflare/Resend/Google, diritti). Da far rivedere al consulente privacy; confermare in particolare i tempi di conservazione (richieste senza seguito: 12 mesi) e il fornitore della posta (Aruba?). Banner cookie con consenso per la mappa di Google; caratteri Manrope ospitati sul sito (niente Google Fonts). Se si aggiunge Analytics o altri servizi esterni, aggiornare le due pagine e il banner.
 - [~] Modulo contatti: invio reale FUNZIONANTE (Worker `worker/index.ts` + Resend, segreto `RESEND_API_KEY` su Cloudflare; account Resend creato con info@). RIMANDATO, serve l'accesso al pannello Aruba: verificare il dominio su Resend aggiungendo il sottodominio `send.servizisicurezzalavoro.it` (3 record DNS: TXT DKIM, MX, TXT SPF; non toccare i record della posta esistenti). Poi: cambiare `EMAIL_DA` in `Sito SSL <sito@send.servizisicurezzalavoro.it>`, riattivare `EMAIL_CC` (davide.pau@servizisicurezzalavoro.it) in `wrangler.jsonc`, togliere `dettaglio` dalla risposta d'errore in `worker/index.ts`. Facoltativo: Turnstile.
 - [ ] Mappa in Contatti: sostituire con il codice "Incorpora una mappa" della scheda Google dell'attività (oggi il segnaposto cade su "Zona Industriale").
 

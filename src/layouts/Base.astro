@@ -6,6 +6,7 @@ import Contatto from '../components/Contatto.astro';
 import Schema from '../components/Schema.astro';
 import { ClientRouter } from 'astro:transitions';
 import { azienda } from '../data/azienda';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props { title: string; description: string; senzaContatto?: boolean; crumbs?: { nome: string; url: string }[] }
 const { title, description, senzaContatto = false, crumbs } = Astro.props;
@@ -48,9 +49,7 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
     {import.meta.env.PUBLIC_INDEXABLE !== 'true' && <meta name="robots" content="noindex, nofollow" />}
     <Schema crumbs={crumbs} />
     <ClientRouter />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div class="blobs" aria-hidden="true" transition:persist="blobs"><i></i><i></i><i></i></div>
@@ -89,7 +88,7 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
       <div><strong>{azienda.ragioneSociale}</strong><span>{azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia})</span><span>Sede legale: {azienda.sedeLegale}</span><span>P.IVA {azienda.piva}</span></div>
       <div><strong>Contatti</strong><a href={`tel:${azienda.cellulare.tel}`} style="font-weight:700">{azienda.cellulare.visibile}</a><a href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp</a><a href={`tel:${azienda.fisso.tel}`}>Fisso {azienda.fisso.visibile}</a><a href={`mailto:${azienda.email}`}>{azienda.email}</a><span>{azienda.orari.breve}</span></div>
       <div><strong>CEAS</strong><span>Dorgali – Cala Gonone</span><span>Omodeo – Sedilo</span></div>
-      <div class="legali"><a href="/privacy/">Privacy</a><a href="/cookie/">Cookie</a></div>
+      <div class="legali"><a href="/privacy/">Privacy</a><a href="/cookie/">Cookie</a><button type="button" class="link-btn" data-cookie-preferenze>Preferenze cookie</button></div>
     </footer>
 
     <div class="barra-mobile" transition:persist="barra">
@@ -97,6 +96,7 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
       <a class="scrivi" href={azienda.whatsappLink()} rel="noopener">WhatsApp</a>
     </div>
 
+    <CookieBanner />
     <script>import '../scripts/sito';</script>
   </body>
 </html>
