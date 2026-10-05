@@ -74,7 +74,7 @@ const faq = [
 // Chi fa cosa: tre ruoli distinti.
 const passi = [
   { titolo: 'Ti prepari con noi', testo: 'SSL tiene la formazione teorica di preparazione all\'esame.' },
-  { titolo: 'Sostieni l\'esame', testo: 'Le sessioni sono organizzate da SSL in qualità di Organismo di Valutazione di IMQ.' },
+  { titolo: 'Sostieni l\'esame', testo: 'Le sessioni, teoria e pratica, si svolgono nella nostra sede a Siniscola, organizzate da SSL in qualità di Organismo di Valutazione di IMQ.' },
   { titolo: 'IMQ certifica', testo: 'IMQ, Organismo di Certificazione, rilascia la certificazione al termine dell\'iter previsto.' },
 ];
 // Sessioni d'esame: per ora l'ultimo sabato di ogni mese, TUTTE da confermare.
@@ -174,7 +174,7 @@ const CHECK = 'M20 6 9 17l-5-5';
   <section class="sezione stretta" data-reveal id="esami" style="scroll-margin-top:80px">
     <div class="sezione-titolo">
       <h2>Esami e certificazione della persona</h2>
-      <p>Sono due momenti distinti: l'esame lo organizziamo noi come Organismo di Valutazione di IMQ, la certificazione la rilascia IMQ.</p>
+      <p>Sono due momenti distinti: l'esame lo organizziamo noi come Organismo di Valutazione di IMQ, nella nostra sede a Siniscola (prova teorica e prova pratica); la certificazione la rilascia IMQ.</p>
     </div>
     <div class="griglia larga">
       {esame.map((e) => (
@@ -187,6 +187,7 @@ const CHECK = 'M20 6 9 17l-5-5';
     <p style="margin-top:14px;color:var(--testo-3);font-size:14px">Fonte: prescrizioni IMQ per la certificazione di persone (Reg. UE 2015/2067), revisione 5 del 26/02/2026. Le regole possono cambiare: ti confermiamo sempre i dettagli prima dell'iscrizione.</p>
     <div class="card scura" style="margin-top:20px">
       <h3>Prossime sessioni d'esame</h3>
+      <p style="color:#d9d6d2;font-size:15px">Sede d'esame: {azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia}).</p>
       {sessioni.length > 0
         ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">(Da confermare)</em></span>)}</div>
           <p style="color:#d9d6d2;font-size:15px">Per avere la conferma della data, contattaci.</p></>
