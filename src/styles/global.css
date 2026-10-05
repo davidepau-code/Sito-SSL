@@ -512,3 +512,13 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 @keyframes giu-su-giu { 0%, 60%, 100% { transform: translateY(0); } 80% { transform: translateY(3px); } }
 @media (prefers-reduced-motion: reduce) { .btn-giu svg { animation: none; } }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* Pagina F-Gas: elenchi con spunta */
+.fg-elenco { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 14px 32px; }
+.fg-elenco li { display: flex; gap: 12px; align-items: flex-start; font-size: 17px; line-height: 1.4; }
+.fg-elenco li svg { flex: none; margin-top: 2px; padding: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--arancio); color: var(--su-arancio); box-sizing: border-box; }
+.fg-elenco.chiaro { grid-template-columns: 1fr; gap: 12px; }
+
+/* Pulsanti secondari dentro le card sempre scure: pillola chiara visibile in entrambi i temi */
+.card.scura .btn:not(.btn-primario) { color: #f1efec; background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.28); box-shadow: none; }
+.card.scura .btn:not(.btn-primario):hover { background: rgb(255 255 255 / 0.2); color: #fff; }

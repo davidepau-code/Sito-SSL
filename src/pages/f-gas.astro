@@ -1,54 +1,200 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import Steps from '../components/Steps.astro';
 import Faq from '../components/Faq.astro';
 import { azienda } from '../data/azienda';
 
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const wa = (m: string) => azienda.whatsappLink(m);
+
+// "Di cosa hai bisogno?": cinque percorsi, ognuno porta a una sezione o a una richiesta.
+const percorsi = [
+  { io: 'Devo certificare la mia impresa', serve: 'Ti accompagniamo nell\'iter di certificazione F-Gas dell\'azienda.', href: '#impresa', cta: 'Certifica la tua impresa', icona: 'M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M10 21v-4h4v4' },
+  { io: 'Devo prepararmi all\'esame', serve: 'Corso teorico di preparazione per i tecnici che devono sostenere l\'esame.', href: '#formazione', cta: 'Vedi il corso', icona: 'M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5' },
+  { io: 'Devo sostenere l\'esame', serve: 'Sessioni d\'esame organizzate da noi come Organismo di Valutazione di IMQ.', href: '#esami', cta: 'Vedi come funziona', icona: 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11' },
+  { io: 'Devo gestire un adempimento F-Gas', serve: 'Registro, Banca Dati, abilitazioni e comunicazione degli interventi.', href: '#adempimenti', cta: 'Vedi l\'assistenza', icona: 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7ZM14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8' },
+];
+
+const impresa = [
+  'Analisi preliminare della situazione aziendale',
+  'Verifica dei requisiti necessari',
+  'Verifica del personale certificato',
+  'Verifica delle attrezzature disponibili',
+  'Supporto nella predisposizione della documentazione',
+  'Predisposizione o revisione delle procedure',
+  'Verifica della conformità organizzativa',
+  'Preparazione dell\'impresa all\'iter di certificazione',
+  'Supporto nella gestione di eventuali carenze',
+  'Assistenza durante tutto il percorso',
+];
+const formazione = [
+  'Preparazione teorica alla prova d\'esame',
+  'Normativa F-Gas',
+  'Principi tecnici su impianti e refrigeranti',
+  'Obblighi dell\'operatore',
+  'Aggiornamenti normativi e tecnici',
+  'Informazioni su come si accede all\'esame',
+];
+const adempimenti = [
+  'Consulenza normativa F-Gas e verifica degli obblighi applicabili',
+  'Iscrizioni e abilitazioni',
+  'Supporto al Registro F-Gas e alla Banca Dati F-Gas',
+  'Gestione e verifica delle abilitazioni necessarie',
+  'Assistenza nella comunicazione degli interventi',
+  'Verifica della corretta gestione documentale',
+  'Assistenza per problemi operativi con la Banca Dati',
+];
+const esame = [
+  { t: 'Requisiti di accesso', d: '[Da completare]' },
+  { t: 'Prova teorica', d: '[Da completare]' },
+  { t: 'Prova pratica', d: '[Da completare]' },
+  { t: 'Documenti richiesti', d: '[Da completare]' },
+];
+// Chi fa cosa: tre ruoli distinti.
 const passi = [
-  { titolo: 'Corso di preparazione', testo: '[durata] ore di teoria e pratica su impianti reali' },
-  { titolo: 'Esame IMQ', testo: 'Prova teorica e pratica nella nostra sede, con esaminatore IMQ' },
-  { titolo: 'Certificato', testo: 'Rilasciato da IMQ, organismo di certificazione accreditato' },
+  { titolo: 'Ti prepari con noi', testo: 'SSL tiene la formazione teorica di preparazione all\'esame.' },
+  { titolo: 'Sostieni l\'esame', testo: 'Le sessioni sono organizzate da SSL in qualità di Organismo di Valutazione di IMQ.' },
+  { titolo: 'IMQ certifica', testo: 'IMQ, Organismo di Certificazione, rilascia la certificazione al termine dell\'iter previsto.' },
 ];
 const faq = [
-  'Quanto dura il certificato?',
-  "Che differenza c'è tra certificato persona e impresa?",
+  'Quanto dura la certificazione?',
+  "Che differenza c'è tra certificazione della persona e dell'impresa?",
   'Posso installare un climatizzatore senza patentino?',
-  'Cosa succede se il mio certificato scade?',
+  'Cosa succede se la mia certificazione scade?',
 ].map((domanda) => ({ domanda, risposta: '[Risposta da redigere e verificare su fonte ufficiale]' }));
 // Date d'esame: lista vuota finché non ci sono sessioni reali confermate.
 const sessioni: string[] = [];
+const CHECK = 'M20 6 9 17l-5-5';
 ---
-<Base title="Certificazione F-Gas: corso ed esame IMQ – Servizi Sicurezza Lavoro" description="Corso di preparazione ed esame di certificazione F-Gas con IMQ nella nostra sede di Siniscola, per frigoristi, termoidraulici e installatori.">
+<Base title="F-Gas: formazione, esami e certificazione dell'impresa – Servizi Sicurezza Lavoro" description="F-Gas a Siniscola: corso di preparazione all'esame, sessioni d'esame come Organismo di Valutazione di IMQ, consulenza per la certificazione dell'impresa e assistenza su Registro e Banca Dati F-Gas.">
   <section class="sezione testata due-col">
     <div class="colonna">
-      <span class="pillola">F-Gas · Regolamento UE 2024/573</span>
-      <h1>Certificazione F-Gas: corso ed esame IMQ in un'unica sede</h1>
-      <p class="lead">Per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore. Ti prepariamo, sostieni l'esame con IMQ da noi, ricevi il certificato.</p>
+      <span class="pillola" style="align-self:flex-start">F-Gas</span>
+      <h1>F-Gas: dalla preparazione all'esame alla certificazione dell'impresa</h1>
+      <p class="lead">Per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore. Ti prepariamo, organizziamo l'esame e accompagniamo la tua impresa fino alla certificazione, poi ci occupiamo degli adempimenti.</p>
       <div class="gruppo">
-        <a class="btn btn-primario" href="#contatti" data-contatti>Prenota corso ed esame</a>
-        <a class="btn btn-vetro" href={`tel:${azienda.cellulare.tel}`}>Chiama</a>
-        <a class="btn btn-vetro" href={azienda.whatsappLink('Buongiorno, vorrei informazioni sulla certificazione F-Gas.')} rel="noopener">WhatsApp</a>
+        <a class="btn btn-primario" href="#impresa">Certifica la tua impresa <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn btn-vetro" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Scrivici su WhatsApp</a>
+      </div>
+      <div class="gruppo">
+        <a class="btn btn-vetro btn-giu" href="#bisogno">Di cosa hai bisogno? <Icon d="M12 5v14M5 12l7 7 7-7" size={18} /></a>
       </div>
     </div>
     <div class="foto" style="min-height:420px"><span>Foto: tecnico al lavoro su un impianto di refrigerazione</span></div>
   </section>
 
-  <section class="sezione stretta griglia larga" data-reveal>
-    <div class="card"><h3>Chi deve certificarsi</h3><p class="testo-corpo">Chi installa, manutiene, ripara o smantella apparecchiature di refrigerazione, condizionamento e pompe di calore contenenti gas fluorurati. [Indicare categorie]</p></div>
-    <div class="card scura">
+  <section class="sezione" data-reveal id="bisogno" style="scroll-margin-top:80px">
+    <div class="sezione-titolo">
+      <h2>Di cosa hai bisogno?</h2>
+      <p>Scegli la tua situazione: ti portiamo subito alla risposta.</p>
+    </div>
+    <div class="casi">
+      {percorsi.map((c) => (
+        <a class="card caso glow" href={c.href}>
+          <span class="icona"><Icon d={c.icona} size={24} width={1.8} /></span>
+          <span class="io">{c.io}</span>
+          <span class="serve">{c.serve}</span>
+          <span class="cta-link">{c.cta} <Icon d={FRECCIA} /></span>
+        </a>
+      ))}
+    </div>
+    <p style="margin-top:24px;color:var(--testo-2)">Hai un dubbio? <a href={wa('Buongiorno, ho bisogno di assistenza sul F-Gas.')} rel="noopener" style="font-weight:700">Scrivici</a>: ti rispondiamo noi.</p>
+  </section>
+
+  <section class="sezione" data-reveal id="impresa" style="scroll-margin-top:80px">
+    <div class="card scura" style="padding:clamp(28px,4vw,56px);gap:28px">
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:760px">
+        <span class="pillola" style="align-self:flex-start">Per le imprese</span>
+        <h2>Certifica la tua impresa</h2>
+        <p style="font-size:18px;color:#d9d6d2">Assistiamo le imprese che devono ottenere o mantenere la certificazione F-Gas aziendale: partiamo da una verifica della tua situazione e ti accompagniamo passo per passo, senza lasciarti da solo con le carte.</p>
+      </div>
+      <ul class="fg-elenco">
+        {impresa.map((v) => <li><Icon d={CHECK} size={18} width={2.4} /><span>{v}</span></li>)}
+      </ul>
+      <div class="gruppo">
+        <a class="btn btn-primario" href={wa('Buongiorno, vorrei una verifica preliminare per la certificazione F-Gas della mia impresa.')} rel="noopener">Richiedi una verifica preliminare <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn" href="#contatti" data-contatti>Parla con un consulente F-Gas</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione stretta" data-reveal id="formazione" style="scroll-margin-top:80px">
+    <div class="sezione-titolo">
+      <h2>Formazione pre-esame</h2>
+      <p>Corso teorico per i tecnici che devono affrontare l'esame di certificazione F-Gas della persona.</p>
+    </div>
+    <div class="due-col alto">
+      <div class="card">
+        <span class="titolo">Cosa si studia</span>
+        <ul class="fg-elenco chiaro">
+          {formazione.map((v) => <li><Icon d={CHECK} size={18} width={2.4} /><span>{v}</span></li>)}
+        </ul>
+        <p class="corpo" style="flex:0;font-size:14.5px">La formazione che teniamo è di tipo teorico.</p>
+      </div>
+      <div class="card scura">
+        <h3>Prossime date del corso</h3>
+        <p style="color:#d9d6d2">[Calendario in definizione: contattaci per sapere quando parte il prossimo corso.]</p>
+        <div class="gruppo">
+          <a class="btn btn-primario" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei iscrivermi al corso di preparazione all\'esame F-Gas.')} rel="noopener">Iscriviti al corso</a>
+          <a class="btn" style="font-size:16px;padding:13px 22px" href="#contatti" data-contatti>Richiedi informazioni</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione stretta" data-reveal id="esami" style="scroll-margin-top:80px">
+    <div class="sezione-titolo">
+      <h2>Esami e certificazione della persona</h2>
+      <p>Sono due momenti distinti: l'esame lo organizziamo noi come Organismo di Valutazione di IMQ, la certificazione la rilascia IMQ.</p>
+    </div>
+    <div class="griglia larga">
+      {esame.map((e) => (
+        <div class="card">
+          <span class="titolo">{e.t}</span>
+          <span class="corpo">{e.d}</span>
+        </div>
+      ))}
+    </div>
+    <div class="card scura" style="margin-top:20px">
       <h3>Prossime sessioni d'esame</h3>
       {sessioni.length > 0
         ? <div class="gruppo" style="gap:8px">{sessioni.map((s) => <span class="chip" style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s}</span>)}</div>
         : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte la prossima sessione.</p>}
-      <a class="btn btn-primario" style="align-self:flex-start;font-size:16px;padding:13px 22px" href="#contatti" data-contatti>Prenota il posto</a>
+      <div class="gruppo">
+        <a class="btn btn-primario" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei iscrivermi a una sessione d\'esame F-Gas.')} rel="noopener">Iscriviti all'esame</a>
+        <a class="btn" style="font-size:16px;padding:13px 22px" href="#contatti" data-contatti>Richiedi informazioni</a>
+      </div>
     </div>
   </section>
 
-  <section class="sezione stretta griglia larga" data-reveal>
-    <div class="card accento"><h3>Novità Regolamento UE 2024/573</h3><p class="testo-corpo">[Box sintetico: cosa cambia per i tecnici e le imprese]</p></div>
-    <div class="card"><h3>Per le imprese</h3><p class="testo-corpo">[Supporto certificazione impresa, Banca Dati F-Gas, registro apparecchiature – da confermare]</p></div>
+  <Steps passi={passi} />
+
+  <section class="sezione stretta" data-reveal id="adempimenti" style="scroll-margin-top:80px">
+    <div class="sezione-titolo">
+      <h2>Consulenza e adempimenti F-Gas</h2>
+      <p>Per imprese e tecnici che hanno bisogno di una mano con la gestione quotidiana degli obblighi.</p>
+    </div>
+    <div class="due-col alto">
+      <div class="card">
+        <ul class="fg-elenco chiaro">
+          {adempimenti.map((v) => <li><Icon d={CHECK} size={18} width={2.4} /><span>{v}</span></li>)}
+        </ul>
+      </div>
+      <div class="colonna" style="gap:14px">
+        <a class="card caso glow" href={wa('Buongiorno, ho un problema con la Banca Dati F-Gas.')} rel="noopener">
+          <span class="io">Hai un problema con la Banca Dati?</span>
+          <span class="serve">Raccontaci cosa succede: ti aiutiamo a risolverlo.</span>
+          <span class="cta-link">Richiedi assistenza <Icon d={FRECCIA} /></span>
+        </a>
+        <a class="card caso glow" href={wa('Buongiorno, devo comunicare un intervento F-Gas.')} rel="noopener">
+          <span class="io">Devi comunicare un intervento?</span>
+          <span class="serve">Ti seguiamo nella comunicazione prevista dalla normativa.</span>
+          <span class="cta-link">Chiedi aiuto <Icon d={FRECCIA} /></span>
+        </a>
+      </div>
+    </div>
   </section>
 
-  <Steps passi={passi} />
-  <Faq titolo="FAQ F-Gas" voci={faq} />
+  <Faq titolo="Domande frequenti sul F-Gas" voci={faq} />
 </Base>
