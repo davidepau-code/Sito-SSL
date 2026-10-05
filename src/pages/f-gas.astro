@@ -174,7 +174,7 @@ const CHECK = 'M20 6 9 17l-5-5';
       <h3>Prossime sessioni d'esame</h3>
       {sessioni.length > 0
         ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">(Da confermare)</em></span>)}</div>
-          <p style="color:#d9d6d2;font-size:15px">La sessione è di norma l'ultimo sabato del mese; dopo questa, passiamo a quella del mese successivo. La data è indicativa: confermale con noi prima di iscriverti.</p></>
+          <p style="color:#d9d6d2;font-size:15px">Per avere la conferma della data, contattaci.</p></>
         : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte la prossima sessione.</p>}
       <div class="gruppo">
         <a class="btn btn-primario" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei iscrivermi a una sessione d\'esame F-Gas.')} rel="noopener">Iscriviti all'esame</a>
