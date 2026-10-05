@@ -530,5 +530,5 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 /* Home: mappa al posto della foto. La tessera "Dal 2008" sporge a sinistra su desktop e,
    restringendo la pagina, entra nella mappa fino a stare a 20px dal bordo alto e sinistro (vista in colonna). */
 .hero-mappa { position: absolute; inset: 0; border-radius: var(--r-card); overflow: hidden; box-shadow: 0 30px 60px -30px rgb(36 40 44 / 0.4); background: var(--foto-1); }
-.hero-mappa iframe { border: 0; width: 100%; height: 100%; display: block; }
+.hero-mappa iframe { border: 0; position: absolute; left: 0; top: -120px; width: 100%; height: calc(100% + 120px); display: block; } /* spinge fuori dal riquadro la scheda bianca di Google (in alto a sinistra), lasciando visibili i crediti in basso */
 .hero-tile { position: absolute; left: clamp(-20px, calc(20px - (100vw - 760px) * 0.1176), 20px); top: clamp(20px, calc(20px + (100vw - 760px) * 0.0588), 40px); }

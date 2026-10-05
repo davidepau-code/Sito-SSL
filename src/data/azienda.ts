@@ -10,6 +10,8 @@ export const azienda = {
   email: 'info@servizisicurezzalavoro.it',
   // Sede operativa (quella su Google Maps).
   sede: { via: 'Zona Industriale, Comparto C, lotto 24A', cap: '08029', citta: 'Siniscola', provincia: 'NU' },
+  // Coordinate della scheda Google Maps dell'attivita (per il segnaposto delle mappe incorporate).
+  coordinate: '40.555986,9.6773556',
   sedeLegale: 'Loc. Salapattu snc – 08029 Siniscola (NU)',
   // Orari dalla scheda Google Maps (lun–ven 9–13, 14–18; sabato e domenica chiuso).
   orari: { testo: 'Lunedì – Venerdì, 9:00–13:00 / 14:00–18:00', breve: 'Lun – Ven, 9–13 / 14–18' },
