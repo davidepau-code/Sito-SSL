@@ -45,7 +45,11 @@ async function contatto(request: Request, env: Env): Promise<Response> {
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ from: env.EMAIL_DA, to: [env.EMAIL_A], ...(env.EMAIL_CC ? { cc: [env.EMAIL_CC] } : {}), reply_to: email, subject: `Richiesta dal sito: ${nome}${servizio ? ' (' + servizio + ')' : ''}`, html, text: testo }),
   });
-  if (!r.ok) return json({ ok: false, errore: 'invio' }, 502);
+  if (!r.ok) {
+    const msg = await r.text().catch(() => '');
+    console.log('Resend', r.status, msg.slice(0, 300));
+    return json({ ok: false, errore: 'invio', resend: r.status, dettaglio: msg.slice(0, 300) }, 502);
+  }
   return json({ ok: true });
 }
 
