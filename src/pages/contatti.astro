@@ -32,7 +32,7 @@ const mappa = encodeURIComponent(`${azienda.sede.via}, ${azienda.sede.cap} ${azi
         <span style="color:var(--testo-3)">Sabato e domenica chiuso.</span>
       </div>
       <div class="card forte hero-mappa mappa-card" style="padding:0;border-radius:var(--r-img);min-height:300px">
-        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={`https://maps.google.com/maps?q=${azienda.coordinate}&z=16&output=embed&hl=it`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" ></iframe>
+        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={azienda.mappaIncorporata} loading="lazy" referrerpolicy="no-referrer-when-downgrade" ></iframe>
         <a class="btn btn-primario btn-mappa" href={azienda.mapsLink} target="_blank" rel="noopener">Apri in Maps</a>
       </div>
     </div>

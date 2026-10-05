@@ -55,7 +55,7 @@ const faq = [
     </div>
     <div style="position:relative;min-height:480px">
       <div class="hero-mappa">
-        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={`https://maps.google.com/maps?q=${azienda.coordinate}&z=16&output=embed&hl=it`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe title="Mappa della sede di Servizi Sicurezza Lavoro a Siniscola" src={azienda.mappaIncorporata} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <a class="btn btn-primario btn-mappa" href={azienda.mapsLink} target="_blank" rel="noopener">Apri in Maps</a>
       </div>
       <div class="vetro hero-tile" style="display:flex;align-items:center;gap:12px;padding:14px 18px 14px 14px;border-radius:var(--r-img)">
