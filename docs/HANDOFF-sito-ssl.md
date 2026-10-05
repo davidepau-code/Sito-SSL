@@ -99,7 +99,7 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
   /formazione/haccp/                HACCP / OSA
 /f-gas/                             Corso ed esame IMQ, supporto imprese, FAQ, novità Reg. UE 2024/573
 /consulenza/
-  /consulenza/<servizio>/  una pagina per servizio (dati in src/data/consulenze.ts, dal Listino consulenze Notion): dvr, aggiornamento-dvr, duvri, pos, haccp, iso-9001, collaudo-acustico (+ F-Gas impresa su /f-gas/#impresa). Redirect in public/_redirects.
+  /consulenza/<servizio>/  una pagina per servizio (dati in src/data/consulenze.ts, dal Listino consulenze Notion): dvr, aggiornamento-dvr, duvri, pos, haccp, iso-9001, collaudo-acustico (+ F-Gas impresa su /f-gas/#impresa). Struttura: /consulenza/ ha 4 tessere (Sicurezza sul lavoro -> elenco /consulenza/sicurezza-sul-lavoro/, Sicurezza alimentare -> /consulenza/haccp/, ISO 9001, Collaudo acustico). Redirect in public/_redirects.
 /ceas/                              CEAS Dorgali–Cala Gonone e CEAS Omodeo–Sedilo
 /chi-siamo/
 /contatti/                          Contatti + modulo preventivo
@@ -163,7 +163,7 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 /about-us/privacy/                                → /privacy/
 /about-us/cookies/                                → /cookie/
 /about-us/ceas/                                   → /ceas/
-/consulenza/sicurezza-sul-lavoro/                 → /consulenza/dvr/
+/consulenza/sicurezza-sul-lavoro/                 → /consulenza/sicurezza-sul-lavoro/ (pagina elenco DVR/DUVRI/POS)
 /consulenza/sicurezza-alimentare/                 → /consulenza/haccp/
 /consulenza/envsafety/                            → /consulenza/
 /consulenza/sdg/                                  → /ceas/

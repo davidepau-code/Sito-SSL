@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { azienda } from '../../data/azienda';
+import { consulenze } from '../../data/consulenze';
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const servizi = consulenze.filter((c) => c.area === 'Sicurezza sul lavoro');
+---
+<Base
+  title="Consulenza sicurezza sul lavoro: DVR, DUVRI, POS – Servizi Sicurezza Lavoro"
+  description="Documento di valutazione dei rischi (DVR) e suo aggiornamento, DUVRI e POS: redigiamo i documenti di sicurezza sul lavoro che la legge richiede alla tua azienda."
+  crumbs={[{ nome: 'Home', url: '/' }, { nome: 'Consulenza', url: '/consulenza/' }, { nome: 'Sicurezza sul lavoro', url: '/consulenza/sicurezza-sul-lavoro/' }]}
+>
+  <section class="sezione testata colonna">
+    <div class="briciole"><a href="/">Home</a><span>›</span><a href="/consulenza/">Consulenza</a><span>›</span><span aria-current="page">Sicurezza sul lavoro</span></div>
+    <h1>Consulenza sulla sicurezza sul lavoro</h1>
+    <p class="lead" style="max-width:720px">I documenti che la legge richiede a chi ha lavoratori, o affida lavori a imprese esterne, o lavora in cantiere. Scegli quello che ti serve.</p>
+    <div class="gruppo">
+      <a class="btn btn-primario" href={azienda.whatsappLink('Buongiorno, vorrei informazioni sulla consulenza per la sicurezza sul lavoro.')} rel="noopener">Scrivici su WhatsApp <Icon d={FRECCIA} size={18} /></a>
+      <a class="btn btn-vetro" href="#contatti" data-contatti>Richiedi un preventivo</a>
+    </div>
+  </section>
+  <section class="sezione stretta" data-reveal>
+    <div class="griglia larga">
+      {servizi.map((c) => (
+        <a class="card link glow" href={`/consulenza/${c.slug}/`}>
+          <span class="icona"><Icon d={c.icona} size={24} width={1.8} /></span>
+          <span class="titolo">{c.breve}</span>
+          <span class="corpo">{c.riassunto}</span>
+          <span class="cta-link">Scopri il servizio <Icon d={FRECCIA} /></span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

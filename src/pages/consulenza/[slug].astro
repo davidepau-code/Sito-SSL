@@ -11,6 +11,7 @@ export function getStaticPaths() {
 const { c } = Astro.props;
 const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
 const collegati = c.collegati.map(consulenzaPerSlug);
+const hub = c.area === 'Sicurezza sul lavoro' ? { nome: 'Sicurezza sul lavoro', url: '/consulenza/sicurezza-sul-lavoro/' } : null;
 const passi = [
   { titolo: 'Ci racconti cosa ti serve', testo: 'Chiamaci o scrivici: ci bastano l\'attività e la situazione in cui ti trovi.' },
   { titolo: 'Valutiamo insieme', testo: 'Ti diciamo cosa serve davvero e ti prepariamo un preventivo chiaro, senza impegno.' },
@@ -21,10 +22,10 @@ const passi = [
 <Base
   title={`${c.nome} – Servizi Sicurezza Lavoro`}
   description={c.riassunto}
-  crumbs={[{ nome: 'Home', url: '/' }, { nome: 'Consulenza', url: '/consulenza/' }, { nome: c.breve, url: `/consulenza/${c.slug}/` }]}
+  crumbs={[{ nome: 'Home', url: '/' }, { nome: 'Consulenza', url: '/consulenza/' }, ...(hub ? [hub] : []), { nome: c.breve, url: `/consulenza/${c.slug}/` }]}
 >
   <section class="sezione testata colonna">
-    <div class="briciole"><a href="/">Home</a><span>›</span><a href="/consulenza/">Consulenza</a><span>›</span><span aria-current="page">{c.breve}</span></div>
+    <div class="briciole"><a href="/">Home</a><span>›</span><a href="/consulenza/">Consulenza</a><span>›</span>{hub && <><a href={hub.url}>{hub.nome}</a><span>›</span></>}<span aria-current="page">{c.breve}</span></div>
     <span class="chip piatto" style="align-self:flex-start">{c.area}</span>
     <h1>{c.nome}</h1>
     <p class="lead" style="max-width:720px">{c.riassunto}</p>
