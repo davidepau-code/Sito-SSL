@@ -522,3 +522,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 /* Pulsanti secondari dentro le card sempre scure: pillola chiara visibile in entrambi i temi */
 .card.scura .btn:not(.btn-primario) { color: #f1efec; background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.28); box-shadow: none; }
 .card.scura .btn:not(.btn-primario):hover { background: rgb(255 255 255 / 0.2); color: #fff; }
+
+/* Mostrato solo a chi ha il mouse (PC): su telefono si resta su WhatsApp */
+.solo-pc { display: none; }
+@media (hover: hover) and (pointer: fine) { .solo-pc { display: inline-flex; } }

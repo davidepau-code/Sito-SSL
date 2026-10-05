@@ -76,6 +76,7 @@ const CHECK = 'M20 6 9 17l-5-5';
       <div class="gruppo">
         <a class="btn btn-primario" href="#impresa">Certifica la tua impresa <Icon d={FRECCIA} size={18} /></a>
         <a class="btn btn-vetro" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Scrivi a {azienda.fgas.referente} su WhatsApp</a>
+        <a class="btn btn-vetro solo-pc" href={`tel:${azienda.fgas.tel}`}>Chiama {azienda.fgas.referente} {azienda.fgas.visibile}</a>
       </div>
       <div class="gruppo">
         <a class="btn btn-vetro btn-giu" href="#bisogno">Di cosa hai bisogno? <Icon d="M12 5v14M5 12l7 7 7-7" size={18} /></a>
@@ -115,6 +116,7 @@ const CHECK = 'M20 6 9 17l-5-5';
       <div class="gruppo">
         <a class="btn btn-primario" href={wa('Buongiorno, vorrei una verifica preliminare per la certificazione F-Gas della mia impresa.')} rel="noopener">Richiedi una verifica preliminare <Icon d={FRECCIA} size={18} /></a>
         <a class="btn" href={wa('Buongiorno, vorrei parlare con un consulente F-Gas.')} rel="noopener">Parla con {azienda.fgas.referente}, consulente F-Gas</a>
+        <a class="btn solo-pc" href={`tel:${azienda.fgas.tel}`}>Chiama {azienda.fgas.visibile}</a>
       </div>
     </div>
   </section>
