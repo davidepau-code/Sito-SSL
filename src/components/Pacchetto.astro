@@ -40,8 +40,14 @@ import { settori, dimensioni, attestati, DATA_VERIFICA } from '../data/normativa
       <p id="pk-desc" class="trova-sotto"></p>
       <div id="pk-avvisi"></div>
 
-      <h3 class="pk-titolo">Per la tua attività ti servono</h3>
-      <ul id="pk-lista" class="pk-elenco"></ul>
+      <p id="pk-riepilogo" class="pk-riepilogo"></p>
+      <p id="pk-nessuna" class="pk-nessuna" hidden></p>
+      {[['corso', 'Corsi di formazione'], ['documento', 'Documenti da redigere'], ['adempimento', 'Adempimenti']].map(([t, titolo]) => (
+        <section class="pk-gruppo" id={`pk-g-${t}`} hidden>
+          <h3 class="pk-titolo"><span>{titolo}</span><b class="pk-n"></b></h3>
+          <ul id={`pk-lista-${t}`} class="pk-elenco"></ul>
+        </section>
+      ))}
 
       <div id="pk-gia-box" hidden>
         <h3 class="pk-titolo">Già in regola (da tenere d'occhio)</h3>

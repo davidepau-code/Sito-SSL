@@ -51,7 +51,6 @@ function riempiVoce(li: HTMLElement, v: Voce, gia: boolean) {
   li.replaceChildren();
   const corpo = el('div', 'pk-corpo');
   const testa = el('div', 'pk-testa');
-  testa.appendChild(el('em', 'pk-tipo ' + v.tipo, v.tipo)); // etichetta a sinistra del nome
   testa.appendChild(el('strong', undefined, v.nome));
   if (v.catalogo) {
     const a = el('a', 'pk-link', 'nel catalogo') as HTMLAnchorElement;
@@ -59,12 +58,19 @@ function riempiVoce(li: HTMLElement, v: Voce, gia: boolean) {
     testa.appendChild(a);
   }
   corpo.appendChild(testa);
-  if (!gia) corpo.appendChild(el('p', 'pk-perche', v.perche));
-  if (v.nota) corpo.appendChild(el('p', 'pk-perche', v.nota));
-  const meta = el('div', 'pk-meta');
-  if (v.durata && !gia) meta.appendChild(el('span', undefined, 'Durata: ' + v.durata));
-  if (v.aggiornamento) meta.appendChild(el('span', undefined, 'Aggiornamento: ' + v.aggiornamento));
-  if (meta.childElementCount) corpo.appendChild(meta);
+  if (v.nota) corpo.appendChild(el('p', 'pk-nota-voce', v.nota));
+
+  // Durata e aggiornamento: due righe sempre uguali, etichetta + valore (niente pillole)
+  const dati = el('dl', 'pk-dati');
+  const riga = (et: string, val: string) => { dati.appendChild(el('dt', undefined, et)); dati.appendChild(el('dd', undefined, val)); };
+  if (v.durata && !gia) riga('Durata', v.durata);
+  if (v.aggiornamento) riga('Aggiornamento', v.aggiornamento);
+  if (dati.childElementCount) corpo.appendChild(dati);
+
+  // Perché e fonte: a scomparsa
+  const det = el('details', 'pk-pq');
+  det.appendChild(el('summary', undefined, gia ? 'Fonte' : 'Perché?'));
+  if (!gia) det.appendChild(el('p', 'pk-perche', v.perche));
   const fonte = el('p', 'pk-fonte');
   fonte.appendChild(document.createTextNode('Fonte: '));
   if (v.url) {
@@ -72,9 +78,12 @@ function riempiVoce(li: HTMLElement, v: Voce, gia: boolean) {
     a.href = v.url; a.target = '_blank'; a.rel = 'noopener';
     fonte.appendChild(a);
   } else fonte.appendChild(document.createTextNode(v.fonte));
-  corpo.appendChild(fonte);
+  det.appendChild(fonte);
+  corpo.appendChild(det);
   li.appendChild(corpo);
 }
+
+const plurale = (n: number, uno: string, molti: string) => `${n} ${n === 1 ? uno : molti}`;
 
 /** Riconcilia una lista <ul> con le voci: aggiorna, aggiunge (animando) e rimuove (animando). */
 function sincronizza(ul: HTMLElement, voci: Voce[], gia: boolean, vuoto?: string) {
@@ -136,11 +145,50 @@ function inizia() {
   const posseduti = () => Array.from(document.querySelectorAll<HTMLInputElement>('#pk-attestati-box input:checked')).map((i) => i.value);
   const ingresso = () => ({ settore: selS.value, dimensione: selD.value, risposte, posseduti: posseduti() });
 
+  // Il riquadro di sinistra resta agganciato mentre si scorre l'elenco. Se è più alto dello schermo
+  // si aggancia dal fondo (top negativo), così le ultime domande restano sempre raggiungibili.
+  const sx = document.querySelector<HTMLElement>('.pk-sx')!;
+  function aggiornaFissa() {
+    const ok = innerWidth >= 900;
+    sx.classList.toggle('pk-fissa', ok);
+    sx.style.top = ok ? Math.min(96, innerHeight - sx.offsetHeight - 24) + 'px' : '';
+  }
+  addEventListener('resize', aggiornaFissa);
+  sx.addEventListener('toggle', () => setTimeout(aggiornaFissa, 450), true);
+
   function disegna() {
     const inp = ingresso();
     const e = calcola(inp);
-    sincronizza($('pk-lista'), e.voci, false, settori.find((x) => x.id === inp.settore)?.vuoto ?? 'Nel tuo caso conviene parlarne: scrivici e ti diciamo cosa serve davvero.');
+    // Tre gruppi (corsi, documenti, adempimenti): un gruppo vuoto sparisce
+    const tipi = ['corso', 'documento', 'adempimento'] as const;
+    tipi.forEach((t) => {
+      const voci = e.voci.filter((v) => v.tipo === t);
+      const g = $('pk-g-' + t);
+      if (voci.length) mostraBlocco(g, true);
+      sincronizza($('pk-lista-' + t), voci, false);
+      g.querySelector('.pk-n')!.textContent = String(voci.length);
+      if (!voci.length) mostraBlocco(g, false);
+    });
+    const conta = (t: string) => e.voci.filter((v) => v.tipo === t).length;
+    const n = e.voci.length;
+    const nessuna = $('pk-nessuna');
+    nessuna.hidden = n > 0;
+    nessuna.textContent = settori.find((x) => x.id === inp.settore)?.vuoto ?? 'Nel tuo caso conviene parlarne: scrivici e ti diciamo cosa serve davvero.';
+    const parti = [
+      conta('corso') && plurale(conta('corso'), 'corso', 'corsi'),
+      conta('documento') && plurale(conta('documento'), 'documento', 'documenti'),
+      conta('adempimento') && plurale(conta('adempimento'), 'adempimento', 'adempimenti'),
+    ].filter(Boolean);
+    const riepilogo = $('pk-riepilogo');
+    riepilogo.replaceChildren();
+    riepilogo.hidden = n === 0;
+    if (n) {
+      riepilogo.appendChild(el('strong', undefined, n === 1 ? 'Ti serve 1 cosa' : `Ti servono ${n} cose`));
+      riepilogo.appendChild(document.createTextNode(`: ${parti.join(', ')}.`));
+      if (e.gia.length) riepilogo.appendChild(document.createTextNode(e.gia.length === 1 ? ' Un’altra è già in regola.' : ` Altre ${e.gia.length} sono già in regola.`));
+    }
     sincronizza($('pk-gia'), e.gia, true);
+    aggiornaFissa();
     mostraBlocco($('pk-gia-box'), e.gia.length > 0);
     const chiave = e.avvisi.join('|');
     if (chiave !== avvisiChiave) {
@@ -156,6 +204,7 @@ function inizia() {
     const c = $('pk-domande'); c.replaceChildren();
     mostraBlocco($('pk-domande-box'), !!s && s.domande.length > 0);
     mostraBlocco($('pk-attestati-box'), !!s);
+    setTimeout(aggiornaFissa, 550);
     if (!s) return;
     s.domande.forEach((d, i) => {
       const r = el('div', 'pk-dom'); r.style.setProperty('--n', String(i));
