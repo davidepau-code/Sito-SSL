@@ -14,25 +14,42 @@ const arancio = () => new MeshPhysicalMaterial({ color: 0xe9650a, roughness: 0.4
 const plastica = (c: number, r = 0.5) => new MeshStandardMaterial({ color: c, roughness: r, metalness: 0.05 });
 
 /* ---------- Casco ---------- */
+// Cupola a "superellisse" (spalle squadrate, alta sulla sommità), un po' più lunga che larga, bordo corto tutto intorno,
+// visiera frontale, nervatura centrale rialzata con due più basse ai lati, fessure laterali e regolatore dietro.
 function casco() {
   const g = new Group();
   const m = arancio();
+  const N = 2.5, H = 0.86;
+  const quota = (x: number, z: number) => { const r = Math.min(Math.hypot(x, z), 0.999); return H * Math.pow(1 - Math.pow(r, N), 1 / N); };
+  const guscio = new Group(); guscio.scale.z = 1.2; g.add(guscio);
+
   const prof: Vector2[] = [];
-  for (let i = 0; i <= 28; i++) { const t = (i / 28) * (Math.PI / 2); prof.push(new Vector2(Math.sin(t), Math.cos(t) * 0.92)); }
-  prof.push(new Vector2(1.04, -0.03), new Vector2(1.15, -0.07), new Vector2(1.17, -0.12), new Vector2(1.08, -0.13), new Vector2(0.97, -0.1));
-  g.add(new Mesh(new LatheGeometry(prof, 72), m));
-  // visiera
-  const vis = new Mesh(new CylinderGeometry(1.1, 1.36, 0.16, 56, 1, true, -Math.PI * 0.4, Math.PI * 0.8), m);
-  vis.position.y = -0.06; g.add(vis);
-  // nervature
-  [-0.42, 0, 0.42].forEach((a, i) => {
-    const r = new Mesh(new TorusGeometry(1.0, i === 1 ? 0.055 : 0.04, 14, 56, Math.PI), arancio());
-    r.scale.y = 0.93; r.rotation.y = Math.PI / 2 + a; g.add(r);
-  });
-  // fascia sul bordo
-  const fascia = new Mesh(new CylinderGeometry(1.045, 1.075, 0.07, 64, 1, true), plastica(0x24282c, 0.6));
-  fascia.position.y = -0.09; g.add(fascia);
-  g.scale.setScalar(1.15); g.position.y = -0.06;
+  for (let i = 0; i <= 40; i++) { const t = (i / 40) * (Math.PI / 2); prof.push(new Vector2(Math.pow(Math.sin(t), 2 / N), H * Math.pow(Math.cos(t), 2 / N))); }
+  prof.push(new Vector2(1.03, -0.02), new Vector2(1.09, -0.06), new Vector2(1.1, -0.1), new Vector2(1.03, -0.11), new Vector2(0.97, -0.08));
+  guscio.add(new Mesh(new LatheGeometry(prof, 96), m));
+
+  // visiera: lingua inclinata verso il basso, solo davanti
+  const visiera = new Mesh(new CylinderGeometry(1.08, 1.4, 0.12, 64, 1, true, -Math.PI * 0.33, Math.PI * 0.66), m);
+  visiera.position.set(0, -0.08, 0); visiera.rotation.x = 0.06; guscio.add(visiera);
+
+  // nervature che seguono la cupola
+  const nervatura = (x: number, raggio: number, rialzo: number) => {
+    const pt: Vector3[] = [];
+    for (let i = 0; i <= 48; i++) { const z = -0.97 + (i / 48) * 1.94; pt.push(new Vector3(x, quota(x, z) + rialzo, z)); }
+    const mesh = new Mesh(new TubeGeometry(new CatmullRomCurve3(pt), 64, raggio, 12, false), arancio());
+    guscio.add(mesh);
+  };
+  nervatura(0, 0.085, 0.035);
+  nervatura(-0.38, 0.045, 0.02);
+  nervatura(0.38, 0.045, 0.02);
+
+  // fessure per le orecchie e regolatore posteriore
+  [-1, 1].forEach((l) => { const f = new Mesh(new BoxGeometry(0.1, 0.1, 0.34), plastica(0x1d2023, 0.6)); f.position.set(l * 1.03, -0.02, 0); guscio.add(f); });
+  const regolatore = new Mesh(new RoundedBoxGeometry(0.46, 0.2, 0.14, 3, 0.04), plastica(0x1d2023, 0.55)); regolatore.position.set(0, -0.1, -1.06); guscio.add(regolatore);
+  // interno scuro (bardatura) visibile da sotto
+  const interno = new Mesh(new CylinderGeometry(0.96, 0.96, 0.02, 48), plastica(0x15181a, 0.8)); interno.position.y = -0.06; guscio.add(interno);
+
+  g.scale.setScalar(1.25); g.position.y = -0.2;
   return g;
 }
 
@@ -161,7 +178,7 @@ function avvia() {
       g.userData.k = (g.userData.k ?? 0) + (target - (g.userData.k ?? 0)) * 0.08;
       const k = g.userData.k as number;
       if (target === 0 && k < 0.01) { scena.remove(g); voci.delete(nome); return; }
-      const fattore = (piccolo ? 0.62 : 1) * Math.max(k, 0.001);
+      const fattore = (piccolo ? 0.8 : 1) * Math.max(k, 0.001);
       g.scale.setScalar(sb * fattore);
 
       // posizione verticale: segue la pagina più lentamente (profondità)
@@ -170,7 +187,7 @@ function avvia() {
       const vy = 0.5 + ((ancora - scorr) * 0.7) / h;
       g.position.y = (0.5 - vy) * altezzaVista;
       g.visible = vy > -0.35 && vy < 1.35;
-      const x = (piccolo ? 0.42 : 0.74) * (larghVista / 2);
+      const x = (piccolo ? 0.86 : 0.66) * (larghVista / 2);
       g.position.x = v.lato * x;
       // rotazione con lo scorrimento (+ un lieve movimento da fermo)
       const giro = scorr * 0.0042 + v.indice * 1.7;

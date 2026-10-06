@@ -629,4 +629,4 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 /* Sfondo 3D (esperimento): dietro ai contenuti, sopra i riflessi colorati */
 #sfondo3d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s var(--ease); }
 #sfondo3d[data-pronto] { opacity: 0.9; }
-@media (max-width: 899px) { #sfondo3d[data-pronto] { opacity: 0.5; } }
+@media (max-width: 899px) { #sfondo3d[data-pronto] { opacity: 0.55; } }
