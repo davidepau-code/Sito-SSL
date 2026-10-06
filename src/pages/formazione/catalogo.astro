@@ -14,7 +14,7 @@ const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.cors
 <Base title="Catalogo corsi – Servizi Sicurezza Lavoro" description="Tutti i corsi di formazione di Servizi Sicurezza Lavoro: sicurezza sul lavoro, macchine e attrezzature, rischi specifici, HACCP. Ore, modalità e aggiornamenti per ogni corso." crumbs={crumbs}>
   <section class="sezione testata colonna" style="padding-bottom:16px">
     <p class="briciole"><a href="/formazione/">Formazione</a> / <span aria-current="page">Catalogo corsi</span></p>
-    <h1>Catalogo corsi</h1>
+    <h1>Catalogo corsi di sicurezza sul lavoro</h1>
     <p class="lead">Tutti i corsi, divisi per area. Per ognuno trovi a chi serve, quante ore dura, come si svolge e ogni quanto si aggiorna. Il corso singolo o un pacchetto completo su misura: dicci cosa ti serve.</p>
   </section>
 
@@ -46,10 +46,10 @@ const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.cors
         {s.gruppi.map((g) => (
           <div class="cat-gruppo" data-gruppo>
             {g.titolo && <h3>{g.titolo}</h3>}
-            {g.corsi.map((c) => (
+            {g.corsi.map((c) => { const T = g.titolo ? 'h4' : 'h3'; return (
               <article class="card cat-corso" data-corso data-testo={(c.nome + ' ' + c.per).toLowerCase()} id={c.id}>
                 <div class="cat-info">
-                  <h4>{c.nome}</h4>
+                  <T>{c.nome}</T>
                   <p>{c.per}</p>
                   <a class="cat-chiedi" href={azienda.whatsappLink(`Buongiorno, vorrei informazioni sul corso: ${c.nome}`)} rel="noopener">Chiedi informazioni</a>
                 </div>
@@ -66,7 +66,7 @@ const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.cors
                   ))}
                 </ul>
               </article>
-            ))}
+            ); })}
           </div>
         ))}
       </section>

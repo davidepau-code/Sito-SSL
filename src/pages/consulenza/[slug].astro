@@ -37,13 +37,13 @@ const passi = [
 
   <section class="sezione stretta griglia larga" data-reveal>
     <div class="card">
-      <h3>A chi serve</h3>
+      <h2 class="h3">A chi serve</h2>
       <p class="testo-corpo">{c.chi}</p>
-      <h3 style="margin-top:16px">Quando serve</h3>
+      <h2 class="h3" style="margin-top:16px">Quando serve</h2>
       <p class="testo-corpo">{c.quando}</p>
     </div>
     <div class="card forte" style="gap:4px">
-      <h3 style="margin-bottom:8px">Cosa comprende</h3>
+      <h2 class="h3" style="margin-bottom:8px">Cosa comprende</h2>
       <div class="spunte">
         {c.facciamo.map((f) => <div><i><Icon d="M20 6 9 17l-5-5" size={14} width={2.6} /></i><span>{f}</span></div>)}
       </div>

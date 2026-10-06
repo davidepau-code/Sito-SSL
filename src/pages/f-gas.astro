@@ -85,12 +85,15 @@ const ultimoSabato = (anno: number, mese: number) => {
   return d;
 };
 const oggi = new Date();
-const sessioni: { iso: string; testo: string }[] = [];
+const sessioni: { iso: string; testo: string; nota: string }[] = [];
 for (let i = 0; sessioni.length < 6 && i < 14; i++) {
   const d = ultimoSabato(oggi.getUTCFullYear(), oggi.getUTCMonth() + i);
   if (d.getTime() < Date.UTC(oggi.getUTCFullYear(), oggi.getUTCMonth(), oggi.getUTCDate())) continue;
   const t = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
-  sessioni.push({ iso: d.toISOString().slice(0, 10), testo: t.charAt(0).toUpperCase() + t.slice(1) });
+  // Dicembre: niente giorno (cade a ridosso delle festività), la data è da definire
+  const dic = d.getUTCMonth() === 11;
+  const testo = dic ? 'Dicembre ' + d.getUTCFullYear() : t.charAt(0).toUpperCase() + t.slice(1);
+  sessioni.push({ iso: d.toISOString().slice(0, 10), testo, nota: dic ? '(Data da definire)' : '(Da confermare)' });
 }
 const CHECK = 'M20 6 9 17l-5-5';
 ---
@@ -98,8 +101,8 @@ const CHECK = 'M20 6 9 17l-5-5';
   <section class="sezione testata due-col">
     <div class="colonna">
       <span class="pillola" style="align-self:flex-start">F-Gas</span>
-      <h1>F-Gas: dalla preparazione all'esame alla certificazione dell'impresa</h1>
-      <p class="lead">Per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore. Ti prepariamo, organizziamo l'esame e accompagniamo la tua impresa fino alla certificazione, poi ci occupiamo degli adempimenti.</p>
+      <h1>Corso e certificazione F-Gas in Sardegna</h1>
+      <p class="lead">Dalla preparazione all'esame alla certificazione dell'impresa. Per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore. Ti prepariamo, organizziamo l'esame e accompagniamo la tua impresa fino alla certificazione, poi ci occupiamo degli adempimenti.</p>
       <div class="gruppo">
         <a class="btn btn-primario" href="#impresa">Certifica la tua impresa <Icon d={FRECCIA} size={18} /></a>
         <a class="btn btn-vetro btn-giu" href="#bisogno">Di cosa hai bisogno? <Icon d="M12 5v14M5 12l7 7 7-7" size={18} /></a>
@@ -160,7 +163,7 @@ const CHECK = 'M20 6 9 17l-5-5';
       <div class="card scura">
         <h3>Prossime date del corso</h3>
         {sessioni.length > 0
-          ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">(Da confermare)</em></span>)}</div>
+          ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">{s.nota}</em></span>)}</div>
             <p style="color:#d9d6d2;font-size:15px">Per avere la conferma della data, contattaci.</p></>
           : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte il prossimo corso.</p>}
         <div class="gruppo">
@@ -189,7 +192,7 @@ const CHECK = 'M20 6 9 17l-5-5';
       <h3>Prossime sessioni d'esame</h3>
       <p style="color:#d9d6d2;font-size:15px">Sede d'esame: {azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia}).</p>
       {sessioni.length > 0
-        ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">(Da confermare)</em></span>)}</div>
+        ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">{s.nota}</em></span>)}</div>
           <p style="color:#d9d6d2;font-size:15px">Per avere la conferma della data, contattaci.</p></>
         : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte la prossima sessione.</p>}
       <div class="gruppo">
