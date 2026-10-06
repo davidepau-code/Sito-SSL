@@ -16,9 +16,9 @@ const plastica = (c: number, r = 0.5) => new MeshStandardMaterial({ color: c, ro
 /* ---------- Casco ---------- */
 // Casco da cantiere classico: cupola liscia a uovo, ampia cresta centrale a nervature, bordo con visiera frontale,
 // sei alette sul bordo e, davanti, il marchio SSL in un bollo rotondo.
-const N = 2.3, H = 1.1;
+const N = 2.1, H = 0.95;
 const quota = (x: number, z: number) => { const r = Math.min(Math.hypot(x, z), 0.999); return H * Math.pow(1 - Math.pow(r, N), 1 / N); };
-const SCALA_Z = 1.2;
+const SCALA_Z = 1.22;
 
 function texturaMarchio() {
   const c = document.createElement('canvas'); c.width = c.height = 512;
@@ -63,56 +63,74 @@ function bollo() {
   return new Mesh(geo, mat);
 }
 
-/** Fascia rialzata sulla sommità: una griglia che segue la cupola con un profilo a "plateau" e due scanalature. */
-function cresta() {
-  const NX = 36, NZ = 60, W = 0.32, Z0 = -0.93, Z1 = 0.3;
-  const pos: number[] = [], idx: number[] = [];
-  const liscia = (t: number) => t * t * (3 - 2 * t);
-  for (let j = 0; j <= NZ; j++) {
-    const z = Z0 + (j / NZ) * (Z1 - Z0);
-    const t = (z - Z0) / (Z1 - Z0);
-    const lungo = liscia(Math.min(1, t * 5)) * (1 - 0.55 * liscia(Math.max(0, (t - 0.55) / 0.45))) * liscia(Math.min(1, (1 - t) * 8));
-    for (let i = 0; i <= NX; i++) {
-      const x = (i / NX - 0.5) * 2 * W;
-      const bordo = liscia(Math.min(1, Math.max(0, (W - Math.abs(x)) / 0.09)));
-      const scan = Math.exp(-Math.pow((Math.abs(x) - 0.1) / 0.017, 2)) * 0.016;
-      const alt = lungo * (0.06 * bordo - scan * bordo);
-      pos.push(x, quota(x, z) + alt, z);
+const liscia = (t: number) => t * t * (3 - 2 * t);
+
+/** Guscio in un'unica superficie: cupola, bordo e visiera sono continui (la visiera è un prolungamento della cupola).
+ *  Sulla sommità, tre nervature rialzate con le scanalature in mezzo. */
+function guscioCasco() {
+  const NT = 160, NA = 44, NB = 16, RIGHE = NA + 1 + NB;
+  const t0 = 0.03, t1 = Math.acos(Math.pow(0.105, N / 2));
+  const rilievo = (x: number, z: number) => {
+    const t = (z + 0.95) / 1.3; // 0 = dietro, 1 = poco prima del bollo
+    if (t <= 0 || t >= 1) return 0;
+    const lungo = liscia(Math.min(1, t * 4)) * liscia(Math.min(1, (1 - t) * 6)) * (1 - 0.3 * t);
+    let nerv = 0;
+    for (const xi of [-0.21, 0, 0.21]) nerv += Math.exp(-Math.pow((x - xi) / 0.06, 2));
+    const base = liscia(Math.min(1, Math.max(0, (0.36 - Math.abs(x)) / 0.08))) * 0.025;
+    return lungo * (0.06 * Math.min(nerv, 1) + base);
+  };
+  const bordo = (th: number) => {
+    const davanti = Math.exp(-Math.pow(th / 0.62, 4));
+    const dietro = Math.exp(-Math.pow((Math.abs(th) - Math.PI) / 0.9, 2));
+    return { ext: 0.09 + 0.36 * davanti + 0.06 * dietro, cala: 0.15 * davanti + 0.07 * dietro };
+  };
+  const pos: number[] = [0, H, 0], idx: number[] = [];
+  const punti: Vector3[] = [];
+  for (let j = 0; j < NT; j++) {
+    const th = -Math.PI + (j / NT) * Math.PI * 2, sn = Math.sin(th), cs = Math.cos(th);
+    const { ext, cala } = bordo(th);
+    let rFine = 1, yFine = 0.105;
+    for (let i = 0; i <= NA; i++) {
+      const t = t0 + (i / NA) * (t1 - t0);
+      const r = Math.pow(Math.sin(t), 2 / N), y = H * Math.pow(Math.cos(t), 2 / N);
+      pos.push(r * sn, y + rilievo(r * sn, r * cs), r * cs);
+      rFine = r; yFine = y;
+    }
+    for (let k = 1; k <= NB; k++) {
+      const u = k / NB;
+      const r = rFine + (1 + ext - rFine) * u, y = yFine * (1 - u) * (1 - u) - cala * u * u;
+      pos.push(r * sn, y, r * cs);
+      if (k === NB) punti.push(new Vector3(r * sn, y, r * cs));
     }
   }
-  for (let j = 0; j < NZ; j++) for (let i = 0; i < NX; i++) {
-    const a = j * (NX + 1) + i, b = a + 1, c = a + NX + 1, d = c + 1;
-    idx.push(a, c, b, b, c, d);
+  const v = (j: number, i: number) => 1 + (j % NT) * RIGHE + i;
+  for (let j = 0; j < NT; j++) {
+    idx.push(0, v(j, 0), v(j + 1, 0));
+    for (let i = 0; i < RIGHE - 1; i++) { const a = v(j, i), b = v(j + 1, i), c = v(j, i + 1), d = v(j + 1, i + 1); idx.push(a, c, b, b, c, d); }
   }
   const geo = new BufferGeometry();
   geo.setAttribute('position', new Float32BufferAttribute(pos, 3));
   geo.setIndex(idx); geo.computeVertexNormals();
-  return new Mesh(geo, arancio());
+  const g = new Group();
+  g.add(new Mesh(geo, arancio()));
+  // spessore arrotondato sul bordo
+  g.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(punti, true), 220, 0.024, 10, true), arancio()));
+  return g;
 }
 
 function casco() {
   const g = new Group();
-  const m = arancio();
   const guscio = new Group(); guscio.scale.z = SCALA_Z; g.add(guscio);
-
-  const prof: Vector2[] = [];
-  for (let i = 0; i <= 44; i++) { const t = (i / 44) * (Math.PI / 2); prof.push(new Vector2(Math.pow(Math.sin(t), 2 / N), H * Math.pow(Math.cos(t), 2 / N))); }
-  prof.push(new Vector2(1.03, -0.02), new Vector2(1.1, -0.06), new Vector2(1.12, -0.1), new Vector2(1.04, -0.12), new Vector2(0.97, -0.09));
-  guscio.add(new Mesh(new LatheGeometry(prof, 96), m));
-
-  // visiera frontale arrotondata
-  const visiera = new Mesh(new CylinderGeometry(1.08, 1.3, 0.12, 64, 1, true, -Math.PI * 0.3, Math.PI * 0.6), m);
-  visiera.position.set(0, -0.08, 0); visiera.rotation.x = 0.05; guscio.add(visiera);
-
-  // ampia cresta centrale: fascia rialzata con due scanalature, più alta dietro e che si assottiglia verso il davanti
-  guscio.add(cresta());
+  guscio.add(guscioCasco());
 
   // alette rettangolari sul bordo
   [35, 90, 145, 215, 270, 325].forEach((gr) => {
     const a = (gr * Math.PI) / 180;
     const aletta = new Mesh(new RoundedBoxGeometry(0.24, 0.1, 0.09, 3, 0.02), arancio());
-    aletta.position.set(Math.sin(a) * 1.07, -0.07, Math.cos(a) * 1.07); aletta.rotation.y = a; guscio.add(aletta);
+    aletta.position.set(Math.sin(a) * 1.07, 0.0, Math.cos(a) * 1.07); aletta.rotation.y = a; guscio.add(aletta);
   });
+  // interno scuro visibile da sotto
+  const interno = new Mesh(new CylinderGeometry(0.97, 0.97, 0.02, 48), plastica(0x15181a, 0.8)); interno.position.y = 0.02; guscio.add(interno);
 
   guscio.add(bollo());
   g.scale.setScalar(1.6); g.position.y = -0.3;
@@ -253,7 +271,7 @@ function avvia() {
       const vy = 0.5 + ((ancora - scorr) * 0.7) / h;
       g.position.y = (0.5 - vy) * altezzaVista;
       g.visible = vy > -0.35 && vy < 1.35;
-      const x = (piccolo ? 0.86 : 0.66) * (larghVista / 2);
+      const x = (piccolo ? 0.86 : 0.6) * (larghVista / 2);
       g.position.x = v.lato * x;
       // rotazione con lo scorrimento (+ un lieve movimento da fermo)
       const giro = scorr * 0.0042 + v.indice * 1.7;
