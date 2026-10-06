@@ -133,7 +133,7 @@ function casco() {
   const interno = new Mesh(new CylinderGeometry(0.97, 0.97, 0.02, 48), plastica(0x15181a, 0.8)); interno.position.y = 0.02; guscio.add(interno);
 
   guscio.add(bollo());
-  g.scale.setScalar(1.6); g.position.y = -0.3;
+  g.scale.setScalar(1.2); g.position.y = -0.22;
   return g;
 }
 
@@ -171,6 +171,9 @@ function estintore() {
   g.add(new Mesh(new LatheGeometry(prof, 56), rosso));
   const etichetta = new Mesh(new CylinderGeometry(0.348, 0.348, 0.52, 40, 1, true, -Math.PI * 0.42, Math.PI * 0.84), plastica(0xf3efe6, 0.7));
   etichetta.material.side = DoubleSide; etichetta.position.y = -0.02; g.add(etichetta);
+  const teta = 0.17 / 0.352;
+  const marchio = new Mesh(new CylinderGeometry(0.352, 0.352, 0.34, 40, 1, true, -teta, teta * 2), new MeshStandardMaterial({ map: texturaMarchio(), roughness: 0.5, transparent: true, side: DoubleSide }));
+  marchio.position.y = -0.02; g.add(marchio);
   const testa = new Mesh(new CylinderGeometry(0.15, 0.17, 0.2, 28), nero); testa.position.y = 0.94; g.add(testa);
   const leva = new Mesh(new RoundedBoxGeometry(0.56, 0.06, 0.12, 3, 0.02), nero); leva.position.set(0.1, 1.08, 0); leva.rotation.z = 0.08; g.add(leva);
   const fissa = new Mesh(new RoundedBoxGeometry(0.46, 0.06, 0.12, 3, 0.02), nero); fissa.position.set(-0.02, 1.0, 0); fissa.rotation.z = -0.05; g.add(fissa);
@@ -270,11 +273,14 @@ function avvia() {
 
       // posizione verticale: segue la pagina più lentamente (profondità)
       const quanti = (g.userData.n as number) || n;
-      const ancora = h * 0.42 + v.indice * ((docH - h) * 0.9 / quanti);
+      const partenza = location.pathname === '/' ? 1.1 : 0.42; // in home il primo oggetto compare dopo la parte con la mappa
+      const ancora = h * partenza + v.indice * ((docH - h * partenza - h * 0.4) * 0.9 / quanti);
       const vy = 0.5 + ((ancora - scorr) * 0.7) / h;
       g.position.y = (0.5 - vy) * altezzaVista;
       g.visible = vy > -0.35 && vy < 1.35;
-      const x = (piccolo ? 0.86 : 0.6) * (larghVista / 2);
+      // Posizione orizzontale: nel margine fuori dalla colonna dei contenuti (larga 1400px); se lo schermo è stretto, sul bordo, mezzo fuori.
+      const dalCentro = piccolo ? w * 0.43 : Math.min((700 + w / 2) / 2, w / 2 - 45);
+      const x = (dalCentro / (w / 2)) * (larghVista / 2);
       g.position.x = v.lato * x;
       // rotazione con lo scorrimento (+ un lieve movimento da fermo)
       const giro = scorr * 0.0042 + v.indice * 1.7;
