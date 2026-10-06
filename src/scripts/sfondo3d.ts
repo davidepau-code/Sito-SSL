@@ -288,6 +288,7 @@ function avvia() {
       else { g.rotation.y = Math.sin(giro * 0.55) * 0.95 + (v.lato > 0 ? -0.35 : 0.35); g.rotation.x = 0.1 + Math.cos(giro * 0.4) * 0.12; }
       g.rotation.z = (v.lato > 0 ? -1 : 1) * 0.12 + Math.sin(t * 0.7 + v.indice) * 0.03;
       g.position.y += Math.sin(t * 0.9 + v.indice * 2) * 0.06;
+      if (v.tipo === 'cartellina') g.position.y += 0.55; // un po' più in alto
     });
     renderer.render(scena, cam);
   }
