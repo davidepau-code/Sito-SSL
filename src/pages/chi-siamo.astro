@@ -17,13 +17,22 @@ const valori = ['Qualità', 'Affidabilità', 'Rispetto', 'Attenzione al territor
       ))}
     </div>
   </section>
-  <section class="sezione stretta" data-reveal>
-    <div class="card">
-      <h3>Accreditamenti e partner</h3>
-      <div class="gruppo" style="gap:10px">
-        <span class="chip piatto">[IMQ – previa autorizzazione]</span>
-        <span class="chip piatto">[Accreditamento Regione Sardegna, se presente]</span>
-        <span class="chip piatto">[altri]</span>
+  <section class="sezione stretta" data-reveal style="gap:20px">
+    <h2 class="h3">Accreditamenti e certificazioni</h2>
+    <div class="griglia" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+      <div class="card" style="gap:10px">
+        <span class="titolo">Agenzia formativa accreditata dalla Regione Sardegna</span>
+        <p class="testo-corpo">Accreditati per la formazione nell&rsquo;area Sicurezza nei luoghi di lavoro (macrotipologie B e C), sia in autofinanziamento sia con finanziamento pubblico.</p>
+        <p class="pk-fonte">Intestato a SSL Servizi Sicurezza Lavoro snc di Biselli Flavio e Veronica (C.F./P.IVA 01313770917). Sistema regionale di accreditamento delle agenzie e delle sedi formative, D.G.R. 22/02/2005 n. 7/10 e D.A. 12/04/2005 n. 10/05: elenco regionale dei soggetti abilitati a proporre e realizzare attività di formazione professionale.</p>
+      </div>
+      <div class="card" style="gap:10px">
+        <span class="titolo">Centro affiliato IMQ</span>
+        <p class="testo-corpo">Siamo affiliati a IMQ: gli esami di certificazione F-Gas sostenuti da noi, a Siniscola, hanno a tutti gli effetti la stessa validità degli esami IMQ.</p>
+        <a class="pk-link" href="/f-gas/" style="align-self:flex-start">Vai alla pagina F-Gas</a>
+      </div>
+      <div class="card" style="gap:10px">
+        <span class="titolo">Sistema qualità certificato ISO 9001</span>
+        <p class="testo-corpo">La nostra organizzazione è certificata secondo la norma ISO 9001 da DNV GL.</p>
       </div>
     </div>
   </section>
