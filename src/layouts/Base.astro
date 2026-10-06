@@ -7,6 +7,7 @@ import Schema from '../components/Schema.astro';
 import { ClientRouter } from 'astro:transitions';
 import { azienda } from '../data/azienda';
 import CookieBanner from '../components/CookieBanner.astro';
+import Sfondo3D from '../components/Sfondo3D.astro';
 
 interface Props { title: string; description: string; senzaContatto?: boolean; crumbs?: { nome: string; url: string }[] }
 const { title, description, senzaContatto = false, crumbs } = Astro.props;
@@ -53,6 +54,7 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
   </head>
   <body>
     <div class="blobs" aria-hidden="true" transition:persist="blobs"><i></i><i></i><i></i></div>
+    <Sfondo3D />
 
     <header class="navbar" id="navbar" transition:persist="navbar">
       <nav aria-label="Principale">

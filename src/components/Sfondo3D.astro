@@ -1,0 +1,12 @@
+---
+// Sfondo 3D sperimentale: carica three.js solo a pagina pronta e a browser libero, mai su connessioni "risparmio dati".
+---
+<canvas id="sfondo3d" aria-hidden="true" transition:persist="sfondo3d"></canvas>
+<script>
+  const conn = (navigator as any).connection;
+  if (!conn?.saveData) {
+    const carica = () => import('../scripts/sfondo3d');
+    if ('requestIdleCallback' in window) (window as any).requestIdleCallback(carica, { timeout: 2500 });
+    else setTimeout(carica, 1200);
+  }
+</script>
