@@ -44,11 +44,23 @@ const dopo = [
 ];
 
 const faq = [
-  'La formazione dei lavoratori è sempre obbligatoria?',
-  'Ogni quanto va aggiornato il corso per preposti?',
-  'Quando devo aggiornare il DVR?',
-  'Sono un termoidraulico: mi serve il patentino F-Gas per installare un climatizzatore?',
-].map((domanda) => ({ domanda, risposta: '[Risposta da redigere e verificare su fonte ufficiale]' }));
+  {
+    domanda: 'La formazione dei lavoratori è sempre obbligatoria?',
+    risposta: 'Sì, per chiunque lavori con te: non solo i dipendenti, ma anche soci che lavorano, collaboratori e tirocinanti. Il corso comprende una parte generale (4 ore, valida per sempre) e una specifica che dipende dal rischio del tuo settore (4, 8 o 12 ore), con un aggiornamento di 6 ore ogni 5 anni. Se lavori da solo, senza altri lavoratori, questo corso non si applica, ma il titolare ha comunque degli obblighi: scrivici e ti diciamo quali.',
+  },
+  {
+    domanda: 'Ogni quanto va aggiornato il corso per preposti?',
+    risposta: 'Ogni 2 anni. Il preposto è chi coordina e controlla il lavoro degli altri, come un caposquadra o un responsabile di reparto, anche se non ha questo titolo sul contratto. L’aggiornamento si può fare in presenza o in videoconferenza in diretta, non con corsi online registrati. Se non sai quando scade il tuo, scrivici: lo controlliamo noi.',
+  },
+  {
+    domanda: 'Quando devo aggiornare il DVR?',
+    risposta: 'Il DVR non ha una scadenza fissa: va aggiornato ogni volta che cambia qualcosa che incide sui rischi, per esempio nuove macchine o lavorazioni, una diversa organizzazione del lavoro, nuovi locali, oppure dopo un infortunio significativo. In questi casi la legge chiede di farlo entro 30 giorni dalla modifica. Se il tuo documento non lo rivedi da anni, conviene controllarlo comunque: ti diamo noi una mano.',
+  },
+  {
+    domanda: 'Sono un termoidraulico: mi serve il patentino F-Gas per installare un climatizzatore?',
+    risposta: 'In generale sì: se l’intervento riguarda un apparecchio che contiene gas fluorurati, serve la certificazione della persona nella categoria giusta (con esame teorico e pratico), e l’impresa deve essere certificata e iscritta al Registro. Il caso preciso dipende dal tipo di apparecchio e dal gas, quindi se non sei sicuro scrivi a Michela e lo vediamo insieme.',
+  },
+];
 ---
 <Base title="Sicurezza sul Lavoro in Sardegna: Corsi e Consulenza | Servizi Sicurezza Lavoro" description="Dal 2008 affianchiamo le aziende in Sardegna (Siniscola, Olbia, Nuoro) con corsi di sicurezza, DVR, HACCP e certificazioni F-Gas. Ci occupiamo noi di tutto.">
   <section class="sezione testata due-col" style="padding-top:150px;padding-bottom:64px;gap:48px">
