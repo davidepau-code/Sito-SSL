@@ -217,8 +217,8 @@ function normalizza(g: Group, massimo: number) {
 /* ---------- Cassetta di primo soccorso ---------- */
 function cassetta() {
   const g = new Group();
-  const verde = new MeshPhysicalMaterial({ color: 0x2e9e5b, roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.2 });
-  const verdeScuro = mat(0x1f7a44, 0.5);
+  const verde = new MeshPhysicalMaterial({ color: 0xd8392c, roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.2 });
+  const verdeScuro = mat(0x9c241b, 0.5);
   g.add(scatola(1.5, 1.0, 0.5, verde, 0, 0, 0, 0.1));
   g.add(scatola(1.52, 0.03, 0.52, verdeScuro, 0, 0.1, 0, 0.005));
   const manig = new Mesh(new TorusGeometry(0.27, 0.045, 14, 36, Math.PI), verdeScuro); manig.position.y = 0.5; g.add(manig);
