@@ -1,7 +1,7 @@
 // Sfondo 3D (ESPERIMENTO): oggetti della sicurezza (casco, cartellina, estintore) disegnati in codice, senza file esterni.
 // Si muovono e ruotano con lo scorrimento della pagina, dietro ai contenuti. Per toglierlo: rimuovere <Sfondo3D /> da Base.astro.
 import {
-  BufferGeometry, Float32BufferAttribute, CanvasTexture, WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Vector2, Vector3, Color, ACESFilmicToneMapping, SRGBColorSpace, PMREMGenerator, DirectionalLight,
+  BufferGeometry, CircleGeometry, Float32BufferAttribute, CanvasTexture, WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Vector2, Vector3, Color, ACESFilmicToneMapping, SRGBColorSpace, PMREMGenerator, DirectionalLight,
   MeshPhysicalMaterial, MeshStandardMaterial, LatheGeometry, CylinderGeometry, TorusGeometry, BoxGeometry, TubeGeometry, CatmullRomCurve3, DoubleSide,
 } from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
@@ -155,6 +155,9 @@ function cartellina() {
   g.add(foglio);
   // fronte della cartellina
   const fronte = new Mesh(new RoundedBoxGeometry(1.7, 0.86, 0.05, 4, 0.04), cart); fronte.position.set(0, -0.2, 0.12); g.add(fronte);
+  // marchio SSL sul fronte della cartellina
+  const marchio = new Mesh(new CircleGeometry(0.27, 48), new MeshStandardMaterial({ map: texturaMarchio(), roughness: 0.5, transparent: true }));
+  marchio.position.set(0, -0.2, 0.147); g.add(marchio);
   g.scale.setScalar(1.0);
   return g;
 }
