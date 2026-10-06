@@ -262,27 +262,6 @@ function carrello() {
   return normalizza(g, 2.2);
 }
 
-/* ---------- Moschettone e corda (lavori in quota) ---------- */
-function quota_() {
-  const g = new Group();
-  const corda = mat(0xee6a0c, 0.75), bianca = mat(0xf3efe6, 0.7);
-  const pts: Vector3[] = [];
-  for (let i = 0; i <= 160; i++) { const a = (i / 160) * Math.PI * 7; const r = 0.42 + 0.13 * (a / (Math.PI * 2)); pts.push(new Vector3(r * Math.cos(a), r * Math.sin(a), 0.002 * a)); }
-  g.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(pts), 480, 0.062, 10, false), corda));
-  const treccia = pts.map((q) => q.clone().add(new Vector3(0, 0, 0.05)));
-  g.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(treccia), 480, 0.012, 6, false), bianca));
-  // moschettone
-  const ca = new Group();
-  const forma = ([[-0.27, -0.62], [-0.28, -0.1], [-0.25, 0.36], [-0.08, 0.64], [0.16, 0.64], [0.33, 0.4], [0.35, -0.05], [0.3, -0.4], [0.15, -0.62], [-0.05, -0.68]] as number[][]).map(([x, y]) => new Vector3(x, y, 0));
-  ca.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(forma, true), 160, 0.065, 14, true), metallo(0xd2d6da)));
-  const giallo = mat(0xe7b200, 0.35, 0.4);
-  const porta = ([[0.16, 0.64], [0.33, 0.4], [0.35, -0.05], [0.3, -0.4]] as number[][]).map(([x, y]) => new Vector3(x, y, 0.004));
-  ca.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(porta), 60, 0.07, 14, false), giallo));
-  ca.add(cilindro(0.085, 0.085, 0.2, giallo, 0.345, -0.22, 0, 'y'));
-  ca.position.set(0.55, 0.55, 0.22); ca.rotation.z = -0.35; g.add(ca);
-  return normalizza(g, 2.0);
-}
-
 /* ---------- Cappello da cuoco ---------- */
 function cappello() {
   const g = new Group();
@@ -362,19 +341,19 @@ function bombola() {
   return normalizza(g, 2.2);
 }
 
-const COSTRUTTORI: Record<string, () => Group> = { casco, cartellina, estintore, cassetta, carrello, quota: quota_, cappello, escavatore, bombola };
+const COSTRUTTORI: Record<string, () => Group> = { casco, cartellina, estintore, cassetta, carrello, cappello, escavatore, bombola };
 
 /* Quali oggetti su quale pagina. `sel` = elemento della pagina accanto al quale compare, `frac` = punto dell'elemento (0 alto, 1 basso). */
 type Cfg = { n: string; sel?: string; frac?: number };
 function oggettiPerPagina(p: string): Cfg[] {
   const tutti = (...n: string[]) => n.map((x) => ({ n: x }));
-  if (p === '/') return tutti('casco', 'cartellina', 'carrello', 'estintore', 'quota', 'cappello', 'escavatore', 'cassetta');
+  if (p === '/') return tutti('casco', 'cartellina', 'carrello', 'estintore', 'cappello', 'escavatore', 'cassetta');
   if (p.startsWith('/formazione/catalogo')) return [
     { n: 'casco', sel: '#sicurezza', frac: 0.15 }, { n: 'cassetta', sel: '#sicurezza', frac: 0.7 },
     { n: 'carrello', sel: '#attrezzature', frac: 0.15 }, { n: 'escavatore', sel: '#attrezzature', frac: 0.7 },
-    { n: 'quota', sel: '#rischi', frac: 0.4 }, { n: 'cappello', sel: '#alimentare', frac: 0.4 },
+    { n: 'cappello', sel: '#alimentare', frac: 0.4 },
   ];
-  if (p.startsWith('/formazione')) return tutti('casco', 'cassetta', 'carrello', 'quota', 'cappello');
+  if (p.startsWith('/formazione')) return tutti('casco', 'cassetta', 'carrello', 'cappello');
   if (p.startsWith('/consulenza/haccp')) return tutti('cappello');
   if (p.startsWith('/consulenza')) return tutti('cartellina', 'casco');
   if (p.startsWith('/chi-siamo')) return tutti('casco');
@@ -499,6 +478,7 @@ function avvia() {
       g.rotation.z = (v.lato > 0 ? -1 : 1) * 0.12 + Math.sin(t * 0.7 + v.indice) * 0.03;
       g.position.y += Math.sin(t * 0.9 + v.indice * 2) * 0.06;
       if (v.tipo === 'cartellina') g.position.y += 0.55; // un po' più in alto
+      if (v.tipo === 'cappello') g.position.y += 0.7; // il cappello da cuoco un po' più in alto
     });
     renderer.render(scena, cam);
   }
