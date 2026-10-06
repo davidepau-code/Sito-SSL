@@ -278,8 +278,8 @@ function avvia() {
       const vy = 0.5 + ((ancora - scorr) * 0.7) / h;
       g.position.y = (0.5 - vy) * altezzaVista;
       g.visible = vy > -0.35 && vy < 1.35;
-      // Posizione orizzontale: nel margine fuori dalla colonna dei contenuti (larga 1400px); se lo schermo è stretto, sul bordo, mezzo fuori.
-      const dalCentro = piccolo ? w * 0.43 : Math.min((700 + w / 2) / 2, w / 2 - 45);
+      // Posizione orizzontale: a metà strada tra il centro dei contenuti e il margine esterno.
+      const dalCentro = piccolo ? w * 0.43 : (w * 0.3 + Math.min((700 + w / 2) / 2, w / 2 - 45)) / 2; // via di mezzo tra posizione interna (30% della larghezza) e margine esterno
       const x = (dalCentro / (w / 2)) * (larghVista / 2);
       g.position.x = v.lato * x;
       // rotazione con lo scorrimento (+ un lieve movimento da fermo)
