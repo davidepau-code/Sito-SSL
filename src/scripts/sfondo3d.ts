@@ -1,7 +1,7 @@
 // Sfondo 3D (ESPERIMENTO): oggetti della sicurezza (casco, cartellina, estintore) disegnati in codice, senza file esterni.
 // Si muovono e ruotano con lo scorrimento della pagina, dietro ai contenuti. Per toglierlo: rimuovere <Sfondo3D /> da Base.astro.
 import {
-  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Vector2, Vector3, Color, ACESFilmicToneMapping, SRGBColorSpace, PMREMGenerator, DirectionalLight,
+  BufferGeometry, Float32BufferAttribute, CanvasTexture, WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Vector2, Vector3, Color, ACESFilmicToneMapping, SRGBColorSpace, PMREMGenerator, DirectionalLight,
   MeshPhysicalMaterial, MeshStandardMaterial, LatheGeometry, CylinderGeometry, TorusGeometry, BoxGeometry, TubeGeometry, CatmullRomCurve3, DoubleSide,
 } from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
@@ -10,46 +10,112 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 const canvas = document.getElementById('sfondo3d') as HTMLCanvasElement | null;
 const ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const arancio = () => new MeshPhysicalMaterial({ color: 0xe9650a, roughness: 0.4, metalness: 0.0, clearcoat: 0.8, clearcoatRoughness: 0.2, side: DoubleSide });
+const arancio = () => new MeshPhysicalMaterial({ color: 0xee6a0c, roughness: 0.28, metalness: 0.0, clearcoat: 1, clearcoatRoughness: 0.12, side: DoubleSide });
 const plastica = (c: number, r = 0.5) => new MeshStandardMaterial({ color: c, roughness: r, metalness: 0.05 });
 
 /* ---------- Casco ---------- */
-// Cupola a "superellisse" (spalle squadrate, alta sulla sommità), un po' più lunga che larga, bordo corto tutto intorno,
-// visiera frontale, nervatura centrale rialzata con due più basse ai lati, fessure laterali e regolatore dietro.
+// Casco da cantiere classico: cupola liscia a uovo, ampia cresta centrale a nervature, bordo con visiera frontale,
+// sei alette sul bordo e, davanti, il marchio SSL in un bollo rotondo.
+const N = 2.3, H = 1.1;
+const quota = (x: number, z: number) => { const r = Math.min(Math.hypot(x, z), 0.999); return H * Math.pow(1 - Math.pow(r, N), 1 / N); };
+const SCALA_Z = 1.2;
+
+function texturaMarchio() {
+  const c = document.createElement('canvas'); c.width = c.height = 512;
+  const x = c.getContext('2d')!;
+  x.fillStyle = '#ffffff'; x.beginPath(); x.arc(256, 256, 252, 0, Math.PI * 2); x.fill();
+  const tex = new CanvasTexture(c); tex.colorSpace = SRGBColorSpace; tex.anisotropy = 4;
+  const img = new Image();
+  img.onload = () => {
+    x.save(); x.beginPath(); x.arc(256, 256, 246, 0, Math.PI * 2); x.clip();
+    x.drawImage(img, 0, 0, 512, 512); x.restore();
+    tex.needsUpdate = true;
+  };
+  img.src = '/ssl-mark.png';
+  return tex;
+}
+
+/** Bollo appoggiato sulla cupola, sul davanti: segue la curvatura (griglia di punti sulla superficie). */
+function bollo() {
+  const NX = 20, NY = 28, larg = 0.62, alt = 0.62, z0 = 0.42;
+  const tab: { z: number; s: number }[] = [{ z: z0, s: 0 }];
+  let z = z0, acc = 0, py = quota(0, z0);
+  while (acc < alt && z < 0.99) { z += 0.002; const y = quota(0, z); acc += Math.hypot(0.002 * SCALA_Z, y - py); py = y; tab.push({ z, s: acc }); }
+  const pos: number[] = [], uv: number[] = [], idx: number[] = [];
+  for (let j = 0; j <= NY; j++) {
+    const s = (j / NY) * acc;
+    const riga = tab.find((t) => t.s >= s) ?? tab[tab.length - 1];
+    for (let i = 0; i <= NX; i++) {
+      const x = (i / NX - 0.5) * larg;
+      pos.push(x, quota(x, riga.z) + 0.012, riga.z);
+      uv.push(i / NX, 1 - j / NY);
+    }
+  }
+  for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) {
+    const a = j * (NX + 1) + i, b = a + 1, c = a + NX + 1, d = c + 1;
+    idx.push(a, c, b, b, c, d);
+  }
+  const geo = new BufferGeometry();
+  geo.setAttribute('position', new Float32BufferAttribute(pos, 3));
+  geo.setAttribute('uv', new Float32BufferAttribute(uv, 2));
+  geo.setIndex(idx); geo.computeVertexNormals();
+  const mat = new MeshPhysicalMaterial({ map: texturaMarchio(), roughness: 0.4, clearcoat: 1, clearcoatRoughness: 0.15, transparent: true, side: DoubleSide, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 });
+  return new Mesh(geo, mat);
+}
+
+/** Fascia rialzata sulla sommità: una griglia che segue la cupola con un profilo a "plateau" e due scanalature. */
+function cresta() {
+  const NX = 36, NZ = 60, W = 0.32, Z0 = -0.93, Z1 = 0.3;
+  const pos: number[] = [], idx: number[] = [];
+  const liscia = (t: number) => t * t * (3 - 2 * t);
+  for (let j = 0; j <= NZ; j++) {
+    const z = Z0 + (j / NZ) * (Z1 - Z0);
+    const t = (z - Z0) / (Z1 - Z0);
+    const lungo = liscia(Math.min(1, t * 5)) * (1 - 0.55 * liscia(Math.max(0, (t - 0.55) / 0.45))) * liscia(Math.min(1, (1 - t) * 8));
+    for (let i = 0; i <= NX; i++) {
+      const x = (i / NX - 0.5) * 2 * W;
+      const bordo = liscia(Math.min(1, Math.max(0, (W - Math.abs(x)) / 0.09)));
+      const scan = Math.exp(-Math.pow((Math.abs(x) - 0.1) / 0.017, 2)) * 0.016;
+      const alt = lungo * (0.06 * bordo - scan * bordo);
+      pos.push(x, quota(x, z) + alt, z);
+    }
+  }
+  for (let j = 0; j < NZ; j++) for (let i = 0; i < NX; i++) {
+    const a = j * (NX + 1) + i, b = a + 1, c = a + NX + 1, d = c + 1;
+    idx.push(a, c, b, b, c, d);
+  }
+  const geo = new BufferGeometry();
+  geo.setAttribute('position', new Float32BufferAttribute(pos, 3));
+  geo.setIndex(idx); geo.computeVertexNormals();
+  return new Mesh(geo, arancio());
+}
+
 function casco() {
   const g = new Group();
   const m = arancio();
-  const N = 2.5, H = 0.86;
-  const quota = (x: number, z: number) => { const r = Math.min(Math.hypot(x, z), 0.999); return H * Math.pow(1 - Math.pow(r, N), 1 / N); };
-  const guscio = new Group(); guscio.scale.z = 1.2; g.add(guscio);
+  const guscio = new Group(); guscio.scale.z = SCALA_Z; g.add(guscio);
 
   const prof: Vector2[] = [];
-  for (let i = 0; i <= 40; i++) { const t = (i / 40) * (Math.PI / 2); prof.push(new Vector2(Math.pow(Math.sin(t), 2 / N), H * Math.pow(Math.cos(t), 2 / N))); }
-  prof.push(new Vector2(1.03, -0.02), new Vector2(1.09, -0.06), new Vector2(1.1, -0.1), new Vector2(1.03, -0.11), new Vector2(0.97, -0.08));
+  for (let i = 0; i <= 44; i++) { const t = (i / 44) * (Math.PI / 2); prof.push(new Vector2(Math.pow(Math.sin(t), 2 / N), H * Math.pow(Math.cos(t), 2 / N))); }
+  prof.push(new Vector2(1.03, -0.02), new Vector2(1.1, -0.06), new Vector2(1.12, -0.1), new Vector2(1.04, -0.12), new Vector2(0.97, -0.09));
   guscio.add(new Mesh(new LatheGeometry(prof, 96), m));
 
-  // visiera: lingua inclinata verso il basso, solo davanti
-  const visiera = new Mesh(new CylinderGeometry(1.08, 1.4, 0.12, 64, 1, true, -Math.PI * 0.33, Math.PI * 0.66), m);
-  visiera.position.set(0, -0.08, 0); visiera.rotation.x = 0.06; guscio.add(visiera);
+  // visiera frontale arrotondata
+  const visiera = new Mesh(new CylinderGeometry(1.08, 1.3, 0.12, 64, 1, true, -Math.PI * 0.3, Math.PI * 0.6), m);
+  visiera.position.set(0, -0.08, 0); visiera.rotation.x = 0.05; guscio.add(visiera);
 
-  // nervature che seguono la cupola
-  const nervatura = (x: number, raggio: number, rialzo: number) => {
-    const pt: Vector3[] = [];
-    for (let i = 0; i <= 48; i++) { const z = -0.97 + (i / 48) * 1.94; pt.push(new Vector3(x, quota(x, z) + rialzo, z)); }
-    const mesh = new Mesh(new TubeGeometry(new CatmullRomCurve3(pt), 64, raggio, 12, false), arancio());
-    guscio.add(mesh);
-  };
-  nervatura(0, 0.085, 0.035);
-  nervatura(-0.38, 0.045, 0.02);
-  nervatura(0.38, 0.045, 0.02);
+  // ampia cresta centrale: fascia rialzata con due scanalature, più alta dietro e che si assottiglia verso il davanti
+  guscio.add(cresta());
 
-  // fessure per le orecchie e regolatore posteriore
-  [-1, 1].forEach((l) => { const f = new Mesh(new BoxGeometry(0.1, 0.1, 0.34), plastica(0x1d2023, 0.6)); f.position.set(l * 1.03, -0.02, 0); guscio.add(f); });
-  const regolatore = new Mesh(new RoundedBoxGeometry(0.46, 0.2, 0.14, 3, 0.04), plastica(0x1d2023, 0.55)); regolatore.position.set(0, -0.1, -1.06); guscio.add(regolatore);
-  // interno scuro (bardatura) visibile da sotto
-  const interno = new Mesh(new CylinderGeometry(0.96, 0.96, 0.02, 48), plastica(0x15181a, 0.8)); interno.position.y = -0.06; guscio.add(interno);
+  // alette rettangolari sul bordo
+  [35, 90, 145, 215, 270, 325].forEach((gr) => {
+    const a = (gr * Math.PI) / 180;
+    const aletta = new Mesh(new RoundedBoxGeometry(0.24, 0.1, 0.09, 3, 0.02), arancio());
+    aletta.position.set(Math.sin(a) * 1.07, -0.07, Math.cos(a) * 1.07); aletta.rotation.y = a; guscio.add(aletta);
+  });
 
-  g.scale.setScalar(1.25); g.position.y = -0.2;
+  guscio.add(bollo());
+  g.scale.setScalar(1.6); g.position.y = -0.3;
   return g;
 }
 
@@ -191,7 +257,7 @@ function avvia() {
       g.position.x = v.lato * x;
       // rotazione con lo scorrimento (+ un lieve movimento da fermo)
       const giro = scorr * 0.0042 + v.indice * 1.7;
-      if (v.tipo === 'casco') { g.rotation.y = giro; g.rotation.x = 0.28 + Math.sin(giro * 0.5) * 0.1; }
+      if (v.tipo === 'casco') { g.rotation.y = Math.sin(giro * 0.45) * 1.0 + (v.lato > 0 ? -0.55 : 0.55); g.rotation.x = 0.14 + Math.cos(giro * 0.35) * 0.06; }
       else { g.rotation.y = Math.sin(giro * 0.55) * 0.95 + (v.lato > 0 ? -0.35 : 0.35); g.rotation.x = 0.1 + Math.cos(giro * 0.4) * 0.12; }
       g.rotation.z = (v.lato > 0 ? -1 : 1) * 0.12 + Math.sin(t * 0.7 + v.indice) * 0.03;
       g.position.y += Math.sin(t * 0.9 + v.indice * 2) * 0.06;
