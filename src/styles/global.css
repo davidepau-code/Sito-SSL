@@ -59,7 +59,7 @@ h3, .h3 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
 .lead { font-size: 20px; color: var(--testo-2); text-wrap: pretty; max-width: 60ch; }
 
 /* Sfondo blob */
-.blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.blobs { position: fixed; inset: 0 0 auto 0; height: 100vh; height: 100lvh; z-index: 0; overflow: hidden; pointer-events: none; }
 .blobs i { position: absolute; border-radius: 50%; filter: blur(70px); }
 .blobs i:nth-child(1) { width: 55vw; height: 55vw; left: -15vw; top: -20vw; background: radial-gradient(circle, var(--blob-1), transparent 65%); animation: drift1 38s ease-in-out infinite alternate; }
 .blobs i:nth-child(2) { width: 50vw; height: 50vw; right: -18vw; top: 10vh; background: radial-gradient(circle, var(--blob-2), transparent 65%); animation: drift2 46s ease-in-out infinite alternate; }
@@ -629,7 +629,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 }
 
 /* Sfondo 3D (esperimento): dietro ai contenuti, sopra i riflessi colorati */
-#sfondo3d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s var(--ease); }
+#sfondo3d { position: fixed; inset: 0 0 auto 0; width: 100%; height: 100vh; height: 100lvh; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s var(--ease); }
 #sfondo3d[data-pronto] { opacity: 0.9; }
 @media (max-width: 899px) { #sfondo3d[data-pronto] { opacity: 0.55; } }
 

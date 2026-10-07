@@ -383,7 +383,10 @@ function avvia() {
   const prova: Group[] = [];
   let w = 0, h = 0, piccolo = false;
   const ridimensiona = () => {
-    w = innerWidth; h = innerHeight; piccolo = w < 900;
+    const nuovoW = innerWidth, nuovoH = canvas.clientHeight || innerHeight;
+    // su iPhone la barra di Safari che appare e scompare fa variare di poco l'altezza: non serve ridisegnare
+    if (w && nuovoW === w && Math.abs(nuovoH - h) < 160) return;
+    w = nuovoW; h = nuovoH; piccolo = w < 900;
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
     renderer.setSize(w, h, false);
     cam.aspect = w / h; cam.updateProjectionMatrix();
