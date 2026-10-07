@@ -16,6 +16,7 @@ $('tema')!.addEventListener('click', () => {
   const nuovo = scuroOra ? 'light' : 'dark';
   if (!ridotto) { r.classList.add('tema-anim'); setTimeout(() => r.classList.remove('tema-anim'), 600); }
   r.dataset.tema = nuovo;
+  (window as any).__tc?.();
   // La scelta col pulsante vale solo per questa visita (sessionStorage): alla prossima il sito torna a seguire il tema del dispositivo.
   try { sessionStorage.setItem('tema', nuovo); } catch {}
 });
@@ -169,3 +170,5 @@ function paginaPronta() {
   }
 }
 document.addEventListener('astro:page-load', paginaPronta);
+
+document.addEventListener('astro:page-load', () => (window as any).__tc?.());

@@ -28,10 +28,13 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
 <html lang="it" transition:animate="none">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#121518" />
     <!-- Il sito gestisce da sé tema chiaro e scuro: dichiararlo impedisce ai browser di forzare una "modalità scura automatica" che romperebbe lo stile. -->
     <meta name="color-scheme" content="light dark" />
-    <script is:inline>try{localStorage.removeItem('tema');var t=sessionStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.dataset.tema=t;}catch(e){}</script>
+    <script is:inline>try{localStorage.removeItem('tema');var t=sessionStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.dataset.tema=t;}catch(e){}
+    /* colore della barra del browser (iPhone/Android): segue il tema effettivo */
+    (function(){var r=document.documentElement,q=matchMedia('(prefers-color-scheme: dark)');function f(){var d=r.dataset.tema?r.dataset.tema==='dark':q.matches,m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#121518':'#e9e4dd';}window.__tc=f;f();q.addEventListener('change',f);})();</script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

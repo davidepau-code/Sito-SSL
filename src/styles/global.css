@@ -41,6 +41,8 @@
   --font: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
+:root { --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px); } /* zone sicure dell'iPhone (tacca e barra in basso) */
+html { background: var(--sfondo); }
 *, *::before, *::after { box-sizing: border-box; }
 body {
   margin: 0; font: 400 18px/1.55 var(--font); color: var(--testo); background: var(--sfondo);
@@ -70,7 +72,7 @@ h3, .h3 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
 main { position: relative; z-index: 1; }
 .sezione { max-width: var(--larghezza); margin: 0 auto; padding: 64px 24px; }
 .sezione.stretta { padding-block: 32px; }
-.sezione.testata { padding-top: 140px; padding-bottom: 48px; }
+.sezione.testata { padding-top: calc(140px + var(--sat)); padding-bottom: 48px; }
 .sezione.piccola { max-width: 980px; }
 .due-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 40px; align-items: center; }
 .due-col.alto { align-items: start; }
@@ -129,8 +131,8 @@ main { position: relative; z-index: 1; }
 .foto span { font: 600 14px ui-monospace, monospace; color: var(--testo-3); }
 
 /* Navbar */
-.navbar { position: fixed; inset: 16px 0 auto; z-index: 50; display: flex; justify-content: center; padding: 0 16px; transition: top 0.4s var(--ease); }
-.navbar.scroll { top: 8px; }
+.navbar { position: fixed; inset: calc(16px + var(--sat)) 0 auto; z-index: 50; display: flex; justify-content: center; padding: 0 16px; transition: top 0.4s var(--ease); }
+.navbar.scroll { top: calc(8px + var(--sat)); }
 .navbar nav {
   width: 100%; max-width: var(--larghezza); display: flex; align-items: center; gap: 16px; padding: 10px 10px 10px 12px; border-radius: var(--r-pill);
   background: rgb(var(--g) / 0.55); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
@@ -163,11 +165,11 @@ main { position: relative; z-index: 1; }
 @media (max-width: 420px) { .marchio small { display: none; } }
 
 /* Barra mobile */
-.barra-mobile { display: none; position: fixed; inset: auto 12px 12px; z-index: 60; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgb(var(--g) / 0.85); box-shadow: 0 16px 36px -14px rgb(36 40 44 / 0.4); }
+.barra-mobile { display: none; position: fixed; inset: auto 12px calc(12px + var(--sab)); z-index: 60; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgb(var(--g) / 0.85); box-shadow: 0 16px 36px -14px rgb(36 40 44 / 0.4); }
 .barra-mobile a { display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: var(--r-pill); font-weight: 700; font-size: 16px; }
 .barra-mobile .chiama { background: var(--testo); color: var(--sfondo); }
 .barra-mobile .scrivi { background: var(--arancio); color: var(--su-arancio); }
-@media (max-width: 759px) { .barra-mobile { display: grid; } footer.sito { padding-bottom: 110px !important; } }
+@media (max-width: 759px) { .barra-mobile { display: grid; } footer.sito { padding-bottom: calc(110px + var(--sab)) !important; } }
 
 /* Sintesi (scheda corso) */
 .sintesi { padding: 28px; border-radius: var(--r-card-lg); background: var(--vetro-forte); }
@@ -437,8 +439,8 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .tendina-cta { display: none; }
 @media (max-width: 1279px) { .hamburger { margin-left: 0; } .tema { margin-left: auto; } }
 @media (max-width: 640px) {
-  .navbar { padding: 0 10px; top: 10px; }
-  .navbar.scroll { top: 6px; }
+  .navbar { padding: 0 10px; top: calc(10px + var(--sat)); }
+  .navbar.scroll { top: calc(6px + var(--sat)); }
   .navbar nav { padding: 7px 8px 7px 10px; gap: 8px; background: rgb(var(--g) / 0.86); }
   .navbar.scroll nav { padding: 5px 7px 5px 9px; background: rgb(var(--g) / 0.95); }
   .navbar nav > .btn-piccolo { display: none; }
@@ -449,12 +451,12 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
   .tema, .hamburger { width: 42px; height: 42px; }
   .tendina { left: 10px; right: 10px; }
   .tendina a.btn.tendina-cta { display: flex; justify-content: center; margin: 8px 4px 4px; min-height: 54px; color: var(--su-arancio); font-size: 17px; }
-  .sezione.testata { padding-top: 108px; }
+  .sezione.testata { padding-top: calc(108px + var(--sat)); }
 }
 
 /* ---------- Catalogo corsi ---------- */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.cat-barra { position: sticky; top: 84px; z-index: 6; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 16px; border-radius: var(--r-card); background: rgb(var(--g) / 0.92); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); border: 1px solid var(--ctl-bord); box-shadow: inset 0 1px 0 var(--luce-c), 0 18px 40px -24px rgb(36 40 44 / 0.35); }
+.cat-barra { position: sticky; top: calc(84px + var(--sat)); z-index: 6; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 16px; border-radius: var(--r-card); background: rgb(var(--g) / 0.92); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); border: 1px solid var(--ctl-bord); box-shadow: inset 0 1px 0 var(--luce-c), 0 18px 40px -24px rgb(36 40 44 / 0.35); }
 .cat-cerca { flex: 1 1 320px; display: flex; align-items: center; gap: 10px; padding: 0 16px; min-height: 46px; border-radius: var(--r-pill); background: var(--ctl-bg); border: 1px solid var(--ctl-bord); color: var(--testo-3); }
 .cat-cerca input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: var(--testo); }
 .cat-cerca input::placeholder { color: var(--testo-3); }
@@ -495,7 +497,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .cat-chiusura p { color: #d9d6d2; font-size: 17px; }
 @media (max-width: 1000px) { .cat-corso { grid-template-columns: 1fr; } }
 @media (max-width: 640px) {
-  .cat-barra { top: 72px; padding: 10px 12px; }
+  .cat-barra { top: calc(72px + var(--sat)); padding: 10px 12px; }
   .cat-corso { padding: 20px; }
   .cat-riga { grid-template-columns: 1fr 1fr; }
   .cat-r-nome { grid-column: 1 / -1; }
@@ -565,7 +567,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .cookie-banner a { font-weight: 700; text-decoration: underline; }
 .cookie-azioni { display: flex; gap: 10px; flex-wrap: wrap; }
 .link-btn { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; }
-@media (max-width: 759px) { .cookie-banner { left: 12px; right: 12px; bottom: 88px; max-width: none; } }
+@media (max-width: 759px) { .cookie-banner { left: 12px; right: 12px; bottom: calc(88px + var(--sab)); max-width: none; } }
 .legale h2 { font-size: 22px; margin-top: 14px; }
 .cookie-banner { padding-right: 48px; }
 .cookie-x { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; border: 0; background: none; color: var(--testo-2); cursor: pointer; }
@@ -641,7 +643,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
   .lead { font-size: 17px; }
   .sezione { padding-block: 40px; }
   .sezione.stretta { padding-block: 20px; }
-  .sezione.testata { padding-top: 96px; padding-bottom: 28px; }
+  .sezione.testata { padding-top: calc(96px + var(--sat)); padding-bottom: 28px; }
   .colonna { gap: 16px; }
   .griglia, .griglia.larga { gap: 12px; }
   .card, .card.link, .card.rialzo, .caso { padding: 20px; gap: 10px; }
@@ -653,7 +655,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 }
 @media (max-width: 759px) { .solo-desktop { display: none !important; } } /* sul telefono c'è già la barra fissa Chiama / WhatsApp */
 @media (max-width: 600px) {
-  .sezione.testata.due-col { padding-top: 96px !important; padding-bottom: 28px !important; gap: 24px !important; }
+  .sezione.testata.due-col { padding-top: calc(96px + var(--sat)) !important; padding-bottom: 28px !important; gap: 24px !important; }
   .sezione.testata .colonna { gap: 16px !important; }
   [style*="min-height:480px"] { min-height: 300px !important; }
 }
