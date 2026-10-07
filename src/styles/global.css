@@ -630,3 +630,47 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 #sfondo3d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s var(--ease); }
 #sfondo3d[data-pronto] { opacity: 0.9; }
 @media (max-width: 899px) { #sfondo3d[data-pronto] { opacity: 0.55; } }
+
+/* ---------- Telefono: tutto un po' più compatto (testi, spazi, tessere) ---------- */
+@media (max-width: 600px) {
+  body { font-size: 16px; line-height: 1.5; }
+  h1 { font-size: clamp(30px, 8.6vw, 36px); line-height: 1.06; }
+  h1.grande { font-size: clamp(34px, 9.4vw, 40px) !important; line-height: 1.04; }
+  h2 { font-size: clamp(25px, 7.2vw, 30px); line-height: 1.1; }
+  h3, .h3 { font-size: 20px; }
+  .lead { font-size: 17px; }
+  .sezione { padding-block: 40px; }
+  .sezione.stretta { padding-block: 20px; }
+  .sezione.testata { padding-top: 96px; padding-bottom: 28px; }
+  .colonna { gap: 16px; }
+  .griglia, .griglia.larga { gap: 12px; }
+  .card, .card.link, .card.rialzo, .caso { padding: 20px; gap: 10px; }
+  .card .titolo { font-size: 19px; }
+  .card .corpo { font-size: 15px; }
+  .icona { width: 40px; height: 40px; }
+  .btn { font-size: 15px; }
+  .sezione-titolo { gap: 8px; }
+}
+@media (max-width: 759px) { .solo-desktop { display: none !important; } } /* sul telefono c'è già la barra fissa Chiama / WhatsApp */
+@media (max-width: 600px) {
+  .sezione.testata.due-col { padding-top: 96px !important; padding-bottom: 28px !important; gap: 24px !important; }
+  .sezione.testata .colonna { gap: 16px !important; }
+  [style*="min-height:480px"] { min-height: 300px !important; }
+}
+@media (max-width: 600px) {
+  .caso { display: grid; grid-template-columns: 40px 1fr; column-gap: 14px; row-gap: 4px; align-items: start; }
+  .caso .icona { grid-row: 1 / span 3; }
+  .caso .io { font-size: 18px; }
+  .caso .serve { font-size: 14.5px; }
+  .card.rialzo:has(> .step-n) { display: grid; grid-template-columns: 32px 1fr; column-gap: 12px; row-gap: 4px; align-items: start; }
+  .step-n { width: 32px; height: 32px; font-size: 15px; grid-row: 1 / span 2; }
+}
+@media (max-width: 600px) {
+  .card.link:has(> .icona) { display: grid; grid-template-columns: 40px 1fr; column-gap: 14px; row-gap: 4px; align-items: start; }
+  .card.link:has(> .icona) > .icona { grid-row: 1 / span 4; }
+}
+@media (max-width: 600px) {
+  .fiducia { grid-template-columns: 1fr 1fr; }
+  .fiducia > div { padding: 16px 12px; font-size: 14px; }
+  .fiducia b { font-size: 16.5px; overflow-wrap: normal; }
+}
