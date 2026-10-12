@@ -6,6 +6,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://www.servizisicurezzalavoro.it',
   trailingSlash: 'always',
+  build: { inlineStylesheets: 'always' },
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   integrations: [sitemap()],
 });
