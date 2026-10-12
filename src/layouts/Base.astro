@@ -18,7 +18,6 @@ const menu = [
   ['Formazione', '/formazione/'],
   ['F-Gas', '/f-gas/'],
   ['Consulenza', '/consulenza/'],
-  ['CEAS', '/ceas/'],
   ['Chi siamo', '/chi-siamo/'],
   ['Contatti', '/contatti/'],
 ];
@@ -92,7 +91,6 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
     <footer class="sito">
       <div><strong>{azienda.ragioneSociale}</strong><span>{azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia})</span><span>Sede legale: {azienda.sedeLegale}</span><span>P.IVA {azienda.piva}</span></div>
       <div><strong>Contatti</strong><a href={`tel:${azienda.cellulare.tel}`} style="font-weight:700">{azienda.cellulare.visibile}</a><a href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp</a><a href={`tel:${azienda.fisso.tel}`}>Fisso {azienda.fisso.visibile}</a><a href={`mailto:${azienda.email}`}>{azienda.email}</a><span>{azienda.orari.breve}</span></div>
-      <div><strong>CEAS</strong><span>Dorgali – Cala Gonone</span><span>Omodeo – Sedilo</span></div>
       <div class="legali"><a href="/privacy/">Privacy</a><a href="/cookie/">Cookie</a><button type="button" class="link-btn" data-cookie-preferenze>Preferenze cookie</button></div>
     </footer>
 

@@ -60,7 +60,4 @@ export const percorsi = [
   { id: 'frigorista', etichetta: 'Sono frigorista, termoidraulico o installatore', risultati: [
     { nome: 'Certificazione F-Gas', href: '/f-gas/' },
   ] },
-  { id: 'ente', etichetta: 'Rappresento una scuola o un ente', risultati: [
-    { nome: 'Educazione ambientale nei CEAS', href: '/ceas/' },
-  ] },
 ] as const;

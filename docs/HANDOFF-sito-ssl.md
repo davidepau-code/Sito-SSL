@@ -41,7 +41,7 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
 | Area clienti | **Eliminata** (non serve più). |
 | Formazione professionale disoccupati / corsi autofinanziati | **Eliminati** dal sito. |
 | F-Gas | **Sezione principale** dedicata. Corso + **esame di certificazione con IMQ** in sede. |
-| CEAS | **Tenuti** come sezione propria (elemento distintivo), separata da formazione/consulenza. |
+| CEAS | **TOLTI dal sito il 2026-10-12** (decisione di Davide: non è un asset da valorizzare per acquisire contatti). Pagina, menu, fascia in home e voce nei moduli rimossi. |
 | Gestione contenuti | Modifiche future fatte dai colleghi tramite IA (Claude) seguendo `CLAUDE.md`; ogni modifica passa da anteprima prima della pubblicazione. |
 | Stile | "Liquid glass" professionale con colori SSL (arancio + antracite), border radius generosi, animazioni fluide (dettagli §6). |
 

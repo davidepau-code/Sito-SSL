@@ -1,6 +1,6 @@
 # Sito Servizi Sicurezza Lavoro (SSL)
 
-Sito statico Astro di Servizi Sicurezza Lavoro snc (Siniscola, NU): formazione D.Lgs. 81/08, consulenza, certificazione F-Gas (esame IMQ), due CEAS. Pubblico: titolari/responsabili di PMI sarde, frigoristi/termoidraulici, scuole ed enti. Obiettivo: portare al contatto (preventivo, telefono, WhatsApp).
+Sito statico Astro di Servizi Sicurezza Lavoro snc (Siniscola, NU): formazione D.Lgs. 81/08, consulenza, certificazione F-Gas (esame IMQ). Pubblico: titolari/responsabili di PMI sarde, frigoristi/termoidraulici, scuole ed enti. Obiettivo: portare al contatto (preventivo, telefono, WhatsApp).
 
 **Tono di voce**: chiaro, concreto, professionale, senza giri di parole. Forma: [DA DECIDERE con Davide: "tu" o "voi"].
 
@@ -24,7 +24,7 @@ Non inventare mai numeri, date d'esame, accreditamenti o testimonianze. I testi 
 
 ## Stile
 
-- Token in `src/styles/global.css` (colori, raggi `--r-*`, easing). Non introdurre nuovi colori né raggi fuori scala. Verde solo nella sezione CEAS.
+- Token in `src/styles/global.css` (colori, raggi `--r-*`, easing). Non introdurre nuovi colori né raggi fuori scala.
 - Vetro = classe `.vetro`; card = `.card`; pulsanti = `.btn .btn-primario|.btn-vetro`; entrata allo scroll = `.reveal`. Riusa i componenti esistenti.
 - Il contenuto deve restare visibile senza JS/animazioni; rispettare `prefers-reduced-motion`; contrasto WCAG AA sopra il vetro.
 - Immagini via `astro:assets`, WebP/AVIF, max 200 KB. Niente stock generiche, cartoon, icone 3D.
