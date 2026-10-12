@@ -1,5 +1,5 @@
 // Sfondo 3D (ESPERIMENTO): oggetti della sicurezza (casco, cartellina, estintore) disegnati in codice, senza file esterni.
-// Si muovono e ruotano con lo scorrimento della pagina, dietro ai contenuti. Per toglierlo: rimuovere <Sfondo3D /> da Base.astro.
+// Ora solo nelle pagine dei singoli corsi (un oggetto, mai sul telefono). Per toglierlo del tutto: rimuovere <Sfondo3D /> da Base.astro.
 import {
   BufferGeometry, CircleGeometry, Float32BufferAttribute, CanvasTexture, WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Vector2, Vector3, Color, ACESFilmicToneMapping, SRGBColorSpace, PMREMGenerator, DirectionalLight,
   MeshPhysicalMaterial, MeshStandardMaterial, LatheGeometry, CylinderGeometry, TorusGeometry, BoxGeometry, TubeGeometry, CatmullRomCurve3, DoubleSide, SphereGeometry, Box3,
@@ -346,24 +346,17 @@ const COSTRUTTORI: Record<string, () => Group> = { casco, cartellina, estintore,
 /* Quali oggetti su quale pagina. `sel` = elemento della pagina accanto al quale compare, `frac` = punto dell'elemento (0 alto, 1 basso). */
 type Cfg = { n: string; sel?: string; frac?: number };
 function oggettiPerPagina(p: string): Cfg[] {
-  const tutti = (...n: string[]) => n.map((x) => ({ n: x }));
-  if (p === '/') return tutti('casco', 'cartellina', 'carrello', 'estintore', 'cappello', 'escavatore', 'cassetta');
-  if (p.startsWith('/formazione/catalogo')) return [
-    { n: 'casco', sel: '#sicurezza', frac: 0.15 }, { n: 'cassetta', sel: '#sicurezza', frac: 0.7 },
-    { n: 'carrello', sel: '#attrezzature', frac: 0.15 }, { n: 'escavatore', sel: '#attrezzature', frac: 0.7 },
-    { n: 'cappello', sel: '#alimentare', frac: 0.4 },
-  ];
-  // pagine dei singoli corsi: l'oggetto del corso
-  if (/^\/formazione\/(carrelli-elevatori|piattaforme-elevabili-ple)\//.test(p)) return tutti('carrello', 'casco');
-  if (/^\/formazione\/(macchine-movimento-terra|gru-torre|autogru|camion-gru|trattori|pompe-cls|carriponte)\//.test(p)) return tutti('escavatore', 'casco');
-  if (p.startsWith('/formazione/primo-soccorso')) return tutti('cassetta');
-  if (p.startsWith('/formazione/antincendio')) return tutti('estintore');
-  if (p.startsWith('/formazione/haccp')) return tutti('cappello');
-  if (p.startsWith('/formazione')) return tutti('casco', 'cassetta', 'carrello', 'cappello');
-  if (p.startsWith('/consulenza/haccp')) return tutti('cappello');
-  if (p.startsWith('/consulenza')) return tutti('cartellina', 'casco');
-  if (p.startsWith('/chi-siamo')) return tutti('casco');
-  if (p.startsWith('/f-gas')) return tutti('bombola');
+  // Solo nelle pagine dei singoli corsi, un solo oggetto (quello del corso), e non sul telefono.
+  if (innerWidth < 760) return [];
+  const m = /^\/formazione\/([^/]+)\/?$/.exec(p);
+  if (!m) return [];
+  const s = m[1];
+  if (/^(carrelli-elevatori|piattaforme-elevabili-ple)$/.test(s)) return [{ n: 'carrello' }];
+  if (s === 'macchine-movimento-terra') return [{ n: 'escavatore' }];
+  if (s === 'primo-soccorso') return [{ n: 'cassetta' }];
+  if (s === 'antincendio') return [{ n: 'estintore' }];
+  if (s.startsWith('haccp-')) return [{ n: 'cappello' }];
+  if (/^(lavoratori|preposto|rls|rspp|datore-di-lavoro|datore-di-lavoro-rspp)$/.test(s)) return [{ n: 'casco' }];
   return [];
 }
 
@@ -438,7 +431,7 @@ function avvia() {
 
   function frame(ora: number) {
     requestAnimationFrame(frame);
-    if (document.hidden) return;
+    if (document.hidden || (!voci.size && !prova.length)) return;
     if (prova.length) { prova.forEach((g, i) => { const f = g.userData.fisso; g.rotation.x = 0.15; g.rotation.y = f !== null && f !== undefined ? parseFloat(f) : -0.6 + Math.sin(ora / 2500 + i) * 0.9; }); renderer.render(scena, cam); return; }
     const dt = ora - ultimo;
     const inMovimento = Math.abs(tScorr - scorr) > 0.5;
