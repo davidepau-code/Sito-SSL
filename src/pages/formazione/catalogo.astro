@@ -39,12 +39,19 @@ const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.cors
     </div>
     <p class="cat-nota">{totale} corsi in catalogo. Le ore indicate sono quelle del corso; la modalità è quella ammessa per ciascun percorso.</p>
 
-    {sezioni.map((s) => (
-      <section class="cat-sezione" id={s.id} data-sezione>
-        <header class="cat-testa">
-          <h2>{s.titolo}</h2>
+    <div class="cat-griglia">
+    {sezioni.map((s) => { const nomi = s.gruppi.flatMap((g) => g.corsi.map((c) => c.nome)); return (
+      <details class="cat-sezione card" id={s.id} data-sezione>
+        <summary class="cat-testa">
+          <span class="cat-t-top"><h2>{s.titolo}</h2><span class="cat-freccia" aria-hidden="true"></span></span>
           <p>{s.intro}</p>
-        </header>
+          <span class="cat-anteprima">
+            {nomi.slice(0, 4).map((n) => <span class="cat-tag">{n}</span>)}
+            {nomi.length > 4 && <span class="cat-tag neutro">+ altri {nomi.length - 4}</span>}
+          </span>
+          <span class="cat-apri"><b>{nomi.length} corsi</b> <span class="cat-apri-s">Apri</span><span class="cat-apri-c">Chiudi</span></span>
+        </summary>
+        <div class="cat-corpo">
         {s.gruppi.map((g) => (
           <div class="cat-gruppo" data-gruppo>
             {g.titolo && <h3>{g.titolo}</h3>}
@@ -75,8 +82,10 @@ const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.cors
             ); })}
           </div>
         ))}
-      </section>
-    ))}
+        </div>
+      </details>
+    ); })}
+    </div>
 
     <p class="cat-vuoto" id="cat-vuoto" hidden>Nessun corso corrisponde alla ricerca. Scrivici cosa ti serve e ti indichiamo noi il corso giusto.</p>
 
