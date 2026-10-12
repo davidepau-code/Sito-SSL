@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { sezioni, MODALITA } from '../../data/catalogo-corsi';
+import { sezioni, MODALITA, urlCorso } from '../../data/catalogo-corsi';
+import { prossimeEdizioni, dataBreve } from '../../data/edizioni';
 import { azienda } from '../../data/azienda';
 
 const mod = (m: 'E' | 'V' | 'P') => MODALITA[m];
@@ -16,6 +17,7 @@ const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.cors
     <p class="briciole"><a href="/formazione/">Formazione</a> / <span aria-current="page">Catalogo corsi</span></p>
     <h1>Catalogo corsi di sicurezza sul lavoro</h1>
     <p class="lead">Tutti i corsi, divisi per area. Per ognuno trovi a chi serve, quante ore dura, come si svolge e ogni quanto si aggiorna. Il corso singolo o un pacchetto completo su misura: dicci cosa ti serve.</p>
+    <p style="font-weight:700"><a href="/formazione/calendario/">Vedi il calendario dei corsi in partenza →</a></p>
   </section>
 
   <section class="sezione stretta" style="padding-top:0">
@@ -49,8 +51,12 @@ const totale = sezioni.reduce((n, s) => n + s.gruppi.reduce((m, g) => m + g.cors
             {g.corsi.map((c) => { const T = g.titolo ? 'h4' : 'h3'; return (
               <article class="card cat-corso" data-corso data-testo={(c.nome + ' ' + c.per).toLowerCase()} id={c.id}>
                 <div class="cat-info">
-                  <T>{c.nome}</T>
+                  <T><a href={urlCorso(c)}>{c.nome}</a></T>
                   <p>{c.per}</p>
+                  <div class="cat-link">
+                    <a href={urlCorso(c)}>Scheda del corso →</a>
+                    {prossimeEdizioni(c.id).map((e, i) => <span class="cat-prossima" data-fine={e.fine} hidden={i > 0}>Prossima data: {dataBreve(e.inizio)}</span>)}
+                  </div>
                   <a class="cat-chiedi" href={azienda.whatsappLink(`Buongiorno, vorrei informazioni sul corso: ${c.nome}`)} rel="noopener">Chiedi informazioni</a>
                 </div>
                 <ul class="cat-righe">

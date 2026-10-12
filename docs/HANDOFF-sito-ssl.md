@@ -48,7 +48,7 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
 ---
 
 > **Aggiornamento 2 ottobre 2026 (stato reale del sito, prevale su quanto scritto sotto dove diverso).**
-> - **Corsi**: niente content collection né pagina per singolo corso. Il catalogo sta in `src/data/catalogo-corsi.ts` (fonte: database Notion "Elenco Corsi"), pubblicato su `/formazione/catalogo/` (4 aree: Sicurezza sul lavoro, Macchine e attrezzature, Rischi specifici, Alimentare e HACCP). Le varianti (es. rischio basso/medio/alto, tipi di carrello) sono righe dentro la scheda.
+> - **Corsi** (aggiornato 9/10/2026: ora ogni corso ha la sua pagina `/formazione/<slug>/` e c'è il calendario delle edizioni `/formazione/calendario/`, dati in `src/data/edizioni.ts`): niente content collection. Il catalogo sta in `src/data/catalogo-corsi.ts` (fonte: database Notion "Elenco Corsi"), pubblicato su `/formazione/catalogo/` (4 aree: Sicurezza sul lavoro, Macchine e attrezzature, Rischi specifici, Alimentare e HACCP). Le varianti (es. rischio basso/medio/alto, tipi di carrello) sono righe dentro la scheda.
 > - **Catalogo senza prezzi**: ogni corso ha ore, modalità, aggiornamento e spiegazione breve; il prezzo si dà solo su richiesta.
 > - **Strumento "Scopri cosa ti serve"** su `/formazione/` (dati in `src/data/normativa.ts`, motore in `src/scripts/motore.ts`), con link precompilati dalla home (`?caso=assunto|macchine|haccp`). Dettagli e punti da far validare a un RSPP: `docs/schema-normativo.md`.
 > - **Navigazione**: Astro ClientRouter (header persistente, pillola del menu che scorre); script comuni in `src/scripts/sito.ts`.
@@ -106,7 +106,7 @@ Davide deve fare login personalmente su GitHub e Cloudflare (non inserire creden
 /privacy/  /cookie/
 ```
 
-Scelta attuale: nessuna pagina dedicata per i singoli corsi (tranne F-Gas). Tutti i corsi stanno nel catalogo `/formazione/catalogo/`, con ancora per ogni scheda (`#lavoratori`, `#carrelli`, …).
+Scelta attuale (dal 9/10/2026): ogni corso del catalogo ha una pagina dedicata `/formazione/<slug>/` generata da `catalogo-corsi.ts`, con le prossime edizioni da `edizioni.ts`. Il catalogo `/formazione/catalogo/` resta, con ancora per ogni scheda (`#lavoratori`, `#carrelli`, …) e link alla pagina del corso.
 
 ---
 

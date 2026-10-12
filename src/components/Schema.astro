@@ -1,7 +1,7 @@
 ---
 // Dati strutturati: SOLO ciò che è scritto nel sito. Nessun segnaposto, nessuna recensione, nessun prezzo non pubblicato.
-interface Props { crumbs?: { nome: string; url: string }[] }
-const { crumbs } = Astro.props;
+interface Props { crumbs?: { nome: string; url: string }[]; extra?: object[] }
+const { crumbs, extra = [] } = Astro.props;
 import { azienda } from '../data/azienda';
 const site = Astro.site!.origin;
 
@@ -41,6 +41,7 @@ if (crumbs?.length) {
     itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.nome, item: new URL(c.url, site).href })),
   });
 }
+graph.push(...extra);
 const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 ---
 <script type="application/ld+json" set:html={json} />

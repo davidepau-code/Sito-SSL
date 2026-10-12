@@ -1,0 +1,14 @@
+---
+// Elenco di edizioni con messaggio di riserva. Il riserva compare anche quando, dopo la build,
+// tutte le edizioni mostrate sono passate (lo gestisce src/scripts/edizioni.ts).
+import EdizioneCard from './EdizioneCard.astro';
+import type { EdizioneCompleta } from '../data/edizioni';
+interface Props { elenco: EdizioneCompleta[]; conCorso?: boolean }
+const { elenco, conCorso = false } = Astro.props;
+---
+<div class="edizioni" data-edizioni>
+  {elenco.length > 0 && <div class="ed-griglia">{elenco.map((e) => <EdizioneCard e={e} conCorso={conCorso} />)}</div>}
+  <div class="ed-vuoto" data-edizioni-vuoto hidden={elenco.length > 0}>
+    <slot />
+  </div>
+</div>

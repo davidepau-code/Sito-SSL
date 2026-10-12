@@ -1,0 +1,131 @@
+---
+// Pagina del singolo corso. Tutti i dati vengono da src/data/catalogo-corsi.ts (ore, modalità, aggiornamenti)
+// e da src/data/edizioni.ts (date programmate): qui non si scrivono numeri a mano.
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import ProssimeEdizioni from '../../components/ProssimeEdizioni.astro';
+import { azienda } from '../../data/azienda';
+import { tuttiICorsi, slugCorso, urlCorso, MODALITA, type Mod, type CorsoConArea } from '../../data/catalogo-corsi';
+import { prossimeEdizioni } from '../../data/edizioni';
+
+export function getStaticPaths() {
+  return tuttiICorsi.map((x) => ({ params: { corso: slugCorso(x.corso) }, props: { x } }));
+}
+const { x } = Astro.props as { x: CorsoConArea };
+const { corso: c, sezione, gruppo } = x;
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+
+// ---- Sintesi calcolata dai dati ----
+const numeri = c.righe.map((r) => parseFloat(r.ore)).filter((n) => !isNaN(n));
+const durata = !numeri.length ? 'Su richiesta'
+  : c.righe.length === 1 ? `${c.righe[0].ore} ore`
+  : Math.min(...numeri) === Math.max(...numeri) ? `${numeri[0]} ore` : `Da ${Math.min(...numeri)} a ${Math.max(...numeri)} ore`;
+const mods = new Set<Mod>(c.righe.flatMap((r) => (Array.isArray(r.mod) ? r.mod : [])));
+const modalita = mods.size ? (['E', 'V', 'P'] as Mod[]).filter((m) => mods.has(m)).map((m) => MODALITA[m]).join(' · ') : 'Da concordare';
+const agg = [...new Set(c.righe.map((r) => r.agg).filter((a): a is string => !!a && a !== 'su richiesta'))];
+const aggiornamento = agg.length === 1 ? agg[0] : agg.length > 1 ? 'Dipende dalla variante' : 'Su richiesta';
+
+// ---- Testi ----
+const minuscola = (t: string) => (/^[A-Z]{2}/.test(t) ? t : t.charAt(0).toLowerCase() + t.slice(1));
+const h1 = c.nome.startsWith('Formazione') ? c.nome : `Corso ${minuscola(c.nome)}`;
+const taglia = (t: string, n: number) => (t.length <= n ? t : t.slice(0, t.lastIndexOf(' ', n - 1)) + '…');
+const descrizione = taglia(`${h1}: ${durata.toLowerCase()}, ${modalita.toLowerCase()}. ${c.per}`, 158);
+const edizioni = prossimeEdizioni(c.id);
+
+// ---- Corsi correlati: stesso gruppo, poi stessa area ----
+const vicini = [...gruppo.corsi, ...sezione.gruppi.flatMap((g) => g.corsi)].filter((k, i, a) => k.id !== c.id && a.findIndex((z) => z.id === k.id) === i).slice(0, 8);
+
+const crumbs = [
+  { nome: 'Home', url: '/' },
+  { nome: 'Formazione', url: '/formazione/' },
+  { nome: 'Catalogo corsi', url: '/formazione/catalogo/' },
+  { nome: c.breve, url: urlCorso(c) },
+];
+const site = Astro.site!.origin;
+const schema = [{
+  '@type': 'Course',
+  '@id': `${site}${urlCorso(c)}#corso`,
+  name: h1,
+  description: c.per,
+  url: `${site}${urlCorso(c)}`,
+  inLanguage: 'it',
+  provider: { '@id': `${site}/#organizzazione` },
+  ...(edizioni.length ? {
+    hasCourseInstance: edizioni.map((e) => ({
+      '@type': 'CourseInstance',
+      name: e.variante ? `${h1} – ${e.variante}` : h1,
+      courseMode: 'onsite',
+      startDate: e.inizio,
+      endDate: e.fine,
+      location: { '@type': 'Place', name: e.sede, address: { '@type': 'PostalAddress', addressRegion: 'Sardegna', addressCountry: 'IT' } },
+    })),
+  } : {}),
+}];
+---
+<Base title={`Corso ${minuscola(c.breve)} in Sardegna – Servizi Sicurezza Lavoro`} description={descrizione} crumbs={crumbs} schema={schema}>
+  <section class="sezione testata colonna" style="padding-bottom:24px">
+    <div class="briciole"><a href="/formazione/">Formazione</a><span>›</span><a href={`/formazione/catalogo/#${sezione.id}`}>{sezione.titolo}</a><span>›</span><span aria-current="page">{c.breve}</span></div>
+    <h1>{h1}</h1>
+    <p class="lead" style="max-width:760px">{c.per}</p>
+    <div class="gruppo">
+      {edizioni.length > 0
+        ? <a class="btn btn-primario" href="#date">Vedi le prossime date <Icon d={FRECCIA} size={18} /></a>
+        : <a class="btn btn-primario" href={azienda.whatsappLink(`Buongiorno, vorrei informazioni sul corso: ${c.nome}.`)} rel="noopener">Chiedi informazioni <Icon d={FRECCIA} size={18} /></a>}
+      <a class="btn btn-vetro" href={`tel:${azienda.cellulare.tel}`}>Chiama {azienda.cellulare.visibile}</a>
+    </div>
+  </section>
+
+  <section class="sezione stretta" style="padding-top:0" data-reveal>
+    <div class="fiducia">
+      <div><b>{durata}</b>durata del corso</div>
+      <div><b class="corso-mod">{modalita}</b>modalità</div>
+      <div><b class="corso-mod">{aggiornamento.charAt(0).toUpperCase() + aggiornamento.slice(1)}</b>aggiornamento</div>
+    </div>
+  </section>
+
+  <section class="sezione stretta" id="date" style="scroll-margin-top:100px">
+    <h2 style="font-size:clamp(26px,3.2vw,36px);margin-bottom:18px">Prossime edizioni</h2>
+    <ProssimeEdizioni elenco={edizioni}>
+      <div class="card ed-riserva">
+        <div>
+          <h3>Nessuna data in calendario, per ora</h3>
+          <p>Organizziamo le edizioni in base alle richieste. Scrivici: ti avvisiamo appena fissiamo la prossima data, oppure veniamo a fare il corso nella tua azienda.</p>
+        </div>
+        <div class="gruppo">
+          <a class="btn btn-primario" href={azienda.whatsappLink(`Buongiorno, mi interessa il corso ${c.nome}: potete avvisarmi quando c'è la prossima data?`)} rel="noopener">Avvisami alla prossima data</a>
+          <a class="btn btn-vetro" href={azienda.whatsappLink(`Buongiorno, vorrei organizzare il corso ${c.nome} nella mia azienda.`)} rel="noopener">Corso in azienda</a>
+        </div>
+      </div>
+    </ProssimeEdizioni>
+  </section>
+
+  <section class="sezione stretta" data-reveal>
+    <h2 style="font-size:clamp(26px,3.2vw,36px);margin-bottom:8px">{c.righe.length > 1 ? 'Le possibilità del corso' : 'Il corso in dettaglio'}</h2>
+    <p class="testo-corpo" style="max-width:780px;margin-bottom:18px">{sezione.intro}</p>
+    <div class="card corso-tabella">
+      <ul class="cat-righe">
+        {c.righe.map((r) => (
+          <li class="cat-riga">
+            <div class="cat-r-nome">{r.nome}</div>
+            <div class="cat-r-ore"><b>{r.ore === 'su richiesta' ? 'Ore su richiesta' : `${r.ore} ore`}</b>{r.dett && <small>{r.dett}</small>}</div>
+            <div class="cat-r-mod">
+              {Array.isArray(r.mod) ? r.mod.map((m) => <span class="cat-tag">{MODALITA[m]}</span>) : <span class="cat-tag neutro">Modalità da concordare</span>}
+            </div>
+            <div class="cat-r-agg">{r.agg ? <><small>Aggiornamento</small>{r.agg}</> : <small>&nbsp;</small>}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <p style="margin-top:14px;color:var(--testo-3);font-size:14px">Ore, modalità e aggiornamenti sono quelli dei corsi che eroghiamo. Non sai quale variante ti serve? <a href={azienda.whatsappLink(`Buongiorno, quale variante del corso ${c.nome} mi serve?`)} rel="noopener" style="font-weight:700">Chiedicelo</a>.</p>
+  </section>
+
+  {vicini.length > 0 && (
+    <section class="sezione stretta" data-reveal>
+      <h2 style="font-size:clamp(22px,2.6vw,30px);margin-bottom:16px">Altri corsi: {sezione.titolo.toLowerCase()}</h2>
+      <div class="gruppo" style="gap:10px">
+        {vicini.map((k) => <a class="chip" href={urlCorso(k)}>{k.breve}</a>)}
+      </div>
+      <p style="margin-top:20px;color:var(--testo-2)"><a href="/formazione/catalogo/" style="font-weight:700">Tutto il catalogo corsi →</a> · <a href="/formazione/calendario/" style="font-weight:700">Calendario delle prossime edizioni →</a></p>
+    </section>
+  )}
+</Base>

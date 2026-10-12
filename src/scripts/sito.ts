@@ -1,6 +1,7 @@
 // Comportamento comune del sito. Gira una sola volta: l'header è "persistente" (ClientRouter),
 // quindi i suoi listener restano; le parti legate alla singola pagina si rifanno a ogni "astro:page-load".
 import { iniziaSelezioni } from './selezione.ts';
+import './edizioni.ts';
 
 const ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (id: string) => document.getElementById(id);

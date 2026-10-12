@@ -5,6 +5,9 @@ import MappaIncorporata from '../components/MappaIncorporata.astro';
 import Faq from '../components/Faq.astro';
 import Steps from '../components/Steps.astro';
 import { azienda } from '../data/azienda';
+import EdizioneCard from '../components/EdizioneCard.astro';
+import { prossimeEdizioni } from '../data/edizioni';
+const inPartenza = prossimeEdizioni().slice(0, 3);
 
 const mappa = encodeURIComponent(`${azienda.sede.via}, ${azienda.sede.cap} ${azienda.sede.citta} ${azienda.sede.provincia}`);
 const GIU = 'M12 5v14M5 12l7 7 7-7';
@@ -110,6 +113,14 @@ const faq = [
 
   <Steps passi={passi} />
 
+  {inPartenza.length > 0 && (
+    <section class="sezione stretta" data-reveal data-se-edizioni>
+      <h2 style="font-size:clamp(28px,3.4vw,40px);margin-bottom:8px">Corsi in partenza</h2>
+      <p class="testo-corpo" style="margin-bottom:22px">Edizioni con data fissata: prenota il posto su WhatsApp, ti confermiamo noi la partenza.</p>
+      <div class="ed-griglia">{inPartenza.map((e) => <EdizioneCard e={e} conCorso />)}</div>
+      <p style="margin-top:20px"><a href="/formazione/calendario/" style="font-weight:700">Tutto il calendario →</a></p>
+    </section>
+  )}
   <section class="sezione stretta" data-reveal>
     <div class="card accento pd">
       <h2>Per chi lavora, la sicurezza è un pensiero in più.</h2>

@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import Pacchetto from '../../components/Pacchetto.astro';
 import { aree } from '../../data/catalogo';
-import { sezioni } from '../../data/catalogo-corsi';
+import { sezioni, urlCorso } from '../../data/catalogo-corsi';
 const corsiArea = (id: string) => (sezioni.find((s) => s.id === id)?.gruppi ?? []).flatMap((g) => g.corsi);
 ---
 <Base title="Formazione – Servizi Sicurezza Lavoro" description="Corsi obbligatori D.Lgs. 81/08: sicurezza sul lavoro, macchine e attrezzature, rischi specifici, HACCP. In aula, online o in azienda.">
@@ -35,12 +35,12 @@ const corsiArea = (id: string) => (sezioni.find((s) => s.id === id)?.gruppi ?? [
           </header>
           <p class="per">{a.per}</p>
           <ul>
-            {corsiArea(a.id).map((c) => <li><a href={`/formazione/catalogo/#${c.id}`}>{c.breve}</a></li>)}
+            {corsiArea(a.id).map((c) => <li><a href={urlCorso(c)}>{c.breve}</a></li>)}
           </ul>
           <a class="btn btn-primario btn-piccolo" href={`/formazione/catalogo/#${a.id}`} style="margin-top:auto;align-self:flex-start">Vedi i corsi dell'area</a>
         </div>
       ))}
     </div>
-    <div class="gruppo" style="margin-top:32px;align-items:center;gap:16px"><a class="btn btn-primario" href="/formazione/catalogo/">Vai al catalogo completo</a><span style="color:var(--testo-3);font-size:15px">Ore, modalità e aggiornamenti di ogni corso.</span></div>
+    <div class="gruppo" style="margin-top:32px;align-items:center;gap:16px"><a class="btn btn-primario" href="/formazione/catalogo/">Vai al catalogo completo</a><a class="btn btn-vetro" href="/formazione/calendario/">Calendario corsi in partenza</a><span style="color:var(--testo-3);font-size:15px">Ore, modalità e aggiornamenti di ogni corso.</span></div>
   </section>
 </Base>

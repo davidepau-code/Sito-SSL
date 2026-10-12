@@ -1,0 +1,34 @@
+---
+// Scheda di un'edizione programmata. `conCorso` mostra anche il nome del corso (calendario, home).
+import { azienda } from '../data/azienda';
+import { urlCorso } from '../data/catalogo-corsi';
+import { STATI, testoDate, type EdizioneCompleta } from '../data/edizioni';
+interface Props { e: EdizioneCompleta; conCorso?: boolean }
+const { e, conCorso = false } = Astro.props;
+const quando = testoDate(e.date);
+const titolo = e.variante ? `${e.c.nome} – ${e.variante}` : e.c.nome;
+const completa = e.stato === 'completa';
+const messaggio = completa
+  ? `Buongiorno, l'edizione del corso ${titolo} (${quando}) è completa: potete avvisarmi per la prossima data?`
+  : `Buongiorno, vorrei prenotare un posto al corso ${titolo}, edizione di ${quando} (${e.sede}).`;
+const stato = STATI[e.stato];
+---
+<article class="card edizione" data-fine={e.fine}>
+  <div class="ed-testa">
+    <span class={`ed-stato ${stato.classe}`}>{stato.etichetta}</span>
+    {e.ore && <span class="ed-ore">{e.ore} ore{e.dett && <small> · {e.dett}</small>}</span>}
+  </div>
+  <p class="ed-data"><time datetime={e.inizio}>{quando}</time></p>
+  {conCorso
+    ? <h3 class="ed-corso"><a href={urlCorso(e.c)}>{e.c.nome}</a>{e.variante && <span>{e.variante}</span>}</h3>
+    : e.variante && <h3 class="ed-corso"><span style="color:var(--testo)">{e.variante}</span></h3>}
+  <ul class="ed-info">
+    <li><b>Dove</b>{e.sede}</li>
+    {e.orario && <li><b>Orario</b>{e.orario}</li>}
+    {e.stato === 'aperte' && e.minimo && <li><b>Partenza</b>Si parte con almeno {e.minimo} iscritti: ti confermiamo noi la data.</li>}
+    {e.nota && <li><b>Nota</b>{e.nota}</li>}
+  </ul>
+  <a class={`btn ${completa ? 'btn-vetro' : 'btn-primario'} btn-piccolo ed-cta`} href={azienda.whatsappLink(messaggio)} rel="noopener">
+    {completa ? 'Avvisami per la prossima' : 'Prenota un posto'}
+  </a>
+</article>

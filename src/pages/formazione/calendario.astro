@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import EdizioneCard from '../../components/EdizioneCard.astro';
+import { azienda } from '../../data/azienda';
+import { prossimeEdizioni, meseAnno } from '../../data/edizioni';
+
+const elenco = prossimeEdizioni();
+const mesi = new Map<string, typeof elenco>();
+for (const e of elenco) {
+  const k = e.inizio.slice(0, 7);
+  mesi.set(k, [...(mesi.get(k) ?? []), e]);
+}
+const crumbs = [
+  { nome: 'Home', url: '/' },
+  { nome: 'Formazione', url: '/formazione/' },
+  { nome: 'Calendario corsi', url: '/formazione/calendario/' },
+];
+---
+<Base title="Calendario corsi in partenza – Servizi Sicurezza Lavoro" description="Le prossime edizioni dei corsi di Servizi Sicurezza Lavoro a Siniscola e in Sardegna: date, sede, posti disponibili. Prenota su WhatsApp o al telefono." crumbs={crumbs}>
+  <section class="sezione testata colonna" style="padding-bottom:16px">
+    <div class="briciole"><a href="/formazione/">Formazione</a><span>›</span><span aria-current="page">Calendario corsi</span></div>
+    <h1>Calendario dei corsi in partenza</h1>
+    <p class="lead" style="max-width:760px">Le edizioni con una data già fissata. Scegli quella che ti serve e prenota il posto: ti confermiamo noi la partenza. Il corso che cerchi non c'è? Scrivici: lo organizziamo anche nella tua azienda.</p>
+  </section>
+
+  <section class="sezione stretta" style="padding-top:24px">
+    <div class="edizioni" data-edizioni>
+      {[...mesi].map(([k, lista]) => (
+        <div class="ed-mese" data-ed-gruppo>
+          <h2>{meseAnno(k + '-01')}</h2>
+          <div class="ed-griglia">{lista.map((e) => <EdizioneCard e={e} conCorso />)}</div>
+        </div>
+      ))}
+      <div class="ed-vuoto" data-edizioni-vuoto hidden={elenco.length > 0}>
+        <div class="card ed-riserva">
+          <div>
+            <h2 class="h3">Nessuna edizione in calendario in questo momento</h2>
+            <p>Stiamo fissando le prossime date. Dicci quale corso ti interessa: ti avvisiamo appena parte, oppure lo organizziamo per la tua azienda.</p>
+          </div>
+          <div class="gruppo">
+            <a class="btn btn-primario" href={azienda.whatsappLink('Buongiorno, vorrei sapere quando parte il prossimo corso di: ')} rel="noopener">Scrivici su WhatsApp</a>
+            <a class="btn btn-vetro" href="/formazione/catalogo/">Vedi il catalogo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

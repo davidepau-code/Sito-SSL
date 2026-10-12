@@ -503,6 +503,47 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
   .cat-r-nome { grid-column: 1 / -1; }
 }
 
+/* Catalogo: link alla pagina del corso e prossima data */
+.cat-info h3 a, .cat-info h4 a { color: inherit; text-decoration: none; }
+.cat-info h3 a:hover, .cat-info h4 a:hover { color: var(--arancio-testo); }
+.cat-link { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 15px; font-weight: 700; }
+.cat-link a { color: var(--arancio-testo); }
+.cat-prossima { font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: var(--r-pill); background: rgb(245 134 42 / 0.14); border: 1px solid rgb(245 134 42 / 0.4); color: var(--arancio-testo); }
+.cat-prossima[hidden] { display: none; }
+
+/* Pagina corso */
+.fiducia .corso-mod { font-size: clamp(18px, 1.7vw, 24px); line-height: 1.25; }
+.corso-tabella { padding: 12px 28px; }
+@media (max-width: 640px) { .corso-tabella { padding: 8px 20px; } }
+
+/* Edizioni programmate */
+.ed-griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 20px; }
+.edizione { display: flex; flex-direction: column; gap: 12px; padding: 24px; }
+.edizione[hidden], .ed-vuoto[hidden], .ed-mese[hidden], [data-se-edizioni][hidden] { display: none; }
+.ed-testa { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.ed-stato { font-size: 13px; font-weight: 800; letter-spacing: 0.01em; padding: 5px 12px; border-radius: var(--r-pill); border: 1px solid var(--ctl-bord); background: var(--ctl-bg); }
+.ed-stato.aperte { background: rgb(245 134 42 / 0.14); border-color: rgb(245 134 42 / 0.45); color: var(--arancio-testo); }
+.ed-stato.confermata { background: var(--testo); border-color: var(--testo); color: var(--sfondo); }
+.ed-stato.ultimi { background: var(--arancio); border-color: var(--arancio); color: var(--su-arancio); }
+.ed-stato.completa { color: var(--testo-3); }
+.ed-ore { font-size: 14px; font-weight: 800; color: var(--testo-2); }
+.ed-ore small { font-weight: 600; color: var(--testo-3); font-size: 13px; }
+.ed-data { font-size: clamp(20px, 2vw, 24px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.ed-corso { margin: 0; font-size: 17px; line-height: 1.3; display: flex; flex-direction: column; gap: 2px; }
+.ed-corso a { color: var(--testo); }
+.ed-corso a:hover { color: var(--arancio-testo); }
+.ed-corso span { font-size: 15px; font-weight: 600; color: var(--testo-2); }
+.ed-info { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ed-info li { display: grid; grid-template-columns: 76px 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--ctl-bord); font-size: 15px; color: var(--testo-2); }
+.ed-info b { font-size: 13px; font-weight: 700; color: var(--testo-3); padding-top: 1px; }
+.ed-cta { margin-top: auto; align-self: flex-start; }
+.ed-mese + .ed-mese { margin-top: 40px; }
+.ed-mese h2 { font-size: clamp(22px, 2.6vw, 30px); margin-bottom: 16px; }
+.ed-riserva { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; padding: 28px; }
+.ed-riserva > div:first-child { max-width: 620px; display: flex; flex-direction: column; gap: 8px; }
+.ed-riserva h2, .ed-riserva h3 { font-size: 21px; margin: 0; }
+.ed-riserva p { color: var(--testo-2); }
+
 /* Navbar: al passaggio del mouse diventa piena (nessuna trasparenza) per leggere bene; poi torna trasparente, con animazione */
 .navbar nav { transition: all 0.4s var(--ease), background-color 0.55s var(--ease), border-color 0.55s var(--ease); }
 @media (hover: hover) and (pointer: fine) {

@@ -353,6 +353,12 @@ function oggettiPerPagina(p: string): Cfg[] {
     { n: 'carrello', sel: '#attrezzature', frac: 0.15 }, { n: 'escavatore', sel: '#attrezzature', frac: 0.7 },
     { n: 'cappello', sel: '#alimentare', frac: 0.4 },
   ];
+  // pagine dei singoli corsi: l'oggetto del corso
+  if (/^\/formazione\/(carrelli-elevatori|piattaforme-elevabili-ple)\//.test(p)) return tutti('carrello', 'casco');
+  if (/^\/formazione\/(macchine-movimento-terra|gru-torre|autogru|camion-gru|trattori|pompe-cls|carriponte)\//.test(p)) return tutti('escavatore', 'casco');
+  if (p.startsWith('/formazione/primo-soccorso')) return tutti('cassetta');
+  if (p.startsWith('/formazione/antincendio')) return tutti('estintore');
+  if (p.startsWith('/formazione/haccp')) return tutti('cappello');
   if (p.startsWith('/formazione')) return tutti('casco', 'cassetta', 'carrello', 'cappello');
   if (p.startsWith('/consulenza/haccp')) return tutti('cappello');
   if (p.startsWith('/consulenza')) return tutti('cartellina', 'casco');

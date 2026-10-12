@@ -12,7 +12,8 @@ Sito statico Astro di Servizi Sicurezza Lavoro snc (Siniscola, NU): formazione D
 
 ## Dove sono i contenuti
 
-- Corsi: catalogo in `src/data/catalogo-corsi.ts` (fonte: Notion "Elenco Corsi"), pagina `/formazione/catalogo/`. Nessuna pagina per singolo corso: le varianti stanno dentro la scheda.
+- Corsi: catalogo in `src/data/catalogo-corsi.ts` (fonte: Notion "Elenco Corsi"), pagina `/formazione/catalogo/`. Ogni corso ha anche una pagina propria `/formazione/<slug>/` (`src/pages/formazione/[corso].astro`), generata dagli stessi dati: le varianti stanno dentro la scheda.
+- Edizioni programmate (corsi con data fissata): `src/data/edizioni.ts`. Compaiono nella pagina del corso, in `/formazione/calendario/`, nel catalogo ("Prossima data") e in home ("Corsi in partenza", solo se ce ne sono). Le passate si nascondono da sole. Solo date reali decise in ufficio.
 - Per aggiungere un corso: copia `lavoratori.md`, cambia nome file e campi. Per una FAQ: aggiungi una voce a `faq`.
 - Collezioni previste e non ancora create: `consulenze`, `fgas`, `ceas`, `faq` (sessioni d'esame F-Gas qui).
 

@@ -1,7 +1,7 @@
 // Catalogo corsi (senza prezzi). Fonte: database "Elenco Corsi" di Notion (2 ottobre 2026).
 // Ore, ripartizione teoria/pratica, modalità e cadenza degli aggiornamenti sono quelle dei corsi che eroghiamo.
 // Le voci senza dato in Notion mostrano "su richiesta": non si inventano ore.
-// Un corso = una scheda; le "possibilità" (varianti) stanno dentro la scheda, non in pagine separate.
+// Un corso = una scheda nel catalogo + una pagina propria (/formazione/<slug>/); le "possibilità" (varianti) stanno dentro la scheda.
 
 export type Mod = 'E' | 'V' | 'P'; // E-learning, Videoconferenza, In presenza
 export const MODALITA: Record<Mod, string> = { E: 'E-learning', V: 'Videoconferenza', P: 'In presenza' };
@@ -14,7 +14,8 @@ export interface Riga {
   agg?: string; // aggiornamento: "6 ore ogni 5 anni" | "su richiesta"
 }
 export interface Corso {
-  id: string;
+  id: string; // ancora nel catalogo (/formazione/catalogo/#id) e chiave per le edizioni (src/data/edizioni.ts)
+  slug?: string; // indirizzo della pagina del corso, se diverso dall'id (/formazione/<slug>/)
   nome: string;
   breve: string; // nome corto per le tile
   per: string; // a chi serve / che cosa è, in una frase
@@ -50,6 +51,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'datore-rspp',
+            slug: 'datore-di-lavoro-rspp',
             breve: 'Datore di lavoro e RSPP',
             nome: 'Datore di lavoro che svolge il ruolo di RSPP',
             per: 'Per chi vuole ricoprire direttamente il ruolo di Responsabile del Servizio di Prevenzione e Protezione nella propria azienda, nei limiti previsti dalla legge.',
@@ -135,6 +137,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'coordinatori',
+            slug: 'coordinatori-sicurezza-cantieri',
             breve: 'Coordinatore per la sicurezza (CSP / CSE)',
             nome: 'Coordinatore per la sicurezza nei cantieri (CSP / CSE)',
             per: 'Per i professionisti che coordinano la sicurezza in fase di progettazione (CSP) e di esecuzione dei lavori (CSE) nei cantieri temporanei o mobili.',
@@ -163,6 +166,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'carrelli',
+            slug: 'carrelli-elevatori',
             breve: 'Carrelli elevatori',
             nome: 'Carrelli elevatori',
             per: 'Per chi guida carrelli in magazzino, in produzione o in cantiere.',
@@ -175,6 +179,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'ple',
+            slug: 'piattaforme-elevabili-ple',
             breve: 'Piattaforme elevabili (PLE)',
             nome: 'Piattaforme di lavoro elevabili (PLE)',
             per: 'Per chi lavora in quota con cestelli e piattaforme elevabili.',
@@ -186,6 +191,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'mmt',
+            slug: 'macchine-movimento-terra',
             breve: 'Macchine movimento terra',
             nome: 'Macchine movimento terra',
             per: 'Per chi conduce macchine da scavo e movimentazione in cantiere e cava.',
@@ -269,6 +275,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'confinati',
+            slug: 'spazi-confinati',
             breve: 'Spazi confinati',
             nome: 'Lavori in ambienti sospetti di inquinamento o confinati',
             per: 'Per chi lavora in ambienti con accesso difficile e aria che può essere pericolosa: cisterne, pozzi, vasche, fosse e simili. Per lavoratori, datori di lavoro e lavoratori autonomi; comprende teoria e addestramento pratico.',
@@ -300,6 +307,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'pes-pav-pei',
+            slug: 'lavori-elettrici-pes-pav-pei',
             breve: 'Lavori elettrici (PES, PAV, PEI)',
             nome: 'Lavori elettrici (PES, PAV, PEI)',
             per: 'Per chi esegue lavori su impianti elettrici o in prossimità di parti in tensione, secondo la norma CEI 11-27.',
@@ -307,6 +315,7 @@ export const sezioni: Sezione[] = [
           },
           {
             id: 'fer',
+            slug: 'impianti-rinnovabili-fer',
             breve: 'Impianti rinnovabili (FER)',
             nome: 'Impianti da fonti rinnovabili (FER)',
             per: 'Per chi installa e manutiene impianti energetici alimentati da fonti rinnovabili, come il fotovoltaico.',
@@ -319,6 +328,7 @@ export const sezioni: Sezione[] = [
         corsi: [
           {
             id: 'adr',
+            slug: 'adr-merci-pericolose',
             breve: 'ADR – merci pericolose',
             nome: 'ADR – trasporto di merci pericolose',
             per: 'Per chi gestisce e movimenta sostanze pericolose in azienda.',
@@ -354,3 +364,23 @@ export const sezioni: Sezione[] = [
     ],
   },
 ];
+
+// ---- Utilità per le pagine dei corsi ----
+export interface CorsoConArea { corso: Corso; sezione: Sezione; gruppo: Gruppo }
+export const tuttiICorsi: CorsoConArea[] = sezioni.flatMap((sezione) => sezione.gruppi.flatMap((gruppo) => gruppo.corsi.map((corso) => ({ corso, sezione, gruppo }))));
+export const slugCorso = (c: Corso) => c.slug ?? c.id;
+export const urlCorso = (c: Corso) => `/formazione/${slugCorso(c)}/`;
+export const corsoPerId = (id: string) => tuttiICorsi.find((x) => x.corso.id === id);
+
+// Controllo di coerenza a ogni build: id e indirizzi unici, nessuno che si scontri con le pagine fisse di /formazione/.
+{
+  const riservati = new Set(['catalogo', 'calendario']);
+  const visti = new Set<string>();
+  for (const { corso } of tuttiICorsi) {
+    for (const k of [corso.id, slugCorso(corso)]) {
+      if (riservati.has(k)) throw new Error(`catalogo-corsi: "${k}" è un indirizzo riservato`);
+    }
+    if (visti.has(slugCorso(corso))) throw new Error(`catalogo-corsi: indirizzo duplicato "${slugCorso(corso)}"`);
+    visti.add(slugCorso(corso));
+  }
+}
