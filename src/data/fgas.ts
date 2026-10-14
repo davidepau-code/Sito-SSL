@@ -36,13 +36,50 @@ export const formazione = [
   'Informazioni su come si accede all\'esame',
 ];
 
-export const esame = [
-  { t: 'Le quattro categorie', d: 'Categoria I: tutte le attività. Categoria II: controllo delle perdite (senza intervenire sui circuiti), recupero, installazione, manutenzione e smantellamento su apparecchiature con meno di 3 kg di gas (6 kg se sigillate ermeticamente). Categoria III: solo recupero, sulle stesse apparecchiature. Categoria IV: solo controllo delle perdite, senza intervenire sui circuiti.' },
-  { t: 'Requisiti di accesso', d: 'Per accedere all’esame bisogna essere già iscritti al Registro Telematico Nazionale F-Gas, e il certificato va ottenuto entro 8 mesi dall’iscrizione. La domanda di ammissione va inviata almeno 5 giorni lavorativi prima della data scelta. Le prove si svolgono in italiano.' },
-  { t: 'Prova teorica', d: 'Domande a risposta multipla, con tre alternative e una sola corretta: 30 domande per le categorie I e II, 12 per la III, 15 per la IV. Durata massima 90 minuti per le categorie I e II, 30 minuti per la III e la IV. Serve almeno il 60%.' },
-  { t: 'Prova pratica', d: 'Si svolgono compiti con il materiale e gli strumenti messi a disposizione, indossando i DPI. La prova riguarda tutti i temi obbligatori e almeno uno dei gruppi sui componenti, che non si conosce prima. Durata massima 90 minuti per le categorie I e II, 45 minuti per la III e la IV. Si accede alla pratica solo superando la teoria.' },
-  { t: 'Esito dell’esame', d: 'Per superare l’esame serve almeno il 60% in ciascuna prova e almeno il 70% complessivo, dove la pratica pesa più della teoria (30% teoria, 70% pratica). Chi supera la teoria ma non la pratica può ripetere solo la pratica, entro i termini previsti dalla norma.' },
-  { t: 'Documenti richiesti', d: 'Domanda di ammissione compilata e firmata, attestato di iscrizione al Registro Telematico Nazionale, documento d’identità in corso di validità, fotografia formato tessera e prova dell’avvenuto pagamento.' },
+// Esame (prescrizioni IMQ Rev. 5 del 26/02/2026): stessi dati di prima, divisi in parti brevi per la lettura.
+export const categorie = [
+  { n: 'I', testo: 'Tutte le attività.' },
+  { n: 'II', testo: 'Controllo delle perdite (senza intervenire sui circuiti), recupero, installazione, manutenzione e smantellamento su apparecchiature con meno di 3 kg di gas (6 kg se sigillate ermeticamente).' },
+  { n: 'III', testo: 'Solo recupero, sulle stesse apparecchiature della categoria II.' },
+  { n: 'IV', testo: 'Solo controllo delle perdite, senza intervenire sui circuiti.' },
+];
+export const prove = [
+  {
+    t: 'Prova teorica',
+    intro: 'Domande a risposta multipla, con tre alternative e una sola corretta.',
+    dati: [
+      ['Domande', '30 per le categorie I e II · 12 per la III · 15 per la IV'],
+      ['Durata massima', '90 minuti per le categorie I e II · 30 minuti per la III e la IV'],
+      ['Per superarla', 'almeno il 60%'],
+    ],
+  },
+  {
+    t: 'Prova pratica',
+    intro: 'Compiti con il materiale e gli strumenti messi a disposizione, indossando i DPI. Riguarda tutti i temi obbligatori e almeno uno dei gruppi sui componenti, che non si conosce prima.',
+    dati: [
+      ['Durata massima', '90 minuti per le categorie I e II · 45 minuti per la III e la IV'],
+      ['Si accede', 'solo dopo aver superato la teoria'],
+      ['Per superarla', 'almeno il 60%'],
+    ],
+  },
+];
+export const esito = [
+  'Almeno il 60% in ciascuna prova',
+  'Almeno il 70% complessivo, con la pratica che pesa di più: 30% teoria, 70% pratica',
+  'Chi supera la teoria ma non la pratica può ripetere solo la pratica, entro i termini previsti dalla norma',
+];
+export const requisitiEsame = [
+  'Essere già iscritti al Registro Telematico Nazionale F-Gas',
+  'Ottenere il certificato entro 8 mesi dall’iscrizione',
+  'Inviare la domanda di ammissione almeno 5 giorni lavorativi prima della data scelta',
+  'Le prove si svolgono in italiano',
+];
+export const documentiEsame = [
+  'Domanda di ammissione compilata e firmata',
+  'Attestato di iscrizione al Registro Telematico Nazionale',
+  'Documento d’identità in corso di validità',
+  'Fotografia formato tessera',
+  'Prova dell’avvenuto pagamento',
 ];
 
 // Chi fa cosa per la persona: tre ruoli distinti.
