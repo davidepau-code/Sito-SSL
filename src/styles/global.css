@@ -136,6 +136,10 @@ main { position: relative; z-index: 1; }
 /* Navbar */
 .navbar { position: fixed; inset: calc(16px + var(--sat)) 0 auto; z-index: 50; display: flex; justify-content: center; padding: 0 16px; transition: top 0.4s var(--ease); }
 .navbar.scroll { top: calc(8px + var(--sat)); }
+/* iPhone: sotto l'orologio Safari sfoca il contenuto con un bordo netto. Una fascia del colore di sfondo
+   che sfuma verso il basso rende uniforme quella zona (su schermi senza tacca --sat e' 0 e la fascia non esiste). */
+body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: calc(var(--sat) + var(--sat) / 2); z-index: 49; pointer-events: none;
+  background: linear-gradient(to bottom, var(--sfondo) 0%, var(--sfondo) 66%, rgb(from var(--sfondo) r g b / 0) 100%); }
 .navbar nav {
   width: 100%; max-width: var(--larghezza); display: flex; align-items: center; gap: 16px; padding: 10px 10px 10px 12px; border-radius: var(--r-pill);
   background: rgb(var(--g) / 0.55); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
