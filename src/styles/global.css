@@ -168,7 +168,7 @@ main { position: relative; z-index: 1; }
 @media (max-width: 420px) { .marchio small { display: none; } }
 
 /* Barra mobile */
-.barra-mobile { display: none; position: fixed; inset: auto 12px calc(12px + var(--sab)); z-index: 60; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgb(var(--g) / 0.85); box-shadow: 0 16px 36px -14px rgb(36 40 44 / 0.4); }
+.barra-mobile { display: none; position: fixed; inset: auto 12px calc(12px + var(--sab)); z-index: 60; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgb(var(--g) / 0.85); box-shadow: 0 0 24px 2px rgb(36 40 44 / 0.2), 0 0 6px rgb(36 40 44 / 0.08); }
 .barra-mobile a { display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: var(--r-pill); font-weight: 700; font-size: 16px; }
 .barra-mobile .chiama { background: var(--testo); color: var(--sfondo); }
 .barra-mobile .scrivi { background: var(--arancio); color: var(--su-arancio); }
