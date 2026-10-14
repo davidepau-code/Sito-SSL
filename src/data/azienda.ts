@@ -16,9 +16,9 @@ export const azienda = {
   mappaIncorporata: 'https://maps.google.com/maps?q=40.555986,9.6773556&z=16&output=embed&hl=it',
   mapsLink: 'https://www.google.com/maps/place/SSL+Servizi+Sicurezza+Lavoro/@40.555986,9.6773556,17z/data=!4m6!3m5!1s0x12dec2ee933aefd1:0xe94bd3577da643a7!8m2!3d40.555986!4d9.6773556',
   sedeLegale: 'Loc. Salapattu snc – 08029 Siniscola (NU)',
-  // Sede legale in forma strutturata (schema.org). Coordinate: DA FORNIRE (copiarle da Google Maps,
-  // tasto destro sul punto esatto). Finché sono null il JSON-LD non le pubblica: mai coordinate inventate.
-  sedeLegaleDati: { via: 'Località Salapattu snc', cap: '08029', citta: 'Siniscola', provincia: 'NU', coordinate: null as null | { lat: number; lng: number } },
+  // Sede legale in forma strutturata (schema.org). Coordinate fornite da Davide il 14/10/2026 (Google Maps).
+  // Se null il JSON-LD non le pubblica: mai coordinate inventate.
+  sedeLegaleDati: { via: 'Località Salapattu snc', cap: '08029', citta: 'Siniscola', provincia: 'NU', coordinate: { lat: 40.59299508293607, lng: 9.701065465442609 } as null | { lat: number; lng: number } },
   // Fondazione: giugno 2008 (confermato da Davide il 14/10/2026).
   fondazione: '2008-06',
   // Profili ufficiali (forniti da Davide il 14/10/2026). Usati in schema.org (sameAs).

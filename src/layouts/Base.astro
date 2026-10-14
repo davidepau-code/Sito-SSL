@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import marchio from '../assets/ssl-mark.png';
 import Contatto from '../components/Contatto.astro';
 import Schema from '../components/Schema.astro';
+import Icon from '../components/Icon.astro';
 import { ClientRouter } from 'astro:transitions';
 import { azienda } from '../data/azienda';
 import CookieBanner from '../components/CookieBanner.astro';
@@ -90,7 +91,12 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
 
     <footer class="sito">
       <div><strong>{azienda.ragioneSociale}</strong><span>{azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia})</span><span>Sede legale: {azienda.sedeLegale}</span><span>P.IVA {azienda.piva}</span></div>
-      <div><strong>Contatti</strong><a href={`tel:${azienda.cellulare.tel}`} style="font-weight:700">{azienda.cellulare.visibile}</a><a href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp</a><a href={`tel:${azienda.fisso.tel}`}>Fisso {azienda.fisso.visibile}</a><a href={`mailto:${azienda.email}`}>{azienda.email}</a><span>{azienda.orari.breve}</span></div>
+      <div><strong>Contatti</strong><a href={`tel:${azienda.cellulare.tel}`} style="font-weight:700">{azienda.cellulare.visibile}</a><a href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp</a><a href={`tel:${azienda.fisso.tel}`}>Fisso {azienda.fisso.visibile}</a><a href={`mailto:${azienda.email}`}>{azienda.email}</a><span>{azienda.orari.breve}</span>
+        <div class="social">
+          <a href={azienda.social.facebook} rel="noopener" target="_blank" aria-label="Facebook di Servizi Sicurezza Lavoro (si apre in una nuova scheda)"><Icon d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" size={20} width={1.8} /></a>
+          <a href={azienda.social.instagram} rel="noopener" target="_blank" aria-label="Instagram di Servizi Sicurezza Lavoro (si apre in una nuova scheda)"><Icon d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zM16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01" size={20} width={1.8} /></a>
+        </div>
+      </div>
       <div class="legali"><a href="/privacy/">Privacy</a><a href="/cookie/">Cookie</a><button type="button" class="link-btn" data-cookie-preferenze>Preferenze cookie</button></div>
     </footer>
 

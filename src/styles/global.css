@@ -235,7 +235,10 @@ main { position: relative; z-index: 1; }
 /* Footer */
 footer.sito { max-width: var(--larghezza); margin: 0 auto; padding: 32px 24px 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 24px; font-size: 15px; color: var(--testo-3); position: relative; z-index: 1; }
 footer.sito div { display: flex; flex-direction: column; gap: 4px; } footer.sito strong { color: var(--testo); }
-footer.sito .legali { flex-direction: row; gap: 16px; }
+footer.sito .legali { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 16px; }
+footer.sito .social { flex-direction: row; gap: 10px; margin-top: 10px; }
+footer.sito .social a { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--testo); background: var(--ctl-bg); border: 1px solid var(--ctl-bord); transition: background .2s, color .2s; }
+footer.sito .social a:hover, footer.sito .social a:focus-visible { background: var(--ctl-bg-h); color: var(--arancio-testo); }
 
 /* Reveal: il contenuto è SEMPRE visibile; l'animazione parte solo se JS la abilita su elementi fuori schermo. */
 @keyframes comparsa { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
