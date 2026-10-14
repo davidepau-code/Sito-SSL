@@ -225,7 +225,7 @@ Sito attuale: WordPress + Elementor su hosting Aruba (WooCommerce, Customer Area
 ## 9. `CLAUDE.md` da creare nel repo (guida interna)
 
 Deve contenere almeno:
-- Cosa è il sito, a chi parla, tono di voce (chiaro, concreto, professionale, "tu" o "voi" – [decidere]).
+- Cosa è il sito, a chi parla, tono di voce (chiaro, concreto, professionale, "tu", deciso il 14/10/2026; PA in forma impersonale).
 - Dove stanno i contenuti (`src/data/catalogo-corsi.ts` per i corsi) e come aggiungere/modificare un corso, una FAQ, una data d'esame F-Gas.
 - **Regola normativa**: non modificare durate, periodicità o riferimenti di legge senza fonte; aggiornare `ultimaVerificaNormativa`.
 - Regole di stile (token colori/radius, componenti esistenti da riusare, non introdurre nuovi colori).

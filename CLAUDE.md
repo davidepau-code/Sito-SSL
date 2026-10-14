@@ -2,7 +2,7 @@
 
 Sito statico Astro di Servizi Sicurezza Lavoro snc (Siniscola, NU): formazione D.Lgs. 81/08, consulenza, certificazione F-Gas (esame IMQ). Pubblico: titolari/responsabili di PMI sarde, frigoristi/termoidraulici, scuole ed enti. Obiettivo: portare al contatto (preventivo, telefono, WhatsApp).
 
-**Tono di voce**: chiaro, concreto, professionale, senza giri di parole. Forma: [DA DECIDERE con Davide: "tu" o "voi"].
+**Tono di voce**: chiaro, concreto, professionale, senza giri di parole. Forma: **"tu"** (deciso da Davide il 14/10/2026), es. "Scrivici", "la tua azienda". Eccezione: la pagina Pubbliche amministrazioni usa una forma impersonale ("Gli enti possono…"). I messaggi WhatsApp precompilati restano col "voi" perché è il cliente che scrive a SSL.
 
 ## Sviluppo
 

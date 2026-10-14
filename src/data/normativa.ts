@@ -84,7 +84,7 @@ export const obblighi: Record<string, Obbligo> = {
   rls: {
     id: 'rls', catalogo: 'rls', tipo: 'corso', perDipendenti: true,
     nome: 'Rappresentante dei lavoratori per la sicurezza (RLS)',
-    perche: 'In ogni azienda va eletto o designato un RLS. Nelle piccole aziende può essere un RLS territoriale; se invece è un vostro lavoratore, deve fare il corso.',
+    perche: 'In ogni azienda va eletto o designato un RLS. Nelle piccole aziende può essere un RLS territoriale; se invece è un tuo lavoratore, deve fare il corso.',
     durata: '32 ore', aggiornamento: 'Ogni anno: 4 ore (15–50 lavoratori) o 8 ore (oltre 50)',
     fonte: 'D.Lgs. 81/08 artt. 47 e 37 c.10-11', url: N + '47',
     daVerificare: 'Aggiornamento per aziende sotto i 15 lavoratori: modifica 2026 non verificata; non mostrata.',
@@ -225,7 +225,7 @@ const BASE = ['dvr', 'rspp', 'dl16', 'lavoratori', 'antincendio', 'soccorso', 'r
 const qPreposti = { id: 'preposti', testo: 'Hai capisquadra o responsabili che coordinano il lavoro degli altri?', aggiunge: ['preposti'] };
 const qDirigenti = { id: 'dirigenti', testo: 'Hai dirigenti, cioè chi organizza e dirige l\'attività con poteri propri?', aggiunge: ['dirigenti'] };
 const qRspp = { id: 'rspp_dl', testo: 'Vuoi fare tu, titolare, da responsabile della sicurezza (RSPP)?', aggiunge: ['rspp_dl'] };
-const qCarrelli = { id: 'carrelli', testo: 'Usate carrelli elevatori (muletti)?', aggiunge: ['carrelli'] };
+const qCarrelli = { id: 'carrelli', testo: 'La tua azienda usa carrelli elevatori (muletti)?', aggiunge: ['carrelli'] };
 
 export const settori: Settore[] = [
   {
@@ -234,14 +234,14 @@ export const settori: Settore[] = [
     fisso: [...BASE, 'pos', 'patente'],
     domande: [
       qPreposti, qDirigenti,
-      { id: 'affidataria', testo: 'Date lavori in subappalto ad altre imprese (siete impresa affidataria)?', aggiunge: ['cantieri6'] },
-      { id: 'ponteggi', testo: 'Montate o smontate ponteggi?', aggiunge: ['ponteggi'] },
-      { id: 'quota', testo: 'Lavorate in quota con imbracature anticaduta?', aggiunge: ['dpi3'] },
-      { id: 'confinati', testo: 'Lavorate in pozzetti, cisterne o altri spazi confinati?', aggiunge: ['confinati'] },
-      { id: 'ple', testo: 'Usate piattaforme elevabili (cestelli, ragni)?', aggiunge: ['ple'] },
-      { id: 'gru', testo: 'Usate gru (su autocarro, a torre, mobili)?', aggiunge: ['gru'] },
-      { id: 'mmt', testo: 'Usate escavatori, pale o altre macchine movimento terra?', aggiunge: ['mmt'] },
-      { id: 'pompe', testo: 'Usate autopompe per calcestruzzo?', aggiunge: ['pompe'] },
+      { id: 'affidataria', testo: 'Dai lavori in subappalto ad altre imprese (sei impresa affidataria)?', aggiunge: ['cantieri6'] },
+      { id: 'ponteggi', testo: 'La tua azienda monta o smonta ponteggi?', aggiunge: ['ponteggi'] },
+      { id: 'quota', testo: 'Nella tua azienda si lavora in quota con imbracature anticaduta?', aggiunge: ['dpi3'] },
+      { id: 'confinati', testo: 'Nella tua azienda si lavora in pozzetti, cisterne o altri spazi confinati?', aggiunge: ['confinati'] },
+      { id: 'ple', testo: 'La tua azienda usa piattaforme elevabili (cestelli, ragni)?', aggiunge: ['ple'] },
+      { id: 'gru', testo: 'La tua azienda usa gru (su autocarro, a torre, mobili)?', aggiunge: ['gru'] },
+      { id: 'mmt', testo: 'La tua azienda usa escavatori, pale o altre macchine movimento terra?', aggiunge: ['mmt'] },
+      { id: 'pompe', testo: 'La tua azienda usa autopompe per calcestruzzo?', aggiunge: ['pompe'] },
       qCarrelli, qRspp,
     ],
   },
@@ -270,7 +270,7 @@ export const settori: Settore[] = [
     fisso: BASE,
     domande: [
       qCarrelli,
-      { id: 'alimenti', testo: 'Vendete o lavorate alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
+      { id: 'alimenti', testo: 'La tua azienda vende o lavora alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
       { id: 'vdt', testo: 'Qualcuno usa il computer per 20 ore a settimana o più?', aggiunge: ['vdt'] },
       qPreposti, qDirigenti, qRspp,
     ],
@@ -281,10 +281,10 @@ export const settori: Settore[] = [
     fisso: BASE,
     domande: [
       qPreposti, qDirigenti, qCarrelli,
-      { id: 'carriponte', testo: 'Usate carriponte o gru a ponte?', aggiunge: ['carriponte'] },
-      { id: 'ple', testo: 'Usate piattaforme elevabili?', aggiunge: ['ple'] },
-      { id: 'confinati', testo: 'Lavorate in spazi confinati (serbatoi, cisterne)?', aggiunge: ['confinati'] },
-      { id: 'alimenti', testo: 'Producete alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
+      { id: 'carriponte', testo: 'La tua azienda usa carriponte o gru a ponte?', aggiunge: ['carriponte'] },
+      { id: 'ple', testo: 'La tua azienda usa piattaforme elevabili?', aggiunge: ['ple'] },
+      { id: 'confinati', testo: 'Nella tua azienda si lavora in spazi confinati (serbatoi, cisterne)?', aggiunge: ['confinati'] },
+      { id: 'alimenti', testo: 'La tua azienda produce alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
       qRspp,
     ],
   },
@@ -293,9 +293,9 @@ export const settori: Settore[] = [
     ateco: 'A – Agricoltura, silvicoltura, pesca', rischio: 'medio',
     fisso: BASE,
     domande: [
-      { id: 'trattori', testo: 'Usate trattori agricoli o forestali?', aggiunge: ['trattori'] },
-      { id: 'ple', testo: 'Usate piattaforme elevabili o macchine raccogli-frutta?', aggiunge: ['ple'] },
-      { id: 'alimenti', testo: 'Trasformate o vendete alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
+      { id: 'trattori', testo: 'La tua azienda usa trattori agricoli o forestali?', aggiunge: ['trattori'] },
+      { id: 'ple', testo: 'La tua azienda usa piattaforme elevabili o macchine raccogli-frutta?', aggiunge: ['ple'] },
+      { id: 'alimenti', testo: 'La tua azienda trasforma o vende alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
       qPreposti, qDirigenti, qRspp,
     ],
   },
@@ -303,7 +303,7 @@ export const settori: Settore[] = [
     id: 'trasporti', etichetta: 'Trasporti e magazzino', descrizione: 'Autotrasporto, logistica, magazzini, corrieri.',
     ateco: 'H – Trasporto e magazzinaggio', rischio: 'medio',
     fisso: BASE,
-    domande: [qCarrelli, { id: 'gru', testo: 'Usate gru su autocarro?', aggiunge: ['gru'] }, qPreposti, qDirigenti, qRspp],
+    domande: [qCarrelli, { id: 'gru', testo: 'La tua azienda usa gru su autocarro?', aggiunge: ['gru'] }, qPreposti, qDirigenti, qRspp],
   },
   {
     id: 'macchine', etichetta: "Solo patentini per macchine e attrezzature", descrizione: "Muletti, gru, piattaforme elevabili, escavatori, trattori e altri mezzi.",
@@ -311,12 +311,12 @@ export const settori: Settore[] = [
     vuoto: "Rispondi sì ai mezzi che usate: ti mostriamo i patentini e gli aggiornamenti che servono.",
     domande: [
       qCarrelli,
-      { id: 'ple', testo: "Usate piattaforme di lavoro elevabili (cestelli, ragni)?", aggiunge: ['ple'] },
-      { id: 'gru', testo: "Usate gru (su autocarro, a torre, mobili)?", aggiunge: ['gru'] },
-      { id: 'mmt', testo: "Usate escavatori, pale, terne o altre macchine movimento terra?", aggiunge: ['mmt'] },
-      { id: 'pompe', testo: "Usate autopompe per calcestruzzo?", aggiunge: ['pompe'] },
-      { id: 'trattori', testo: "Usate trattori agricoli o forestali?", aggiunge: ['trattori'] },
-      { id: 'carriponte', testo: "Usate carriponte o gru a ponte?", aggiunge: ['carriponte'] },
+      { id: 'ple', testo: "La tua azienda usa piattaforme di lavoro elevabili (cestelli, ragni)?", aggiunge: ['ple'] },
+      { id: 'gru', testo: "La tua azienda usa gru (su autocarro, a torre, mobili)?", aggiunge: ['gru'] },
+      { id: 'mmt', testo: "La tua azienda usa escavatori, pale, terne o altre macchine movimento terra?", aggiunge: ['mmt'] },
+      { id: 'pompe', testo: "La tua azienda usa autopompe per calcestruzzo?", aggiunge: ['pompe'] },
+      { id: 'trattori', testo: "La tua azienda usa trattori agricoli o forestali?", aggiunge: ['trattori'] },
+      { id: 'carriponte', testo: "La tua azienda usa carriponte o gru a ponte?", aggiunge: ['carriponte'] },
     ],
   },
   {
@@ -324,8 +324,8 @@ export const settori: Settore[] = [
     fisso: BASE,
     domande: [
       qPreposti, qDirigenti,
-      { id: 'macchine', testo: 'Usate muletti, gru, piattaforme o altre macchine?', aggiunge: ['carrelli'] },
-      { id: 'alimenti', testo: 'Lavorate con alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
+      { id: 'macchine', testo: 'La tua azienda usa muletti, gru, piattaforme o altre macchine?', aggiunge: ['carrelli'] },
+      { id: 'alimenti', testo: 'La tua azienda lavora con alimenti?', aggiunge: ['haccp_addetti', 'haccp_manuale'] },
       qRspp,
     ],
   },

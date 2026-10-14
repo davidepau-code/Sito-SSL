@@ -40,7 +40,7 @@ Bloccanti per i testi:
 - ⬜ **Destinazione del modulo**: casella Aruba **oppure** WhatsApp 320 (da decidere più avanti; per ora il modulo è inattivo e rimanda a WhatsApp/telefono/email).
 - ⬜ **Accreditamenti** (ISO 9001 DNV-GL, Regione Sardegna macroaree B e C, SIQUAS, INAPP, OdV IMQ): validi oggi? numeri/loghi.
 - ⬜ **Team**: pubblicare i quattro profili? Foto? Chi è Tony Ruiu?
-- ⬜ **Tono**: "tu" o "voi"? Formula storica "dal 2008".
+- ✅ **Tono**: "tu" (deciso il 14/10/2026); pagina Pubbliche amministrazioni in forma impersonale. ⬜ Formula storica "dal 2008".
 - ⬜ **Prezzi**: mostrarli (o fasce) o solo "su preventivo".
 - ⬜ **Email di destinazione** dei moduli e sede delle richieste.
 
