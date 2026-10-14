@@ -48,7 +48,7 @@ const organization = {
   email: azienda.email,
   vatID: `IT${azienda.piva}`,
   taxID: azienda.piva,
-  foundingDate: azienda.annoFondazione,
+  foundingDate: azienda.fondazione,
   foundingLocation: { '@type': 'Place', name: 'Siniscola', address: { '@type': 'PostalAddress', addressLocality: 'Siniscola', addressRegion: 'NU', addressCountry: 'IT' } },
   // address/geo = sede operativa (per Google LocalBusiness conta il luogo che i clienti visitano).
   address: indirizzo(azienda.sede),
@@ -66,7 +66,8 @@ const organization = {
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '13:00' },
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '14:00', closes: '18:00' },
   ],
-  // TODO sameAs: aggiungere Facebook, Instagram, Google Business Profile, scheda IMQ quando Davide fornisce i link esatti.
+  // TODO sameAs: aggiungere LinkedIn e scheda IMQ quando Davide fornisce i link esatti.
+  sameAs: [azienda.social.facebook, azienda.social.instagram, azienda.social.googleMaps],
 };
 const website = { '@type': 'WebSite', '@id': `${site}/#sito`, url: `${site}/`, name: 'Servizi Sicurezza Lavoro', inLanguage: 'it-IT', publisher: { '@id': organization['@id'] } };
 const graph: object[] = [organization, sedeOperativa, sedeLegale, website];

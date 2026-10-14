@@ -19,7 +19,15 @@ export const azienda = {
   // Sede legale in forma strutturata (schema.org). Coordinate: DA FORNIRE (copiarle da Google Maps,
   // tasto destro sul punto esatto). Finché sono null il JSON-LD non le pubblica: mai coordinate inventate.
   sedeLegaleDati: { via: 'Località Salapattu snc', cap: '08029', citta: 'Siniscola', provincia: 'NU', coordinate: null as null | { lat: number; lng: number } },
-  annoFondazione: '2008',
+  // Fondazione: giugno 2008 (confermato da Davide il 14/10/2026).
+  fondazione: '2008-06',
+  // Profili ufficiali (forniti da Davide il 14/10/2026). Usati in schema.org (sameAs).
+  social: {
+    instagram: 'https://www.instagram.com/servizisicurezzalavoro/',
+    facebook: 'https://www.facebook.com/servizisicurezzalavoro/',
+    // Scheda Google dell'attivita (sede operativa), forma canonica con CID ricavato da mapsLink.
+    googleMaps: 'https://maps.google.com/?cid=16810762406814172071',
+  },
   // Orari dalla scheda Google Maps (lun–ven 9–13, 14–18; sabato e domenica chiuso).
   orari: { testo: 'Lunedì – Venerdì, 9:00–13:00 / 14:00–18:00', breve: 'Lun – Ven, 9–13 / 14–18' },
   // Referente F-Gas: Michela (WhatsApp dedicato, indicato da Davide il 5 ottobre 2026).
