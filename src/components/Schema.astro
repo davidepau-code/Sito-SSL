@@ -5,13 +5,41 @@ const { crumbs, extra = [] } = Astro.props;
 import { azienda } from '../data/azienda';
 const site = Astro.site!.origin;
 
+const [lat, lng] = azienda.coordinate.split(',').map(Number);
+const indirizzo = (d: { via: string; cap: string; citta: string; provincia: string }) => ({
+  '@type': 'PostalAddress', streetAddress: d.via, postalCode: d.cap, addressLocality: d.citta, addressRegion: d.provincia, addressCountry: 'IT',
+});
+
+// Sede operativa: dove si va per corsi e appuntamenti (coincide con la scheda Google Maps).
+const sedeOperativa = {
+  '@type': 'Place',
+  '@id': `${site}/#sede-operativa`,
+  name: 'Servizi Sicurezza Lavoro – sede operativa',
+  address: indirizzo(azienda.sede),
+  geo: { '@type': 'GeoCoordinates', latitude: lat, longitude: lng },
+  hasMap: azienda.mapsLink,
+};
+// Sede legale (Salapattu): le coordinate compaiono solo quando sono state inserite in azienda.ts.
+const sl = azienda.sedeLegaleDati;
+const sedeLegale = {
+  '@type': 'Place',
+  '@id': `${site}/#sede-legale`,
+  name: 'Servizi Sicurezza Lavoro – sede legale',
+  address: indirizzo(sl),
+  ...(sl.coordinate ? { geo: { '@type': 'GeoCoordinates', latitude: sl.coordinate.lat, longitude: sl.coordinate.lng } } : {}),
+};
+
 const organization = {
   '@type': ['LocalBusiness', 'EducationalOrganization'],
   '@id': `${site}/#organizzazione`,
-  name: 'Servizi Sicurezza Lavoro snc',
-  alternateName: 'SSL',
+  name: 'Servizi Sicurezza Lavoro',
+  legalName: azienda.ragioneSociale,
+  alternateName: ['SSL', 'SSL Servizi Sicurezza Lavoro'],
+  description: 'Formazione sulla sicurezza sul lavoro (D.Lgs. 81/08), consulenza (DVR, DUVRI, POS, HACCP) e certificazione F-Gas per aziende del Nord Sardegna. Sede a Siniscola dal 2008.',
+  slogan: 'Tutto quello che ti serve per essere in regola. Fatto da noi.',
   url: `${site}/`,
   logo: `${site}/ssl-mark.png`,
+  image: `${site}/ssl-mark.png`,
   telephone: azienda.cellulare.tel,
   contactPoint: [
     { '@type': 'ContactPoint', contactType: 'customer service', telephone: azienda.cellulare.tel, availableLanguage: 'it' },
@@ -19,14 +47,21 @@ const organization = {
   ],
   email: azienda.email,
   vatID: `IT${azienda.piva}`,
-  address: { '@type': 'PostalAddress', streetAddress: azienda.sede.via, postalCode: azienda.sede.cap, addressLocality: azienda.sede.citta, addressRegion: azienda.sede.provincia, addressCountry: 'IT' },
-  foundingDate: '2008',
-  geo: { '@type': 'GeoCoordinates', latitude: 40.555986, longitude: 9.6773556 },
+  taxID: azienda.piva,
+  foundingDate: azienda.annoFondazione,
+  foundingLocation: { '@type': 'Place', name: 'Siniscola', address: { '@type': 'PostalAddress', addressLocality: 'Siniscola', addressRegion: 'NU', addressCountry: 'IT' } },
+  // address/geo = sede operativa (per Google LocalBusiness conta il luogo che i clienti visitano).
+  address: indirizzo(azienda.sede),
+  geo: sedeOperativa.geo,
   hasMap: azienda.mapsLink,
+  location: [{ '@id': sedeOperativa['@id'] }, { '@id': sedeLegale['@id'] }],
   areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Nord Sardegna' },
+    { '@type': 'AdministrativeArea', name: 'Baronia' },
+    ...['Siniscola', 'Orosei', 'Olbia', 'Nuoro'].map((name) => ({ '@type': 'City', name })),
     { '@type': 'AdministrativeArea', name: 'Sardegna' },
-    ...['Siniscola', 'Olbia', 'Nuoro'].map((name) => ({ '@type': 'City', name })),
   ],
+  knowsAbout: ['Sicurezza sul lavoro', 'D.Lgs. 81/2008', 'Formazione obbligatoria', 'DVR', 'DUVRI', 'POS', 'HACCP', 'Certificazione F-Gas'],
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '13:00' },
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '14:00', closes: '18:00' },
@@ -34,7 +69,7 @@ const organization = {
   // TODO sameAs: aggiungere Facebook, Instagram, Google Business Profile, scheda IMQ quando Davide fornisce i link esatti.
 };
 const website = { '@type': 'WebSite', '@id': `${site}/#sito`, url: `${site}/`, name: 'Servizi Sicurezza Lavoro', inLanguage: 'it-IT', publisher: { '@id': organization['@id'] } };
-const graph: object[] = [organization, website];
+const graph: object[] = [organization, sedeOperativa, sedeLegale, website];
 if (crumbs?.length) {
   graph.push({
     '@type': 'BreadcrumbList',
