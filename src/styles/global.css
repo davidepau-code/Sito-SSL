@@ -716,7 +716,8 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
   .btn { font-size: 15px; }
   .sezione-titolo { gap: 8px; }
 }
-@media (max-width: 759px) { .solo-desktop { display: none !important; } } /* sul telefono c'è già la barra fissa Chiama / WhatsApp */
+@media (max-width: 759px) { .solo-desktop { display: none !important; } }
+@media (min-width: 760px) { .solo-telefono { display: none !important; } } /* sul telefono c'è già la barra fissa Chiama / WhatsApp */
 @media (max-width: 600px) {
   .sezione.testata.due-col { padding-top: calc(96px + var(--sat)) !important; padding-bottom: 28px !important; gap: 24px !important; }
   .sezione.testata .colonna { gap: 16px !important; }

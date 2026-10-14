@@ -10,7 +10,6 @@ import { prossimeEdizioni } from '../data/edizioni';
 const inPartenza = prossimeEdizioni().slice(0, 3);
 
 const mappa = encodeURIComponent(`${azienda.sede.via}, ${azienda.sede.cap} ${azienda.sede.citta} ${azienda.sede.provincia}`);
-const GIU = 'M12 5v14M5 12l7 7 7-7';
 const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
 
 // "Qual è il tuo caso?": scritto con le parole del cliente, non con i nomi dei corsi.
@@ -73,11 +72,9 @@ const faq = [
       <p class="hero-slogan">Tutto quello che ti serve per essere in regola. Fatto da noi.</p>
       <p class="lead" style="max-width:560px">Per aziende, artigiani, ristoratori e cantieri della Sardegna: ti diciamo <strong>cosa richiede la legge</strong> nel tuo caso, ci occupiamo noi di <strong>corsi e documenti</strong> e teniamo d'occhio le <strong>scadenze</strong> al posto tuo.</p>
       <div class="gruppo">
-        <a class="btn btn-primario" href={azienda.whatsappLink()} rel="noopener">Scrivici su WhatsApp <Icon d={FRECCIA} size={18} /></a>
-        <a class="btn btn-vetro solo-desktop" href={`tel:${azienda.cellulare.tel}`}>Chiama {azienda.cellulare.visibile}</a>
-      </div>
-      <div class="gruppo">
-        <a class="btn btn-vetro btn-giu" href="#servizi">Scopri tutti i nostri servizi <Icon d={GIU} size={18} /></a>
+        {/* Una sola azione: su computer chiama, su telefono apre WhatsApp. */}
+        <a class="btn btn-primario solo-desktop" href={`tel:${azienda.cellulare.tel}`}>Parlaci della tua azienda <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn btn-primario solo-telefono" href={azienda.whatsappLink('Buongiorno, vorrei parlarvi della mia azienda.')} rel="noopener">Parlaci della tua azienda <Icon d={FRECCIA} size={18} /></a>
       </div>
       <p style="font-size:15px;font-weight:600;color:var(--testo-3)">Siniscola · Baronia · Olbia · Nuoro, in aula o in azienda.</p>
     </div>
