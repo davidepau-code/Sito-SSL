@@ -43,10 +43,10 @@ function aggiornaMenu(anima: boolean) {
   document.querySelectorAll<HTMLAnchorElement>('.menu a, .tendina a:not(.btn)').forEach((a) => {
     if (attiva(a.getAttribute('href') || '', path)) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
-  const cur = menu.querySelector<HTMLElement>('a[aria-current="page"]');
+  const cur = menu.querySelector<HTMLElement>(':scope > a[aria-current="page"], :scope > .menu-voce > a[aria-current="page"]');
   if (!menu.offsetWidth) { pos = null; return; } // menu compatto (tendina): nessuna pillola
   if (!cur) { pillola.style.opacity = '0'; return; }
-  const nuova = { l: cur.offsetLeft, w: cur.offsetWidth };
+  const nuova = { l: cur.getBoundingClientRect().left - menu.getBoundingClientRect().left, w: cur.offsetWidth };
   const prima = pos;
   // solo transform (compositor): niente ricalcolo del layout a ogni fotogramma
   pillola.style.width = nuova.w + 'px';

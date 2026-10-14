@@ -160,6 +160,22 @@ main { position: relative; z-index: 1; }
 .menu a { position: relative; isolation: isolate; white-space: nowrap; font-size: 15px; font-weight: 600; color: var(--testo); padding: 9px 14px; border-radius: var(--r-pill); transition: background 0.25s; }
 .menu a:hover { background: rgb(var(--i) / 0.07); color: var(--testo); }
 .menu a[aria-current='page'] { color: var(--arancio-scuro); font-weight: 700; }
+/* Tendina "Consulenza" (solo computer): si apre passando sopra la voce o con il tasto Tab */
+.menu-voce { position: relative; display: flex; }
+.menu-voce > a { display: inline-flex; align-items: center; gap: 4px; }
+.menu-freccia { transition: transform 0.3s var(--ease); }
+.menu-voce:hover .menu-freccia, .menu-voce:focus-within .menu-freccia { transform: rotate(180deg); }
+.sottomenu { position: absolute; top: 100%; left: 50%; z-index: 2; isolation: isolate; width: 300px; margin-left: -150px; padding-top: 12px; /* il margine trasparente tiene aperta la tendina mentre il mouse scende */
+  display: flex; flex-direction: column; visibility: hidden; opacity: 0; transform: translateY(-6px); pointer-events: none;
+  transition: opacity 0.2s var(--ease), transform 0.3s var(--ease), visibility 0s 0.3s; }
+.sottomenu::before { content: ''; position: absolute; inset: 12px 0 0; z-index: -1; border-radius: var(--r-card); background: rgb(var(--g)); border: 1px solid var(--ctl-bord); box-shadow: 0 24px 48px -20px rgb(36 40 44 / 0.35); }
+.menu-voce:hover .sottomenu, .menu-voce:focus-within .sottomenu { visibility: visible; opacity: 1; transform: none; pointer-events: auto; transition: opacity 0.25s var(--ease), transform 0.35s var(--ease), visibility 0s; }
+.sottomenu a { display: flex; flex-direction: column; gap: 1px; margin: 0 8px; padding: 10px 14px; border-radius: 16px; white-space: normal; }
+.sottomenu a:first-child { margin-top: 8px; }
+.sottomenu a b { font-size: 15px; font-weight: 700; }
+.sottomenu a small { font-size: 13px; font-weight: 500; color: var(--testo-3); }
+.sottomenu a[aria-current='page'] b { color: var(--arancio-scuro); }
+.sottomenu .sottomenu-tutti { margin-bottom: 8px; margin-top: 4px; font-size: 14px; font-weight: 700; color: var(--arancio-testo); border-top: 1px solid var(--ctl-bord); border-radius: 0 0 16px 16px; }
 .hamburger { display: none; margin-left: auto; width: 44px; height: 44px; flex: none; border-radius: 50%; border: 1px solid var(--ctl-bord); background: var(--ctl-bg); align-items: center; justify-content: center; cursor: pointer; color: var(--testo); }
 .hamburger:active { transform: scale(0.95); }
 .tendina { display: flex; visibility: hidden; opacity: 0; transform: translateY(-10px) scale(0.98); transform-origin: top center; pointer-events: none; transition: opacity 0.25s var(--ease), transform 0.4s var(--ease), visibility 0s 0.4s; position: absolute; top: calc(100% + 8px); left: 16px; right: 16px; max-width: var(--larghezza); margin: 0 auto; flex-direction: column; gap: 2px; padding: 10px; border-radius: var(--r-card); background: rgb(var(--g) / 0.97); -webkit-backdrop-filter: blur(40px) saturate(170%); backdrop-filter: blur(40px) saturate(170%); border: 1px solid var(--ctl-bord); box-shadow: inset 0 1px 0 var(--luce-c), 0 30px 60px -24px rgb(36 40 44 / 0.4); }

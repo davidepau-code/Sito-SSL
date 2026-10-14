@@ -9,6 +9,7 @@ import { ClientRouter } from 'astro:transitions';
 import { azienda } from '../data/azienda';
 import CookieBanner from '../components/CookieBanner.astro';
 import Sfondo3D from '../components/Sfondo3D.astro';
+import { consulenze } from '../data/consulenze';
 
 interface Props { title: string; description: string; senzaContatto?: boolean; crumbs?: { nome: string; url: string }[]; schema?: object[] }
 const { title, description, senzaContatto = false, crumbs, schema } = Astro.props;
@@ -17,8 +18,8 @@ const path = Astro.url.pathname;
 const menu = [
   ['Home', '/'],
   ['Formazione', '/formazione/'],
-  ['F-Gas', '/f-gas/'],
   ['Consulenza', '/consulenza/'],
+  ['F-Gas', '/f-gas/'],
   ['Chi siamo', '/chi-siamo/'],
   ['Contatti', '/contatti/'],
 ];
@@ -67,7 +68,15 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
         </a>
         <div class="menu">
           <span class="menu-ind" aria-hidden="true"></span>
-          {menu.map(([etichetta, href]) => <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
+          {menu.map(([etichetta, href]) => href === '/consulenza/' ? (
+            <div class="menu-voce">
+              <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}<svg class="menu-freccia" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+              <div class="sottomenu" aria-label="Servizi di consulenza">
+                {consulenze.map((c) => <a href={`/consulenza/${c.slug}/`}><b>{c.breve}</b><small>{c.area}</small></a>)}
+                <a class="sottomenu-tutti" href="/consulenza/">Tutti i servizi di consulenza →</a>
+              </div>
+            </div>
+          ) : <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}
         </div>
         <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="tendina">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path id="hamburger-icona" d="M4 7h16M4 12h16M4 17h16"></path></svg>
