@@ -136,19 +136,15 @@ main { position: relative; z-index: 1; }
 /* Navbar */
 .navbar { position: fixed; inset: calc(16px + var(--sat)) 0 auto; z-index: 50; display: flex; justify-content: center; padding: 0 16px; transition: top 0.4s var(--ease); }
 .navbar.scroll { top: calc(8px + var(--sat)); }
-/* iPhone (Safari 26): Safari colora la zona dell'orologio con il colore di sfondo della pagina (tinta unita) e ci
-   mostra sfocato il contenuto che scorre; dove inizia la pagina vera si vedeva quindi una linea (sfondo arancio dei
-   blob contro tinta unita). Una sfumatura fissa del colore di sfondo in cima alla pagina fa combaciare i due lati.
-   body::before copre l'eventuale zona sicura (--sat, 0 nel browser normale). */
-body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: var(--sat); z-index: 49; background: var(--sfondo); }
-body::after { content: ''; position: fixed; top: var(--sat); left: 0; right: 0; height: 32px; z-index: 49; pointer-events: none;
-  background: linear-gradient(to bottom, var(--sfondo), rgb(from var(--sfondo) r g b / 0.6) 40%, transparent); }
 .navbar nav {
   width: 100%; max-width: var(--larghezza); display: flex; align-items: center; gap: 16px; padding: 10px 10px 10px 12px; border-radius: var(--r-pill);
   background: rgb(var(--g) / 0.55); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgb(var(--g) / 0.75); box-shadow: inset 0 1px 0 rgb(var(--g) / 0.9), 0 18px 40px -18px rgb(36 40 44 / 0.28);
-  transition: all 0.4s var(--ease);
+  border: 1px solid rgb(var(--g) / 0.75); box-shadow: inset 0 1px 0 rgb(var(--g) / 0.9);
+  transition: all 0.4s var(--ease); position: relative; isolation: isolate;
 }
+/* Ombra su un livello separato dal vetro: su Safari (iPhone) backdrop-filter e box-shadow sullo stesso elemento
+   sfocano un rettangolo attorno al menu, che contro il bordo dello schermo si vede come un taglio netto. */
+.navbar nav::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; z-index: -1; pointer-events: none; box-shadow: 0 14px 34px -16px rgb(36 40 44 / 0.28); }
 .navbar.scroll nav { padding: 6px 6px 6px 8px; background: rgb(var(--g) / 0.72); -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%); }
 .marchio { display: flex; align-items: center; gap: 10px; color: inherit; line-height: 1.1; }
 .marchio:hover { color: inherit; }
@@ -457,8 +453,9 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .tendina-cta { display: none; }
 @media (max-width: 1279px) { .hamburger { margin-left: 0; } .tema { margin-left: auto; } }
 @media (max-width: 640px) {
-  .navbar { padding: 0 10px; top: calc(10px + var(--sat)); }
-  .navbar.scroll { top: calc(6px + var(--sat)); }
+  .navbar { padding: 0 10px; top: calc(18px + var(--sat)); }
+  .navbar.scroll { top: calc(16px + var(--sat)); }
+  .navbar nav::after { box-shadow: 0 0 14px rgb(36 40 44 / 0.18), 0 0 3px rgb(36 40 44 / 0.08); }
   .navbar nav { padding: 7px 8px 7px 10px; gap: 8px; background: rgb(var(--g) / 0.86); }
   .navbar.scroll nav { padding: 5px 7px 5px 9px; background: rgb(var(--g) / 0.95); }
   .navbar nav > .btn-piccolo { display: none; }
@@ -515,7 +512,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .cat-chiusura p { color: #d9d6d2; font-size: 17px; }
 @media (max-width: 1000px) { .cat-corso { grid-template-columns: 1fr; } }
 @media (max-width: 640px) {
-  .cat-barra { top: calc(72px + var(--sat)); padding: 10px 12px; }
+  .cat-barra { top: calc(82px + var(--sat)); padding: 10px 12px; }
   .cat-corso { padding: 20px; }
   .cat-riga { grid-template-columns: 1fr 1fr; }
   .cat-r-nome { grid-column: 1 / -1; }
