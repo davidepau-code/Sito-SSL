@@ -168,7 +168,12 @@ main { position: relative; z-index: 1; }
 @media (max-width: 420px) { .marchio small { display: none; } }
 
 /* Barra mobile */
-.barra-mobile { display: none; position: fixed; inset: auto 12px calc(18px + var(--sab)); z-index: 60; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgb(var(--g) / 0.85); box-shadow: 0 0 14px rgb(36 40 44 / 0.22), 0 0 3px rgb(36 40 44 / 0.1); /* ombra uniforme e corta: deve finire prima del bordo dello schermo, altrimenti Safari la taglia */ }
+.barra-mobile { display: none; position: fixed; inset: auto 12px calc(18px + var(--sab)); z-index: 60; isolation: isolate; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); border: 1px solid rgb(var(--g) / 0.85); }
+/* Vetro e ombra su due livelli separati: su Safari (iPhone) backdrop-filter e box-shadow sullo stesso elemento
+   sfocano un rettangolo attorno alla barra, che si vede come un taglio netto sopra e sotto. */
+.barra-mobile::before, .barra-mobile::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; }
+.barra-mobile::before { z-index: -1; background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.barra-mobile::after { z-index: -2; box-shadow: 0 0 14px rgb(36 40 44 / 0.22), 0 0 3px rgb(36 40 44 / 0.1); }
 .barra-mobile a { display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: var(--r-pill); font-weight: 700; font-size: 16px; }
 .barra-mobile .chiama { background: var(--testo); color: var(--sfondo); }
 .barra-mobile .scrivi { background: var(--arancio); color: var(--su-arancio); }
