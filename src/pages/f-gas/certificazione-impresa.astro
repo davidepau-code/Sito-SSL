@@ -1,0 +1,99 @@
+---
+// Certificazione F-Gas d'impresa: requisiti (D.P.R. 146/2018, Reg. UE 2015/2067), accompagnamento, adempimenti.
+// Bozza del 14/10/2026: da far verificare a Michela (in particolare cosa fa SSL per l'impresa).
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Steps from '../../components/Steps.astro';
+import Faq from '../../components/Faq.astro';
+import { azienda } from '../../data/azienda';
+import { wa, impresa, requisitiImpresa, passiImpresa, adempimenti, faqImpresa } from '../../data/fgas';
+
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const CHECK = 'M20 6 9 17l-5-5';
+const crumbs = [{ nome: 'Home', url: '/' }, { nome: 'F-Gas', url: '/f-gas/' }, { nome: 'Certificazione impresa', url: '/f-gas/certificazione-impresa/' }];
+---
+<Base title="Certificazione F-Gas per le imprese in Sardegna" description="Certificazione F-Gas d'impresa in Sardegna: requisiti, verifica preliminare, preparazione di documenti e procedure fino al certificato IMQ. Registro e Banca Dati F-Gas." crumbs={crumbs}>
+  <section class="sezione testata due-col">
+    <div class="colonna">
+      <p class="briciole"><a href="/">Home</a> / <a href="/f-gas/">F-Gas</a> / <span aria-current="page">Certificazione impresa</span></p>
+      <span class="pillola" style="align-self:flex-start">Per le imprese</span>
+      <h1>Certificazione F-Gas per le imprese in Sardegna</h1>
+      <p class="lead">Se la tua impresa installa, ripara o fa manutenzione di climatizzatori, pompe di calore e impianti di refrigerazione, deve avere il certificato F-Gas aziendale. Partiamo da una verifica della tua situazione e ti accompagniamo passo per passo fino al certificato IMQ, senza lasciarti da solo con le carte.</p>
+      <div class="gruppo">
+        <a class="btn btn-primario" href={wa('Buongiorno, vorrei una verifica preliminare per la certificazione F-Gas della mia impresa.')} rel="noopener">Richiedi una verifica preliminare <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn btn-vetro solo-pc" href={`tel:${azienda.fgas.tel}`}>Oppure chiama il {azienda.fgas.visibile}</a>
+      </div>
+    </div>
+    <div class="foto" style="min-height:420px"><span>Foto: tecnico al lavoro su un impianto di refrigerazione</span></div>
+  </section>
+
+  <section class="sezione stretta" data-reveal>
+    <div class="sezione-titolo">
+      <h2>Cosa serve all'impresa</h2>
+      <p>La certificazione dell'impresa è diversa dal patentino dei tecnici: riguarda l'azienda nel suo insieme.</p>
+    </div>
+    <div class="griglia larga">
+      {requisitiImpresa.map((r) => (
+        <div class="card">
+          <span class="titolo">{r.t}</span>
+          <span class="corpo">{r.d}</span>
+        </div>
+      ))}
+    </div>
+    <p style="margin-top:14px;color:var(--testo-3);font-size:14px">Fonte: D.P.R. 16 novembre 2018, n. 146 e Reg. (UE) 2015/2067. Dall'11 marzo 2024 la norma europea di riferimento è il Reg. (UE) 2024/573; in Italia resta in vigore il D.P.R. 146/2018 in attesa del nuovo decreto. Ti confermiamo sempre i requisiti per il tuo caso.</p>
+  </section>
+
+  <section class="sezione" data-reveal id="accompagniamo" style="scroll-margin-top:80px">
+    <div class="card scura" style="padding:clamp(28px,4vw,56px);gap:28px">
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:760px">
+        <h2>Come ti accompagniamo</h2>
+        <p style="font-size:18px;color:#d9d6d2">Assistiamo le imprese che devono ottenere o mantenere la certificazione F-Gas aziendale.</p>
+      </div>
+      <ul class="fg-elenco">
+        {impresa.map((v) => <li><Icon d={CHECK} size={18} width={2.4} /><span>{v}</span></li>)}
+      </ul>
+      <div class="gruppo">
+        <a class="btn btn-primario" href={wa('Buongiorno, vorrei una verifica preliminare per la certificazione F-Gas della mia impresa.')} rel="noopener">Richiedi una verifica preliminare <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn" href={wa('Buongiorno, vorrei parlare con un consulente F-Gas.')} rel="noopener">Parla con {azienda.fgas.referente}, consulente F-Gas</a>
+      </div>
+    </div>
+  </section>
+
+  <Steps passi={passiImpresa} />
+
+  <section class="sezione stretta" data-reveal id="adempimenti" style="scroll-margin-top:80px">
+    <div class="sezione-titolo">
+      <h2>Consulenza e adempimenti F-Gas</h2>
+      <p>Per imprese e tecnici che hanno bisogno di una mano con la gestione quotidiana degli obblighi.</p>
+    </div>
+    <div class="due-col alto">
+      <div class="card">
+        <ul class="fg-elenco chiaro">
+          {adempimenti.map((v) => <li><Icon d={CHECK} size={18} width={2.4} /><span>{v}</span></li>)}
+        </ul>
+      </div>
+      <div class="colonna" style="gap:14px">
+        <a class="card caso glow" href={wa('Buongiorno, ho un problema con la Banca Dati F-Gas.')} rel="noopener">
+          <span class="io">Hai un problema con la Banca Dati?</span>
+          <span class="serve">Raccontaci cosa succede: ti aiutiamo a risolverlo.</span>
+          <span class="cta-link">Richiedi assistenza <Icon d={FRECCIA} /></span>
+        </a>
+        <a class="card caso glow" href={wa('Buongiorno, devo comunicare un intervento F-Gas.')} rel="noopener">
+          <span class="io">Devi comunicare un intervento?</span>
+          <span class="serve">Ti seguiamo nella comunicazione prevista dalla normativa.</span>
+          <span class="cta-link">Chiedi aiuto <Icon d={FRECCIA} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione stretta" data-reveal>
+    <a class="card caso glow" href="/f-gas/patentino-frigoristi/">
+      <span class="io">I tuoi tecnici devono ancora prendere il patentino?</span>
+      <span class="serve">Corso di preparazione ed esame teorico e pratico nella nostra sede a Siniscola, come Organismo di Valutazione di IMQ.</span>
+      <span class="cta-link">Patentino F-Gas per frigoristi <Icon d={FRECCIA} /></span>
+    </a>
+  </section>
+
+  <Faq titolo="Domande frequenti sulla certificazione d'impresa" voci={faqImpresa} />
+</Base>

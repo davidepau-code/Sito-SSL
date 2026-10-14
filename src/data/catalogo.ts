@@ -58,6 +58,7 @@ export const percorsi = [
     { nome: 'Manuale di autocontrollo HACCP', href: '/consulenza/' },
   ] },
   { id: 'frigorista', etichetta: 'Sono frigorista, termoidraulico o installatore', risultati: [
-    { nome: 'Certificazione F-Gas', href: '/f-gas/' },
+    { nome: 'Patentino F-Gas per frigoristi', href: '/f-gas/patentino-frigoristi/' },
+    { nome: 'Certificazione F-Gas d\'impresa', href: '/f-gas/certificazione-impresa/' },
   ] },
 ] as const;

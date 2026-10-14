@@ -23,6 +23,15 @@ const menu = [
   ['Chi siamo', '/chi-siamo/'],
   ['Contatti', '/contatti/'],
 ];
+// Tendine del menu (solo computer): voci con sottopagine.
+const sottomenu: Record<string, { etichetta: string; sotto: string; href: string }[]> = {
+  '/consulenza/': consulenze.map((c) => ({ etichetta: c.breve, sotto: c.area, href: `/consulenza/${c.slug}/` })),
+  '/f-gas/': [
+    { etichetta: 'Patentino frigoristi', sotto: 'Certificazione della persona', href: '/f-gas/patentino-frigoristi/' },
+    { etichetta: 'Certificazione impresa', sotto: 'Certificazione dell’azienda', href: '/f-gas/certificazione-impresa/' },
+  ],
+};
+const tutti: Record<string, string> = { '/consulenza/': 'Tutti i servizi di consulenza →', '/f-gas/': 'Panoramica F-Gas →' };
 const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 <!doctype html>
@@ -68,12 +77,12 @@ const attivo = (href: string) => (href === '/' ? path === '/' : path.startsWith(
         </a>
         <div class="menu">
           <span class="menu-ind" aria-hidden="true"></span>
-          {menu.map(([etichetta, href]) => href === '/consulenza/' ? (
+          {menu.map(([etichetta, href]) => sottomenu[href] ? (
             <div class="menu-voce">
               <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}<svg class="menu-freccia" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
-              <div class="sottomenu" aria-label="Servizi di consulenza">
-                {consulenze.map((c) => <a href={`/consulenza/${c.slug}/`}><b>{c.breve}</b><small>{c.area}</small></a>)}
-                <a class="sottomenu-tutti" href="/consulenza/">Tutti i servizi di consulenza →</a>
+              <div class="sottomenu" aria-label={`Pagine di ${etichetta}`}>
+                {sottomenu[href].map((v) => <a href={v.href}><b>{v.etichetta}</b><small>{v.sotto}</small></a>)}
+                <a class="sottomenu-tutti" href={href}>{tutti[href]}</a>
               </div>
             </div>
           ) : <a href={href} aria-current={attivo(href) ? 'page' : undefined}>{etichetta}</a>)}

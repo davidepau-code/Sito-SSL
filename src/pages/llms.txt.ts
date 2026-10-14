@@ -14,6 +14,8 @@ export const GET: APIRoute = ({ site }) => {
 ${tuttiICorsi.map(({ corso: c }) => `  - [${c.nome}](${u(urlCorso(c))}): ${c.per}`).join(String.fromCharCode(10))}
 - [Calendario corsi](${u('/formazione/calendario/')}): edizioni con data fissata
 - [Certificazione F-Gas](${u('/f-gas/')}): corso ed esame per frigoristi e installatori
+- [Patentino F-Gas per frigoristi](${u('/f-gas/patentino-frigoristi/')}): corso di preparazione, esame IMQ a Siniscola, prossime sessioni
+- [Certificazione F-Gas d'impresa](${u('/f-gas/certificazione-impresa/')}): requisiti e accompagnamento fino al certificato IMQ dell'impresa
 - [Consulenza](${u('/consulenza/')}): elenco dei servizi di consulenza
 ${consulenze.map((c) => `  - [${c.breve}](${u(`/consulenza/${c.slug}/`)}): ${c.riassunto}`).join(String.fromCharCode(10))}
 

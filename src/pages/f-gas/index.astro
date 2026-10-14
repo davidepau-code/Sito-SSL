@@ -1,0 +1,50 @@
+---
+// Pagina d'ingresso F-Gas: due strade, il tecnico (patentino) e l'impresa (certificazione aziendale).
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Faq from '../../components/Faq.astro';
+import { azienda } from '../../data/azienda';
+import { wa, faqIngresso } from '../../data/fgas';
+
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const strade = [
+  { io: 'Sono un tecnico: mi serve il patentino', serve: 'Corso di preparazione, esame teorico e pratico nella nostra sede a Siniscola, certificazione IMQ della persona.', href: '/f-gas/patentino-frigoristi/', cta: 'Patentino F-Gas per frigoristi', icona: 'M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5' },
+  { io: 'Ho un’impresa da certificare', serve: 'Verifica della tua situazione, preparazione di documenti e procedure, accompagnamento fino al certificato IMQ dell’impresa.', href: '/f-gas/certificazione-impresa/', cta: 'Certificazione F-Gas d’impresa', icona: 'M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M10 21v-4h4v4' },
+  { io: 'Devo gestire un adempimento', serve: 'Registro F-Gas, Banca Dati, abilitazioni e comunicazione degli interventi.', href: '/f-gas/certificazione-impresa/#adempimenti', cta: 'Vedi l’assistenza', icona: 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7ZM14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8' },
+];
+const crumbs = [{ nome: 'Home', url: '/' }, { nome: 'F-Gas', url: '/f-gas/' }];
+---
+<Base title="Certificazione F-Gas in Sardegna: patentino frigoristi e imprese" description="Patentino F-Gas per frigoristi e certificazione F-Gas per le imprese in Sardegna: corso, esame IMQ nella sede di Siniscola e accompagnamento dell'impresa." crumbs={crumbs}>
+  <section class="sezione testata due-col">
+    <div class="colonna">
+      <span class="pillola" style="align-self:flex-start">F-Gas</span>
+      <h1>Certificazione F-Gas in Sardegna</h1>
+      <p class="lead">Per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore, e per le imprese per cui lavorano. Ti prepariamo, organizziamo l'esame come Organismo di Valutazione di IMQ e accompagniamo la tua impresa fino alla certificazione.</p>
+      <div class="gruppo">
+        <a class="btn btn-primario" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Scrivi a {azienda.fgas.referente} su WhatsApp <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn btn-vetro solo-pc" href={`tel:${azienda.fgas.tel}`}>Oppure chiama il {azienda.fgas.visibile}</a>
+      </div>
+    </div>
+    <div class="foto" style="min-height:420px"><span>Foto: tecnico al lavoro su un impianto di refrigerazione</span></div>
+  </section>
+
+  <section class="sezione" data-reveal>
+    <div class="sezione-titolo">
+      <h2>Di cosa hai bisogno?</h2>
+      <p>La certificazione della persona e quella dell'impresa sono due cose diverse: scegli la tua.</p>
+    </div>
+    <div class="casi">
+      {strade.map((c) => (
+        <a class="card caso glow" href={c.href}>
+          <span class="icona"><Icon d={c.icona} size={24} width={1.8} /></span>
+          <span class="io">{c.io}</span>
+          <span class="serve">{c.serve}</span>
+          <span class="cta-link">{c.cta} <Icon d={FRECCIA} /></span>
+        </a>
+      ))}
+    </div>
+    <p style="margin-top:24px;color:var(--testo-2)">Hai un dubbio? <a href={wa('Buongiorno, ho bisogno di assistenza sul F-Gas.')} rel="noopener" style="font-weight:700">Scrivi a {azienda.fgas.referente}</a>, la nostra referente F-Gas: ti risponde lei.</p>
+  </section>
+
+  <Faq titolo="Domande frequenti sul F-Gas" voci={faqIngresso} />
+</Base>

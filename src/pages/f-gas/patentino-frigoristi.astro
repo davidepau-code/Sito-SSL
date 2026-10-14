@@ -1,0 +1,96 @@
+---
+// Patentino F-Gas: certificazione della persona (corso pre-esame, esami IMQ, sessioni).
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Steps from '../../components/Steps.astro';
+import Faq from '../../components/Faq.astro';
+import { azienda } from '../../data/azienda';
+import { wa, sessioniFgas, formazione, esame, passiPersona, faqPersona } from '../../data/fgas';
+
+const FRECCIA = 'M5 12h14M12 5l7 7-7 7';
+const CHECK = 'M20 6 9 17l-5-5';
+const sessioni = sessioniFgas();
+const crumbs = [{ nome: 'Home', url: '/' }, { nome: 'F-Gas', url: '/f-gas/' }, { nome: 'Patentino frigoristi', url: '/f-gas/patentino-frigoristi/' }];
+---
+<Base title="Patentino F-Gas per frigoristi in Sardegna: corso ed esame IMQ" description="Patentino F-Gas per frigoristi, termoidraulici e installatori: corso di preparazione, esame teorico e pratico IMQ nella nostra sede di Siniscola, prossime sessioni." crumbs={crumbs}>
+  <section class="sezione testata due-col">
+    <div class="colonna">
+      <p class="briciole"><a href="/">Home</a> / <a href="/f-gas/">F-Gas</a> / <span aria-current="page">Patentino frigoristi</span></p>
+      <span class="pillola" style="align-self:flex-start">Per i tecnici</span>
+      <h1>Patentino F-Gas per frigoristi in Sardegna</h1>
+      <p class="lead">La certificazione F-Gas della persona, per frigoristi, termoidraulici e installatori di climatizzatori e pompe di calore. Ti prepariamo con il corso, sostieni l'esame teorico e pratico nella nostra sede a Siniscola, IMQ rilascia il certificato.</p>
+      <div class="gruppo">
+        <a class="btn btn-primario" href={wa('Buongiorno, vorrei iscrivermi a una sessione d\'esame F-Gas.')} rel="noopener">Iscriviti all'esame <Icon d={FRECCIA} size={18} /></a>
+        <a class="btn btn-vetro" href="#formazione">Prima il corso di preparazione</a>
+      </div>
+    </div>
+    <div class="foto" style="min-height:420px"><span>Foto: tecnico al lavoro su un impianto di refrigerazione</span></div>
+  </section>
+
+  <section class="sezione stretta" data-reveal id="formazione" style="scroll-margin-top:80px">
+    <div class="sezione-titolo">
+      <h2>Corso di preparazione all'esame</h2>
+      <p>Corso teorico in videoconferenza sincrona (in diretta con il docente) per i tecnici che devono affrontare l'esame di certificazione F-Gas della persona.</p>
+    </div>
+    <div class="due-col alto">
+      <div class="card">
+        <span class="titolo">Cosa si studia</span>
+        <ul class="fg-elenco chiaro">
+          {formazione.map((v) => <li><Icon d={CHECK} size={18} width={2.4} /><span>{v}</span></li>)}
+        </ul>
+        <p class="corpo" style="flex:0;font-size:14.5px">Il corso è teorico e si svolge in videoconferenza sincrona, cioè in diretta con il docente.</p>
+      </div>
+      <div class="card scura">
+        <h3>Prossime date del corso</h3>
+        {sessioni.length > 0
+          ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">{s.nota}</em></span>)}</div>
+            <p style="color:#d9d6d2;font-size:15px">Per avere la conferma della data, contattaci.</p></>
+          : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte il prossimo corso.</p>}
+        <div class="gruppo">
+          <a class="btn btn-primario" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei iscrivermi al corso di preparazione all\'esame F-Gas.')} rel="noopener">Iscriviti al corso</a>
+          <a class="btn" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Richiedi informazioni</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione stretta" data-reveal id="esami" style="scroll-margin-top:80px">
+    <div class="sezione-titolo">
+      <h2>Esame e certificazione della persona</h2>
+      <p>Sono due momenti distinti: l'esame lo organizziamo noi come Organismo di Valutazione di IMQ, nella nostra sede a Siniscola (prova teorica e prova pratica); la certificazione la rilascia IMQ.</p>
+    </div>
+    <div class="griglia larga">
+      {esame.map((e) => (
+        <div class="card">
+          <span class="titolo">{e.t}</span>
+          <span class="corpo">{e.d}</span>
+        </div>
+      ))}
+    </div>
+    <p style="margin-top:14px;color:var(--testo-3);font-size:14px">Fonte: prescrizioni IMQ per la certificazione di persone (Reg. UE 2015/2067), revisione 5 del 26/02/2026. Le regole possono cambiare: ti confermiamo sempre i dettagli prima dell'iscrizione.</p>
+    <div class="card scura" style="margin-top:20px">
+      <h3>Prossime sessioni d'esame</h3>
+      <p style="color:#d9d6d2;font-size:15px">Sede d'esame: {azienda.sede.via}, {azienda.sede.cap} {azienda.sede.citta} ({azienda.sede.provincia}).</p>
+      {sessioni.length > 0
+        ? <><div class="gruppo" style="gap:8px">{sessioni.map((s, i) => <span class="chip" data-sessione={s.iso} hidden={i > 0} style="background:rgb(255 255 255 / .1);box-shadow:none;border:0">{s.testo} <em style="font-style:normal;color:var(--arancio-chiaro)">{s.nota}</em></span>)}</div>
+          <p style="color:#d9d6d2;font-size:15px">Per avere la conferma della data, contattaci.</p></>
+        : <p style="color:#d9d6d2">Date in definizione: contattaci per sapere quando parte la prossima sessione.</p>}
+      <div class="gruppo">
+        <a class="btn btn-primario" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei iscrivermi a una sessione d\'esame F-Gas.')} rel="noopener">Iscriviti all'esame</a>
+        <a class="btn" style="font-size:16px;padding:13px 22px" href={wa('Buongiorno, vorrei informazioni sul F-Gas.')} rel="noopener">Richiedi informazioni</a>
+      </div>
+    </div>
+  </section>
+
+  <Steps passi={passiPersona} />
+
+  <section class="sezione stretta" data-reveal>
+    <a class="card caso glow" href="/f-gas/certificazione-impresa/">
+      <span class="io">Hai anche un'impresa da certificare?</span>
+      <span class="serve">Oltre al patentino dei tecnici, l'impresa che lavora sugli impianti ha bisogno di un proprio certificato. Ti accompagniamo noi.</span>
+      <span class="cta-link">Certificazione F-Gas d'impresa <Icon d={FRECCIA} /></span>
+    </a>
+  </section>
+
+  <Faq titolo="Domande frequenti sul patentino F-Gas" voci={faqPersona} />
+</Base>
