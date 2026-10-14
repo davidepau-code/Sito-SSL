@@ -168,7 +168,7 @@ main { position: relative; z-index: 1; }
 @media (max-width: 420px) { .marchio small { display: none; } }
 
 /* Barra mobile */
-.barra-mobile { display: none; position: fixed; inset: auto 12px calc(12px + var(--sab)); z-index: 60; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgb(var(--g) / 0.85); box-shadow: 0 0 24px 2px rgb(36 40 44 / 0.2), 0 0 6px rgb(36 40 44 / 0.08); }
+.barra-mobile { display: none; position: fixed; inset: auto 12px calc(18px + var(--sab)); z-index: 60; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: var(--r-pill); background: rgb(var(--g) / 0.78); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgb(var(--g) / 0.85); box-shadow: 0 0 14px rgb(36 40 44 / 0.22), 0 0 3px rgb(36 40 44 / 0.1); /* ombra uniforme e corta: deve finire prima del bordo dello schermo, altrimenti Safari la taglia */ }
 .barra-mobile a { display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: var(--r-pill); font-weight: 700; font-size: 16px; }
 .barra-mobile .chiama { background: var(--testo); color: var(--sfondo); }
 .barra-mobile .scrivi { background: var(--arancio); color: var(--su-arancio); }
@@ -614,7 +614,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
 .cookie-banner a { font-weight: 700; text-decoration: underline; }
 .cookie-azioni { display: flex; gap: 10px; flex-wrap: wrap; }
 .link-btn { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; }
-@media (max-width: 759px) { .cookie-banner { left: 12px; right: 12px; bottom: calc(88px + var(--sab)); max-width: none; } }
+@media (max-width: 759px) { .cookie-banner { left: 12px; right: 12px; bottom: calc(94px + var(--sab)); max-width: none; } }
 .legale h2 { font-size: 22px; margin-top: 14px; }
 .cookie-banner { padding-right: 48px; }
 .cookie-x { position: absolute; top: 4px; right: 4px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 0; background: none; color: var(--testo-2); cursor: pointer; }
