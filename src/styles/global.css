@@ -58,6 +58,8 @@ h1.grande { font-size: clamp(42px, 6.2vw, 78px); line-height: 1.02; }
 h2 { font-size: clamp(32px, 4vw, 48px); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; }
 h3, .h3 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
 .lead { font-size: 20px; color: var(--testo-2); text-wrap: pretty; max-width: 60ch; }
+.lead strong { color: var(--testo); font-weight: 800; }
+.hero-slogan { font-size: clamp(22px, 2.4vw, 32px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: var(--arancio-testo); text-wrap: balance; }
 
 /* Sfondo blob */
 .blobs { position: fixed; inset: 0 0 auto 0; height: 100vh; height: 100lvh; z-index: 0; overflow: hidden; pointer-events: none; }
@@ -683,6 +685,7 @@ html.tema-anim, html.tema-anim *, html.tema-anim *::before, html.tema-anim *::af
   h2 { font-size: clamp(25px, 7.2vw, 30px); line-height: 1.1; }
   h3, .h3 { font-size: 20px; }
   .lead { font-size: 17px; }
+  .hero-slogan { font-size: 21px; }
   .sezione { padding-block: 40px; }
   .sezione.stretta { padding-block: 20px; }
   .sezione.testata { padding-top: calc(96px + var(--sat)); padding-bottom: 28px; }
