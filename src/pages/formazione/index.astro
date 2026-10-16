@@ -4,7 +4,17 @@ import Icon from '../../components/Icon.astro';
 import Pacchetto from '../../components/Pacchetto.astro';
 import { aree } from '../../data/catalogo';
 import { sezioni, urlCorso } from '../../data/catalogo-corsi';
-const corsiArea = (id: string) => (sezioni.find((s) => s.id === id)?.gruppi ?? []).flatMap((g) => g.corsi);
+// Ordine delle pillole in questa pagina: alcune spostate solo per riempire meglio le righe (il catalogo resta com'è).
+const dopo: Record<string, [string, string][]> = { sicurezza: [['movieri', 'preposto']] };
+const corsiArea = (id: string) => {
+  const lista = [...(sezioni.find((s) => s.id === id)?.gruppi ?? []).flatMap((g) => g.corsi)];
+  for (const [chi, dietro] of dopo[id] ?? []) {
+    const i = lista.findIndex((c) => c.id === chi); const j = lista.findIndex((c) => c.id === dietro);
+    if (i < 0 || j < 0) continue;
+    const [c] = lista.splice(i, 1); lista.splice(lista.findIndex((x) => x.id === dietro) + 1, 0, c);
+  }
+  return lista;
+};
 ---
 <Base title="Formazione – Servizi Sicurezza Lavoro" description="Corsi obbligatori D.Lgs. 81/08: sicurezza sul lavoro, macchine e attrezzature, rischi specifici, HACCP. In aula, online o in azienda.">
   <section class="sezione testata colonna" style="padding-bottom:24px">
