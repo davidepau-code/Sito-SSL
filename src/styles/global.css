@@ -361,7 +361,7 @@ select[data-sel] {
 .pk-voce { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: var(--r-input); background: rgb(var(--g) / 0.7); border: 1px solid rgb(var(--g) / 0.9); font-weight: 600; font-size: 16px; animation: comparsa 0.3s var(--ease); }
 .pk-voce::before { content: ''; flex: none; margin-top: 2px; width: 22px; height: 22px; border-radius: 50%; background: var(--arancio) center / 13px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e2124' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
 .pk-avviso { font-size: 15px; padding: 12px 14px; border-radius: var(--r-input); background: rgb(245 134 42 / 0.16); color: var(--arancio-scuro); font-weight: 600; margin-top: 8px; }
-.pk-dom { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 12px 14px; margin-top: 6px; border-radius: var(--r-input); background: rgb(var(--g) / 0.55); font-size: 16px; font-weight: 600; }
+.pk-dom { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px 14px; margin-top: 6px; border-radius: var(--r-input); background: rgb(var(--g) / 0.55); font-size: 16px; font-weight: 600; }
 .pk-sino { display: flex; gap: 6px; flex: none; }
 .pk-sino button { font: inherit; font-size: 15px; font-weight: 700; padding: 8px 18px; border-radius: var(--r-pill); border: 1px solid rgb(var(--i) / 0.3); background: var(--ctl-bg-h); color: var(--testo); cursor: pointer; transition: all 0.2s; }
 .pk-sino button:hover { border-color: var(--arancio); }
